@@ -211,6 +211,12 @@ NeoBundle 'tpope/vim-eunuch'
 " http://www.vim.org/scripts/script.php?script_id=3068
 NeoBundle 'chrisbra/Recover.vim'
 
+" restore_view.vim {{{3
+" vim-scripts/restore_view.vim
+" A plugin for automatically restoring file's cursor position and folding
+" http://www.vim.org/scripts/script.php?script_id=4021
+NeoBundle 'vim-scripts/restore_view.vim'
+
 " Surround {{{3
 " surround.vim: quoting/parenthesizing made simple
 " https://github.com/tpope/vim-surround
@@ -876,6 +882,11 @@ let g:session_autoload = 'yes'
 let g:session_autosave = 'yes'
 "let g:session_autosave_periodic = 1
 
+" restore_view.vim {{2
+" A plugin for automatically restoring file's cursor position and folding
+" http://www.vim.org/scripts/script.php?script_id=4021
+set viewoptions=cursor,folds,slash,unix
+
 " PHP.vim {{{2
 " HighLight sql
 let php_sql_query = 1
@@ -1220,14 +1231,6 @@ au BufNewFile,BufRead *.glsl setl ft=c
 " Auto apply modification to vimrc
 if has("autocmd")
     autocmd! bufwritepost .vimrc source ~/.vimrc
-endif
-
-" SESSION {{{2
-" Récupération de la position du curseur entre 2 ouvertures de fichiers
-" Parfois ce n'est pas ce qu'on veut ...
-if has("autocmd")
-    au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
-                \| exe "normal g'\"" | endif
 endif
 
 " Functions {{{1
