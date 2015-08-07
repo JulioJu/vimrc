@@ -215,7 +215,7 @@ NeoBundle 'chrisbra/Recover.vim'
 " vim-scripts/restore_view.vim
 " A plugin for automatically restoring file's cursor position and folding
 " http://www.vim.org/scripts/script.php?script_id=4021
-NeoBundle 'vim-scripts/restore_view.vim '
+NeoBundle 'vim-scripts/restore_view.vim'
 
 " Surround {{{3
 " surround.vim: quoting/parenthesizing made simple
