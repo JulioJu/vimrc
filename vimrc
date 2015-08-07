@@ -213,8 +213,7 @@ NeoBundle 'chrisbra/Recover.vim'
 
 " restore_view.vim {{{3
 " vim-scripts/restore_view.vim
-" A plugin for automatically restoring file's cursor position and folding A
-" plugin for automatically restoring file's cursor position and folding "+pu
+" A plugin for automatically restoring file's cursor position and folding
 " http://www.vim.org/scripts/script.php?script_id=4021
 NeoBundle 'vim-scripts/restore_view.vim '
 
