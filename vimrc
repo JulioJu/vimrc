@@ -1,25 +1,8 @@
 " My VIMRC File :
 " ---------------
-" @AUTHOR  : Guillaume Seren
-" @WEBSITE : http://guillaumeseren.com
-" @LICENSE : www.opensource.org/licenses/bsd-license.php
-" @Link    : https://github.com/GuillaumeSeren/vimrc
-" ---------------
-
-" Summary {{{1
-" ===========
-" Let's try to split this file into several clear part
-" - Startup config
-" - Vim config
-" - Auto load / install plugin manager
-" - Plugins List
-" - Tweaking Plugins
-" - AutoCmd
-" - Functions
-" - Display
-" - Input
-" - Keyboard BÉPO
-
+" Fork from https://github.com/GuillaumeSeren/vimrc by Juanes Espinel. Forked from version of the 17 july 2015.
+" @AUTHOR       : Guillaume Seren @WEBSITE      : http://guillaumeseren.com @LICENSE      : www.opensource.org/licenses/bsd-license.php @Link         : https://github.com/GuillaumeSeren/vimrc @Contrubutor  : Julio Prayer julioprayer1990@gmail.com -------------- "Maybe install https://github.com/coderifous/textobj-word-column.vim The word-based column text-object makes operating on columns of code conceptually simpler and reduces keystrokes.  See also https://el-tramo.be/blog/my-favorite-vim-plugins/ See also http://adamdelong.com/5-vim-plugins-helped-switch-sublime/ " Summary {{{1 =========== Let's try to split this file into several clear part Startup config Vim config Auto load / install plugin manager Plugins List Tweaking Plugins AutoCmd Functions Display Input Keyboard BÉPO 
+" @CONTRIBUTOR : Juanes Espinel
 " TODO-LIST
 " - Clean LazyLoading of all non default pluqin.
 " - Define augroup to configure pluqin if loaded.
@@ -118,15 +101,30 @@ NeoBundle 'Valloric/YouCompleteMe', {
 " Add or remove arguments to install.sh as necessary.
 " Additional steps might be necessary for Windows, as always. ;)
 
-" NeoSnippet {{{3
-" https://github.com/Shougo/neosnippet.vim
-" neo-snippet plugin contains neocomplcache snippets source
-NeoBundle 'Shougo/neosnippet'
+" Plugin disable in txt {{{3
 
-" NeoSnippet-snippets {{{3
-" https://github.com/Shougo/neosnippet-snippets
-" The standard snippets repository for neosnippet
-NeoBundle 'Shougo/neosnippet-snippets'
+if (&ft!='txt')
+  " NeoSnippet {{{4
+  " https://github.com/Shougo/neosnippet.vim
+  " neo-snippet plugin contains neocomplcache snippets source
+  NeoBundle 'Shougo/neosnippet'
+
+  " NeoSnippet-snippets {{{4
+  " https://github.com/Shougo/neosnippet-snippets
+  " The standard snippets repository for neosnippet
+  NeoBundle 'Shougo/neosnippet-snippets'
+
+  " Auto-pairs {{{4
+  " https://github.com/jiangmiao/auto-pairs
+  " Vim plugin, insert or delete brackets, parens, quotes in pair
+  " WARNING : MY VERSION OF AUTO-PAIRS IS CUSTOMIZED
+  NeoBundle 'jiangmiao/auto-pairs'
+endif
+
+"" SuperTab
+"" https://github.com/ervandew/supertab
+"" Perform all your vim insert mode completions with Tab
+"NeoBundle 'ervandew/supertab'
 
 " unite-outline {{{3
 " Unite Plugin : OUTLINE =========
@@ -137,9 +135,10 @@ NeoBundle 'Shougo/neosnippet-snippets'
 NeoBundle 'h1mesuke/unite-outline'
 
 " unite-colorscheme {{{3
+" *unite-colorscheme* is a Unite.vim plugin for changing your colorscheme.
 " https://github.com/ujihisa/unite-colorscheme
 " A unite.vim plugin
-NeoBundle 'ujihisa/unite-colorscheme'
+" NeoBundle 'ujihisa/unite-colorscheme'
 
 " SYNTASTIC {{{3
 " Syntax checking hacks for vim
@@ -171,12 +170,12 @@ NeoBundle 'tpope/vim-fugitive'
 " A Vim plugin for more pleasant editing on commit messages
 NeoBundle 'rhysd/committia.vim'
 
-" VimSession {{{3
-" Extended session management for Vim (:mksession on steroids)
-" https://github.com/xolox/vim-session
-NeoBundle 'xolox/vim-session.git', {
-\ 'depends' : 'xolox/vim-misc.git'
-\ }
+"" VimSession {{{3
+"" Extended session management for Vim (:mksession on steroids)
+"" https://github.com/xolox/vim-session
+"NeoBundle 'xolox/vim-session.git', {
+"\ 'depends' : 'xolox/vim-misc.git'
+"\ }
 
 " Repeat {{{3
 " repeat.vim: enable repeating supported plugin maps with "."
@@ -188,6 +187,12 @@ NeoBundle 'tpope/vim-repeat'
 " speeddating.vim: use CTRL-A/CTRL-X to increment dates, times, and more
 " https://github.com/tpope/vim-speeddating
 NeoBundle 'tpope/vim-speeddating.git'
+
+" Vim Visual Increment {{{3
+" visual-increment.vim - use CTRL+A/X to create increasing sequence of numbers or letters via visual mode 
+" https://github.com/triglav/vim-visual-increment
+ NeoBundle 'triglav/vim-visual-increment'
+" On peut aussi utiliser « '<,'>!seq -s ", " » 1 5 pour générer sur une seule ligne avec des « , ». À vois aussi avec awk.
 
 " EditorConfig {{{3
 " EditorConfig plugin for Vim http://editorconfig.org
@@ -210,6 +215,23 @@ NeoBundle 'tpope/vim-eunuch'
 " A Plugin to show a diff, whenever recovering a buffer
 " http://www.vim.org/scripts/script.php?script_id=3068
 NeoBundle 'chrisbra/Recover.vim'
+
+
+" Restore_view {{{3
+" vim-scripts/restore_view.vim
+" A plugin for automatically restoring file's cursor position and foldingu
+" https://github.com/vim-scripts/restore_view.vim
+NeoBundle 'vim-scripts/restore_view.vim'
+
+" IndentLine {{{3
+" A vim plugin to display the indention levels with thin vertical lines A vim plugin to display the indention levels with thin vertical lines u
+" https://github.com/Yggdroot/indentLine
+NeoBundle 'Yggdroot/indentLine'
+
+" Numbers {{{3 
+" numbers.vim is a vim plugin for better line numbers
+" https://github.com/myusuf3/numbers.vim
+NeoBundle 'myusuf3/numbers.vim'
 
 " Surround {{{3
 " surround.vim: quoting/parenthesizing made simple
@@ -252,10 +274,10 @@ endif
 " <Shift-Tab> -- Find previous wiki link
 NeoBundle 'vimwiki/vimwiki'
 
-" EasyMotion {{{3
-" Vim motions on speed!
-" https://github.com/Lokaltog/vim-easymotion
-NeoBundle 'Lokaltog/vim-easymotion'
+"" EasyMotion {{{3
+"" Vim motions on speed!
+"" https://github.com/Lokaltog/vim-easymotion
+"NeoBundle 'Lokaltog/vim-easymotion'
 
 " Stupid-EasyMotion {{{3
 " A dumbed down version of EasyMotion
@@ -271,6 +293,11 @@ NeoBundle 'joequery/Stupid-EasyMotion'
 " A Vim plugin which shows a git diff in the gutter (sign column) and
 " stages/reverts hunks.
 NeoBundle 'airblade/vim-gitgutter'
+
+" Vim multiple cursor {{{3
+" True Sublime Text style multiple selections for Vim 
+" https://github.com/terryma/vim-multiple-cursors
+NeoBundle 'terryma/vim-multiple-cursors'
 
 " VCSCOMMAND {{{3
 " http://www.vim.org/scripts/script.php?script_id=90
@@ -329,14 +356,14 @@ NeoBundleLazy 'a.vim', {
 \     'filetype': ['c', 'h']
 \ }}
 
-" SHABERU {{{3
-" supermomonga/shaberu.vim
-" めっちゃしゃべる
-" https://github.com/supermomonga/shaberu.vim
-" Shaberu.vim is the wrapper of speech synethis. You can make your vim speak
-" easily with Shaberu.vim.
-NeoBundle 'supermomonga/shaberu.vim'
-" Speak Japanese voice on OS X
+"" SHABERU {{{3
+"" supermomonga/shaberu.vim
+"" めっちゃしゃべる
+"" https://github.com/supermomonga/shaberu.vim
+"" Shaberu.vim is the wrapper of speech synethis. You can make your vim speak
+"" easily with Shaberu.vim.
+"NeoBundle 'supermomonga/shaberu.vim'
+"" Speak Japanese voice on OS X
 
 " Tabularize ! {{{3
 " https://github.com/godlygeek/tabular
@@ -348,6 +375,12 @@ NeoBundle 'supermomonga/shaberu.vim'
 " change the : with the needed char to align
 NeoBundle 'godlygeek/tabular'
 
+" Rainbow_parentheses.vim {{{3
+" https://github.com/kien/rainbow_parentheses.vim
+" Better Rainbow Parentheses
+NeoBundle 'kien/rainbow_parentheses.vim'
+
+
 " Characterize {{{3
 " tpope/vim-characterize
 " characterize.vim:
@@ -355,10 +388,10 @@ NeoBundle 'godlygeek/tabular'
 " http://www.vim.org/scripts/script.php?script_id=4410
 NeoBundle 'tpope/vim-characterize'
 
-" goyo {{{3
-" Distraction-free writing in Vim
-" https://github.com/junegunn/goyo.vim
-NeoBundle 'junegunn/goyo.vim'
+"" goyo {{{3
+"" Distraction-free writing in Vim
+"" https://github.com/junegunn/goyo.vim
+"" NeoBundle 'junegunn/goyo.vim'
 
 " Specific plugins {{{2
 " vim-scriptease {{{3
@@ -371,7 +404,7 @@ NeoBundle 'tpope/vim-scriptease'
 " precision colorscheme for the vim text editor
 " http://ethanschoonover.com/solarized
 " https://github.com/altercation/vim-colors-solarized
-NeoBundle 'altercation/vim-colors-solarized.git'
+" NeoBundle 'altercation/vim-colors-solarized.git'
 
 " Rails {{{3
 " rails.vim: Ruby on Rails power tools
@@ -591,6 +624,7 @@ filetype plugin indent on
 " this will conveniently prompt you to install them.
 NeoBundleCheck
 
+
 " Tweaking Plugins {{{1
 " AG {{{2
 " if available use ag
@@ -618,8 +652,8 @@ function! s:unite_settings()
     " not sure to want it.
     let b:SuperTabDisabled=1
     " original up j / down k
-    " ctrl+t : Move down in the list
-    imap <buffer> <C-t>   <Plug>(unite_select_next_line)
+    " ctrl+k : Move down in the list
+    imap <buffer> <C-k>   <Plug>(unite_select_next_line)
     " ctrl+s : Move up in the list
     imap <buffer> <C-s>   <Plug>(unite_select_previous_line)
     " ctrl+x : Open file in a new split
@@ -728,6 +762,7 @@ function! s:my_cr_function()
 endfunction
 " <TAB>: completion.
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+inoremap <expr><s-TAB>  pumvisible() ? "\<C-p>" : "\<s-TAB>"
 " <C-h>, <BS>: close popup and delete backword char.
 inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
 inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
@@ -773,35 +808,58 @@ endif
 let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
 
 " NeoSnippet {{{2
+if (&ft!='txt')
 " Plugin key-mappings.
-imap <C-k>     <Plug>(neosnippet_expand_or_jump)
-smap <C-k>     <Plug>(neosnippet_expand_or_jump)
-xmap <C-k>     <Plug>(neosnippet_expand_target)
+  imap <C-t>     <Plug>(neosnippet_expand_or_jump)
+  smap <C-t>     <Plug>(neosnippet_expand_or_jump)
+  xmap <C-t>     <Plug>(neosnippet_expand_target)
+  " See also keymap bepo perso maping for remaping of <C-t>
 
-" SuperTab like snippets behavior.
-imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-    \ "\<Plug>(neosnippet_expand_or_jump)"
-    \: pumvisible() ? "\<C-n>" : "\<TAB>"
-smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-    \ "\<Plug>(neosnippet_expand_or_jump)"
-    \: "\<TAB>"
+  "" SuperTab like snippets behavior.
+  "imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+  "    \ "\<Plug>(neosnippet_expand_or_jump)"
+  "    \: pumvisible() ? "\<C-n>" : "\<TAB>"
+  "smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+  "    \ "\<Plug>(neosnippet_expand_or_jump)"
+  "    \: "\<TAB>"
 
-" For snippet_complete marker.
-if has('conceal')
-  set conceallevel=2 concealcursor=i
+  " For snippet_complete marker.
+  if has('conceal')
+    set conceallevel=2 concealcursor=i
+  endif
+
+  let g:neosnippet#snippets_directory='~/.vim/neosnippet-snippets_custom/'
+  " let g:neosnippet#disable_runtime_snippets = { 'java' : 1, }
 endif
 
 " SYNTASTIC {{{2
 " Syntax checking hacks for vim
 " https://github.com/scrooloose/syntastic
 let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_check_on_open            = 1
+let g:syntastic_check_on_wq              = 1
+let g:syntastic_check_on_open            = 0
 let g:syntastic_enable_signs             = 1
 let g:syntastic_aggregate_errors         = 1
 let g:syntastic_php_checkers             = ['php', 'phpcs', 'phpmd']
 " from : https://github.com/scrooloose/syntastic/wiki/PHP%3A---phpcs
 let g:syntastic_php_phpcs_args="--encoding=utf-8 --tab-width=4 --standard=PSR2"
+"from https://github.com/scrooloose/syntastic
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
 
+" Syntastic can be used together with "Eclim" (see http://eclim.org/). However, by default Eclim disables syntastic's checks for the filetypes it supports, in order to run its own validation. 
+let g:EclimFileTypeValidate = 0 
+
+let g:syntastic_auto_jump = 1
+"let g:syntastic_mode_map = {
+"            \ "mode": "active",
+"            \ "active_filetypes": ["ruby", "php"],
+"            \ "passive_filetypes": ["puppet"] }
+
+let g:airline#extensions#syntastic#enabled = 1
+let g:airline#extensions#eclim#enabled     = 1
+let g:airline#extensions#syntastic#enabled = 1
 " DBEXT {{{2
 " vim-scripts/dbext.vim
 " Provides database access to many dbms (Oracle, Sybase, Microsoft, MySQL,
@@ -836,6 +894,16 @@ nmap ySS <Plug>YSsurround
     nmap gcu <Plug>Commentary<Plug>Commentary
 " endif
 
+" Tabularize ! {{{2
+" https://github.com/godlygeek/tabular
+" Vim script for text filtering and alignment
+" one  : 1
+" two  : 2
+" tree : 3
+" select text in visual mode, then hit : Tabularize /:
+" change the : with the needed char to align
+inoremap <F6> <Esc>vip<Esc>'<jv'>:Tabularize / = <CR>'^A
+
 " SearchParty {{{2
 " Extended search commands and maps for Vim
 " Remap * to #
@@ -862,12 +930,68 @@ let g:vdebug_keymap = {
 " Shaberu {{{2
 let g:shaberu_user_define_say_command = 'espeak -v french "%%TEXT%%"'
 
+" Restore_view {{{2
+" vim-scripts/restore_view.vim
+" A plugin for automatically restoring file's cursor position and foldingu
+" https://github.com/vim-scripts/restore_view.vim
+set viewoptions=cursor
+
+" IndentLine {{{3
+" A vim plugin to display the indention levels with thin vertical lines A vim plugin to display the indention levels with thin vertical lines u
+" https://github.com/Yggdroot/indentLine
+" vertical line indentation (see config http://www.lucianofiandesio.com/vim-configuration-for-happy-java-coding)
+let g:indentLine_color_term = 239
+let g:indentLine_color_gui = '#09AA08'
+let g:indentLine_char = '│'
+
+" Numbers {{{2 
+" numbers.vim is a vim plugin for better line numbers
+" https://github.com/myusuf3/numbers.vim
+nnoremap <F3> :NumbersToggle<CR>
+nnoremap <F4> :NumbersOnOff<CR>
+
+" Rainbow_parentheses.vim {{{2
+" https://github.com/kien/rainbow_parentheses.vim
+" Better Rainbow Parentheses
+let g:rbpt_colorpairs = [
+    \ ['brown',       'RoyalBlue3'],
+    \ ['Darkblue',    'SeaGreen3'],
+    \ ['darkgray',    'DarkOrchid3'],
+    \ ['darkgreen',   'firebrick3'],
+    \ ['darkcyan',    'RoyalBlue3'],
+    \ ['darkred',     'SeaGreen3'],
+    \ ['darkmagenta', 'DarkOrchid3'],
+    \ ['brown',       'firebrick3'],
+    \ ['gray',        'RoyalBlue3'],
+    \ ['black',       'SeaGreen3'],
+    \ ['darkmagenta', 'DarkOrchid3'],
+    \ ['Darkblue',    'firebrick3'],
+    \ ['darkgreen',   'RoyalBlue3'],
+    \ ['darkcyan',    'SeaGreen3'],
+    \ ['darkred',     'DarkOrchid3'],
+    \ ['red',         'firebrick3'],
+    \ ]
+
+let g:rbpt_max = 16
+
+let g:rbpt_loadcmd_toggle = 0
+au VimEnter * RainbowParenthesesToggle
+au Syntax * RainbowParenthesesLoadRound
+au Syntax * RainbowParenthesesLoadSquare
+au Syntax * RainbowParenthesesLoadBraces
+
+" Auto-pairs {{{2
+" https://github.com/jiangmiao/auto-pairs
+" Vim plugin, insert or delete brackets, parens, quotes in pair
+" WARNING : MY VERSION OF AUTO-PAIRS IS CUSTOMIZED
+au Filetype vim let b:AutoPairs = {"(": ")"}
+
 " CRA.vim {{{2
 " define cra filetype for lazy loading
 au BufRead,BufNewFile *.cra set filetype=cra
 
-" Vim Easy Motion {{{2
-let g:EasyMotion_leader_key = '\'
+"" Vim Easy Motion {{{2
+"let g:EasyMotion_leader_key = '\'
 
 " VimSession {{{2
 " Extended session management for Vim (:mksession on steroids)
@@ -922,17 +1046,19 @@ set preserveindent
 " indentation automatique
 set autoindent
 " Largeur de l'autoindentation
-set shiftwidth=4
+set shiftwidth=2
 " Arrondit la valeur de l'indentation
 set shiftround
 " Largeur du caractère tab
-set tabstop=4
+set tabstop=2
 " Largeur de l'indentation de la touche tab
-set softtabstop=4
+set softtabstop=2
 " Remplace les tab par des expaces
-set expandtab ts=4 sw=4 ai
+set expandtab ts=2 sw=2 ai
 " Do not tab expand on Makefile
-autocmd FileType make set noexpandtab shiftwidth=4 softtabstop=0
+autocmd FileType make set noexpandtab shiftwidth=2 softtabstop=0
+" To change all the existing tab characters to match the current tab settings, use: :retab
+
 " Utilise shiftwidth à la place de tabstop en début de ligne (et backspace supprime d'un coup si ce sont des espaces)
 set smarttab
 " 20140901: Add for test.
@@ -944,6 +1070,8 @@ set noautoindent
 set cindent
 set smartindent
 
+autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+"http://vim.wikia.com/wiki/Disable_automatic_comment_insertion This sets up an auto command that fires after any filetype-specific plugin; the command removes the three flags from the 'formatoptions' option that control the automatic insertion of comments. With this in your vimrc, a comment character will not be automatically inserted in the next line under any situation. 
 " ENCODING {{{2
 " Use UTF-8.
 set encoding=utf-8
@@ -1004,6 +1132,13 @@ set showmatch
 " ou la touche/commande qu'on vient de taper en mode commande
 set showcmd
 
+" Step the highlighting. 
+" ATTENTION, IL FAUT BIEN METTRE NNOREMAP, SINON, QUAND ON ENTRE EN VISUAL BLOCK, ÇA PLANTE QUAND ON VEUT REPASSER directement EN MODE INSERTION ^^
+nnoremap i :noh<CR>i
+nnoremap I :noh<CR>I
+nnoremap a :noh<CR>a
+nnoremap A :noh<CR>A
+
 " PASTE / NOPASTE {{{2
 "@TODO: Not certain if really needed
 " A utiliser en live, paste désactive l'indentation automatique
@@ -1029,19 +1164,19 @@ if ! isdirectory(g:dotvim_backup)
 endif
 set directory=~/.vim/backup
 
-" Backups with persistent undos {{{2
-set backup
-let g:dotvim_backups=expand('$HOME') . '/.vim/backups'
-if ! isdirectory(g:dotvim_backups)
-    call mkdir(g:dotvim_backups, "p")
-endif
-exec "set backupdir=" . g:dotvim_backups
-if has('persistent_undo')
-    set undofile
-    set undolevels=1000
-    set undoreload=10000
-    exec "set undodir=" . g:dotvim_backups
-endif
+"" Backups with persistent undos {{{2
+"set backup
+"let g:dotvim_backups=expand('$HOME') . '/.vim/backups'
+"if ! isdirectory(g:dotvim_backups)
+"    call mkdir(g:dotvim_backups, "p")
+"endif
+"exec "set backupdir=" . g:dotvim_backups
+"if has('persistent_undo')
+"    set undofile
+"    set undolevels=1000
+"    set undoreload=10000
+"    exec "set undodir=" . g:dotvim_backups
+"endif
 
 " LINE WRAPPING {{{2
 " Laisse les lignes déborder de l'écran si besoin
@@ -1049,26 +1184,29 @@ endif
 " Ne laisse pas les ligne deborder de l'écran
 set ai "Auto indent
 set si "Smart indent
-set wrap "Wrap lines
-set linebreak
-" Size of the linewrapping
-set textwidth=80
+"set wrap "Wrap lines
+"set linebreak
+"" Size of the linewrapping
+"set textwidth=80
 
-" SPELL CHECKER {{{2
-" @TODO: Remap the mapping of the spell checker
-" @TOOD: Support auto detection of the sentence language,
-"        so it can support multi language fr / us / en / etc (jpn)
-" En live pour quand vous écrivez anglais (le fr est à trouver dans les méandres du net)
-" Chiant pour programmer, mais améliorable avec des dico
-    " perso et par languages
-set spell
-" [s / ]s : saute au prochain / précédant mot avec faute.
-    " z= : affiche la liste de suggestion pour corriger.
-set spelllang=fr,en
+"" SPELL CHECKER {{{2
+"" @TODO: Remap the mapping of the spell checker
+"" @TOOD: Support auto detection of the sentence language,
+""        so it can support multi language fr / us / en / etc (jpn)
+"" En live pour quand vous écrivez anglais (le fr est à trouver dans les méandres du net)
+"" Chiant pour programmer, mais améliorable avec des dico
+"    " perso et par languages
+"set spell
+"" [s / ]s : saute au prochain / précédant mot avec faute.
+"    " z= : affiche la liste de suggestion pour corriger.
+"set spelllang=fr,en
 
 " MOVE CURSOR {{{2
 " Envoyer le curseur sur la ligne suivante/précédente après usage des flèches droite/gauche en bout de ligne :
-set whichwrap=<,>,[,]
+" set whichwrap=<,>,[,]
+
+" Pour aller à la ligne suiv/préc quand on arrive à la fin/début
+set whichwrap+=h,l
 
 " Stay on the same column if possible {{{2
 " Tenter de rester toujours sur la même colonne lors de changements de lignes :
@@ -1097,15 +1235,15 @@ set showcmd
 " Change to syntax enable
 syntax enable
 
-" COLORSHEME {{{2
-" set the background light or dark
-set background=dark
-let g:solarized_termtrans = 1
-colorscheme solarized
-" Change le colorsheme en mode diff
-if &diff
-    colorscheme solarized
-endif
+"" COLORSHEME {{{2
+"" set the background light or dark
+"set background=dark
+"let g:solarized_termtrans = 1
+"colorscheme solarized
+"" Change le colorsheme en mode diff
+"if &diff
+"    colorscheme solarized
+"endif
 
 " STATUS {{{2
 " Show editing mode
@@ -1115,9 +1253,9 @@ set showmode
 " Error bells are displayed visually.
 set visualbell
 
-" RULER {{{2
-" SI c'est pas déjà fait, affiche la position du curseur
-set ruler
+"" RULER {{{2
+"" SI c'est pas déjà fait, affiche la position du curseur
+"set ruler
 
 " DIFF {{{2
 " Affiche toujours les diffs en vertical
@@ -1173,21 +1311,21 @@ match NbSp /\%xa0/
 set scrolloff=3
 " SHOW CURRENT LINE :
 set cursorline
-"SHOW CURRENT COLUMN :
-set cursorcolumn
-" SHOW CURSOR
-highlight Cursor guifg=white guibg=black
-highlight iCursor guifg=white guibg=steelblue
-set guicursor=n-v-c:block-Cursor
-set guicursor+=i:ver100-iCursor
-set guicursor+=n-v-c:blinkon0
-set guicursor+=i:blinkwait10
+""SHOW CURRENT COLUMN :
+"set cursorcolumn
+"" SHOW CURSOR
+"highlight Cursor guifg=white guibg=black
+"highlight iCursor guifg=white guibg=steelblue
+"set guicursor=n-v-c:block-Cursor
+"set guicursor+=i:ver100-iCursor
+"set guicursor+=n-v-c:blinkon0
+"set guicursor+=i:blinkwait10
 
 " LINE NUMBER {{{2
 " Show line number
 set number
 " Show number relative from the cursor
-set relativenumber
+" set relativenumber
 
 " STATUS BAR {{{2
 " Afficher en permanence la barre d'état (en plus de la barre de commande) :
@@ -1201,7 +1339,7 @@ au BufNewFile,BufRead /etc/apache/* setl ft=apache
 au BufNewFile,BufRead /etc/apache2/* setl ft=apache
 au BufNewFile,BufRead /etc/nginx/* setl ft=nginx
 au BufNewFile,BufRead /etc/exim4/* setl ft=exim
-au BufNewFile,BufRead *.txt setl ft=text
+"   pdlé dlpé ldépedla datel ldpéea dtlpeéa dtlpéaedtl epédtl aedlpéat dlepéadl tépaldte pédleetdé ldteépldt etldpé etdplé ldpeéttldeépltd etélpd ltdpéeltd eépltdepé au BufNewFile,BufRead *.txt setl ft=text
 " .tac files are used in twisted
 au BufNewFile,BufRead *.tac setl ft=python
 " pygobject overrides
@@ -1215,6 +1353,11 @@ au BufNewFile,BufRead *.qml setl ft=javascript
 au BufNewFile,BufRead *.otl setl ft=votl
 au BufNewFile,BufRead *.jeco setl ft=eco
 au BufNewFile,BufRead *.glsl setl ft=c
+
+"http://www.vim-fr.org/index.php/Correction_orthographique
+map <silent> <F7> "<Esc>:silent setlocal spell! spelllang=fr<CR>"
+autocmd BufNew,BufRead,BufEnter *.txt setlocal spell spelllang=fr 
+
 
 " AutoReLoad vimrc {{{2
 " Auto apply modification to vimrc
@@ -1330,20 +1473,20 @@ nnoremap # #zz
 nnoremap g* g*zz
 nnoremap g# g#zz
 
-" Disable Arrow in insert mode {{{2
-ino <down> <Nop>
-ino <left> <Nop>
-ino <right> <Nop>
-ino <up> <Nop>
+"" Disable Arrow in insert mode {{{2
+"ino <down> <Nop>
+"ino <left> <Nop>
+"ino <right> <Nop>
+"ino <up> <Nop>
 
-" Remap Arrow Up/Down to move line {{{2
-" Real Vimmer forget the cross
-no <down> ddp
-no <up> ddkP
+"" Remap Arrow Up/Down to move line {{{2
+"" Real Vimmer forget the cross
+"no <down> ddp
+"no <up> ddkP
 
-" Remap Arrow Right / Left to switch tab {{{2
-no <left> :tabprevious<CR>
-no <right> :tabnext<CR>
+"" Remap Arrow Right / Left to switch tab {{{2
+"no <left> :tabprevious<CR>
+"no <right> :tabnext<CR>
 
 " Disable Arrow in visual mode {{{2
 vno <down> <Nop>
@@ -1384,19 +1527,19 @@ let mapleader = ","
 " Permettre l'utilisation de la touche backspace dans tous les cas :
 set backspace=2
 
-" Permet de sauvegarder par ctrl + s {{{2
-:nmap <c-s> :w<CR>
-" Fonctionne aussi en mode edition
-:imap <c-s> <Esc>:w<CR>a
-:imap <c-s> <Esc><c-s>
+"" Permet de sauvegarder par ctrl + s {{{2
+":nmap <c-s> :w<CR>
+"" Fonctionne aussi en mode edition
+":imap <c-s> <Esc>:w<CR>a
+":imap <c-s> <Esc><c-s>
 
-" Completion avec ctrl + space {{{2
-inoremap <expr> <C-Space> pumvisible() \|\| &omnifunc == '' ?
-    \ "\<lt>C-n>" :
-    \ "\<lt>C-x>\<lt>C-o><c-r>=pumvisible() ?" .
-    \ "\"\\<lt>c-n>\\<lt>c-p>\\<lt>c-n>\" :" .
-    \ "\" \\<lt>bs>\\<lt>C-n>\"\<CR>"
-imap <C-@> <C-Space>
+"" Completion avec ctrl + space {{{1
+"inoremap <expr> <C-Space> pumvisible() \|\| &omnifunc == '' ?
+"    \ "\<lt>C-n>" :
+"    \ "\<lt>C-x>\<lt>C-o><c-r>=pumvisible() ?" .
+"    \ "\"\\<lt>c-n>\\<lt>c-p>\\<lt>c-n>\" :" .
+"    \ "\" \\<lt>bs>\\<lt>C-n>\"\<CR>"
+"imap <C-@> <C-Space>
 
 " MOUSE {{{2
 " =======
@@ -1411,4 +1554,34 @@ set mouse=a
 " I use kind dvorak-fr the «bépo» layout on my keyboard.
 source ~/.vim/vimrc.bepo
 " remap number for direct access
-source ~/.vim/vimrc.num
+" source ~/.vim/vimrc.num
+
+" Remapage perso {{{2 
+
+noremap ' `
+noremap ` '
+"See http://vim.wikia.com/wiki/Using_marks
+
+"j -> ; et réciproquement
+noremap j ;
+noremap ; j
+
+"Ici, je défini la valeur de mapleader à , car la valeur par défaut, \ est loin d’être pratique.
+" let mapleader = ',' 
+noremap \ ,
+
+noremap <Leader>W :w !sudo tee % > /dev/null
+noremap <Leader>o o<Esc>k
+noremap <Leader>O O<Esc>j
+
+augroup filetype_c
+	autocmd!
+	autocmd filetype c nnoremap <buffer> <Leader>à i#include <stdlib.h><CR>#include <stdio.h><CR><CR><ESC>
+	autocmd filetype c nnoremap <buffer> <Leader>mai iint main (int argc, char *argv[]) {<CR><CR><CR>printf ("\n\n*********************************\n\n");<CR><CR><CR>printf ("\n\n*********************************\n\n");<CR>return 0;<CR>}<ESC>kkkkkki    <ESC>
+	autocmd filetype p* nnoremap <buffer> <Leader>à i#!/usr/sbin/python3.4<CR># -*-coding:Utf-8 -*<CR><CR><ESC>
+augroup end
+
+nnoremap <leader>t :tabnew 
+
+"http://asktherelic.com/2011/04/02/on-easily-replacing-text-in-vim/
+vmap <Leader>r "sy:%s/<C-R>=substitute(@s,"\n",'\\n','g')<CR>/
