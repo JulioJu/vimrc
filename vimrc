@@ -1,6 +1,6 @@
 " My VIMRC File :
 " ---------------
-" Fork from https://github.com/GuillaumeSeren/vimrc by Juanes Espinel. Forked from version of the 17 july 2015.
+" Fork from https://github.com/GuillaumeSeren/vimrc by Juanes Espinel. Fored in july 2015.
 " @AUTHOR       : Guillaume Seren @WEBSITE      : http://guillaumeseren.com @LICENSE      : www.opensource.org/licenses/bsd-license.php @Link         : https://github.com/GuillaumeSeren/vimrc @Contrubutor  : Julio Prayer julioprayer1990@gmail.com -------------- "Maybe install https://github.com/coderifous/textobj-word-column.vim The word-based column text-object makes operating on columns of code conceptually simpler and reduces keystrokes.  See also https://el-tramo.be/blog/my-favorite-vim-plugins/ See also http://adamdelong.com/5-vim-plugins-helped-switch-sublime/ " Summary {{{1 =========== Let's try to split this file into several clear part Startup config Vim config Auto load / install plugin manager Plugins List Tweaking Plugins AutoCmd Functions Display Input Keyboard BÉPO 
 " @CONTRIBUTOR : Juanes Espinel
 " TODO-LIST
@@ -103,28 +103,33 @@ NeoBundle 'Valloric/YouCompleteMe', {
 
 " Plugin disable in txt {{{3
 
-if (&ft!='txt')
-  " NeoSnippet {{{4
-  " https://github.com/Shougo/neosnippet.vim
-  " neo-snippet plugin contains neocomplcache snippets source
-  NeoBundle 'Shougo/neosnippet'
+autocmd FileType * call PluginDisableInTxt()
+function PluginDisableInTxt()
+  if (&ft!='text')
+    NeoBundleSource neosnippet neosnippet-snippets auto-pairs
+  endif
+endfunction
 
-  " NeoSnippet-snippets {{{4
-  " https://github.com/Shougo/neosnippet-snippets
-  " The standard snippets repository for neosnippet
-  NeoBundle 'Shougo/neosnippet-snippets'
+    " NeoSnippet {{{4
+    " https://github.com/Shougo/neosnippet.vim
+    " neo-snippet plugin contains neocomplcache snippets source
+    NeoBundleLazy 'Shougo/neosnippet'
 
-  " Auto-pairs {{{4
-  " https://github.com/jiangmiao/auto-pairs
-  " Vim plugin, insert or delete brackets, parens, quotes in pair
-  " WARNING : MY VERSION OF AUTO-PAIRS IS CUSTOMIZED
-  NeoBundle 'jiangmiao/auto-pairs'
-endif
+    " NeoSnippet-snippets {{{4
+    " https://github.com/Shougo/neosnippet-snippets
+    " The standard snippets repository for neosnippet
+    NeoBundleLazy 'Shougo/neosnippet-snippets'
 
-"" SuperTab
-"" https://github.com/ervandew/supertab
-"" Perform all your vim insert mode completions with Tab
-"NeoBundle 'ervandew/supertab'
+    " Auto-pairs {{{4
+    " https://github.com/jiangmiao/auto-pairs
+    " Vim plugin, insert or delete brackets, parens, quotes in pair
+    " WARNING : MY VERSION OF AUTO-PAIRS IS CUSTOMIZED
+    NeoBundleLazy 'jiangmiao/auto-pairs'
+
+  "" SuperTab
+  "" https://github.com/ervandew/supertab
+  "" Perform all your vim insert mode completions with Tab
+  "NeoBundle 'ervandew/supertab'
 
 " unite-outline {{{3
 " Unite Plugin : OUTLINE =========
@@ -808,29 +813,32 @@ endif
 let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
 
 " NeoSnippet {{{2
-if (&ft!='txt')
-" Plugin key-mappings.
-  imap <C-t>     <Plug>(neosnippet_expand_or_jump)
-  smap <C-t>     <Plug>(neosnippet_expand_or_jump)
-  xmap <C-t>     <Plug>(neosnippet_expand_target)
-  " See also keymap bepo perso maping for remaping of <C-t>
+autocmd BufRead,BufNewFile * call SaufTxtNeoSnippet()
+function SaufTxtNeoSnippet()
+  if &ft != "text"
+  " Plugin key-mappings.
+    imap <C-t>     <Plug>(neosnippet_expand_or_jump)
+    smap <C-t>     <Plug>(neosnippet_expand_or_jump)
+    xmap <C-t>     <Plug>(neosnippet_expand_target)
+    " See also keymap bepo perso maping for remaping of <C-t>
 
-  "" SuperTab like snippets behavior.
-  "imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-  "    \ "\<Plug>(neosnippet_expand_or_jump)"
-  "    \: pumvisible() ? "\<C-n>" : "\<TAB>"
-  "smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-  "    \ "\<Plug>(neosnippet_expand_or_jump)"
-  "    \: "\<TAB>"
+    "" SuperTab like snippets behavior.
+    "imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+    "    \ "\<Plug>(neosnippet_expand_or_jump)"
+    "    \: pumvisible() ? "\<C-n>" : "\<TAB>"
+    "smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+    "    \ "\<Plug>(neosnippet_expand_or_jump)"
+    "    \: "\<TAB>"
 
-  " For snippet_complete marker.
-  if has('conceal')
-    set conceallevel=2 concealcursor=i
+    " For snippet_complete marker.
+    if has('conceal')
+      set conceallevel=2 concealcursor=i
+    endif
+
+    let g:neosnippet#snippets_directory='~/.vim/neosnippet-snippets_custom/'
+    " let g:neosnippet#disable_runtime_snippets = { 'java' : 1, }
   endif
-
-  let g:neosnippet#snippets_directory='~/.vim/neosnippet-snippets_custom/'
-  " let g:neosnippet#disable_runtime_snippets = { 'java' : 1, }
-endif
+endfunction
 
 " SYNTASTIC {{{2
 " Syntax checking hacks for vim
