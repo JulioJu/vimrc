@@ -74,13 +74,13 @@ let g:neobundle#install_process_timeout = 1500
 " Vim plugin, provides insert mode auto-completion for quotes, parens, brackets, etc. 
 if has('nvim')
     NeoBundle ('Raimondi/delimitMate')
-            let delimitMate_expand_cr = 1
 endif
 
 " Plugin disable in txt {{{3
 
 if has('lua')
     autocmd FileType * call PluginDisableInTxt()
+
     function PluginDisableInTxt()
     if (&ft!='text')
         NeoBundleSource auto-pairs
@@ -131,6 +131,26 @@ if has('nvim')
     let g:deoplete#enable_at_startup = 1
 endif
 
+"  Indent object {{{3
+" https://github.com/michaeljsmith/vim-indent-object
+" Vim plugin that defines a new text object representing lines of code at the same indent level. Useful for python/vim scripts, etc. (better method for Python, it's for txt) !
+ 
+autocmd FileType * call PluginEnableInTxt()
+
+function PluginEnableInTxt()
+  if(&ft=='text')
+    NeoBundleSource vim-indent-object
+  endif
+endfunction
+
+NeoBundleLazy 'michaeljsmith/vim-indent-object'
+
+
+" Restore_view {{{3
+" vim-scripts/restore_view.vim
+" A plugin for automatically restoring file's cursor position and foldingu
+" https://github.com/vim-scripts/restore_view.vim
+NeoBundle 'vim-scripts/restore_view.vim'
 " === Fin plugins non installés par Guillaume {{{3
 
 "" VIMPROC {{{3
@@ -606,6 +626,26 @@ NeoBundleCheck
 " === Plugin non installés par Guillaume {{{2
 "=== }}}
 
+" Restore_view {{{2
+" vim-scripts/restore_view.vim
+" A plugin for automatically restoring file's cursor position and foldingu
+" https://github.com/vim-scripts/restore_view.vim
+set viewoptions=cursor
+
+" IndentLine {{{3
+" A vim plugin to display the indention levels with thin vertical lines A vim plugin to display the indention levels with thin vertical lines u
+" https://github.com/Yggdroot/indentLine
+" vertical line indentation (see config http://www.lucianofiandesio.com/vim-configuration-for-happy-java-coding)
+let g:indentLine_color_term = 239
+let g:indentLine_color_gui = '#09AA08'
+let g:indentLine_char = '│'
+
+" DelimitMate {{{2
+" https://github.com/Raimondi/delimitMate
+" Vim plugin, provides insert mode auto-completion for quotes, parens, brackets, etc. 
+if has('nvim')
+  let delimitMate_expand_cr = 1
+endif
 " Auto-pairs {{{2
 
 if has('lua')
@@ -951,17 +991,17 @@ set smartindent
 " Indispensable pour ne pas tout casser avec ce qui va suivre
 set preserveindent
 " Largeur de l'autoindentation
-set shiftwidth=4
+set shiftwidth=2
 " Arrondit la valeur de l'indentation
 set shiftround
 " Largeur du caractère tab
-set tabstop=4
+set tabstop=2
 " Largeur de l'indentation de la touche tab
-set softtabstop=4
+set softtabstop=2
 " Remplace les tab par des expaces
-set expandtab ts=4 sw=4 ai
+set expandtab ts=2 sw=2 ai
 " Do not tab expand on Makefile
-autocmd FileType make set noexpandtab shiftwidth=4 softtabstop=0
+autocmd FileType make set noexpandtab shiftwidth=2 softtabstop=0
 " 20140901: Add for test.
 " redraw only when we need to.
 set lazyredraw
@@ -1502,11 +1542,22 @@ autocmd VimLeave * call system("echo -n $'" . escape(getreg(), "'") . "' | xsel 
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 "http://vim.wikia.com/wiki/Disable_automatic_comment_insertion This sets up an auto command that fires after any filetype-specific plugin; the command removes the three flags from the 'formatoptions' option that control the automatic insertion of comments. With this in your vimrc, a comment character will not be automatically inserted in the next line under any situation. 
 doautoall highlight ColorScheme
-hi SpellBad ctermbg=red
+set background=light "or put dark
+hi SpellBad ctermbg=001
 " Pour les couleurs voir https://upload.wikimedia.org/wikipedia/en/1/15/Xterm_256color_chart.svg
-highlight NbSp ctermbg=lightgray guibg=lightred
+highlight NbSp ctermbg=015
+match NbSp /\%xa0/
 highlight Pmenu ctermbg=005 gui=bold
+highlight Search ctermbg=178
+highlight IncSearch ctermbg=118
+highlight visual ctermbg=249
 hi CursorColumn ctermbg=239
 map <silent> <F7> "<Esc>:silent setlocal spell! spelllang=fr,en<CR>"
 autocmd BufNew,BufRead,BufEnter *.txt setlocal spell spelllang=fr,en
 let g:neosnippet#snippets_directory='~/.vim/neosnippet-snippets_custom/'
+" Step the highlighting. 
+" ATTENTION, IL FAUT BIEN METTRE NNOREMAP, SINON, QUAND ON ENTRE EN VISUAL BLOCK, ÇA PLANTE QUAND ON VEUT REPASSER directement EN MODE INSERTION ^^
+nnoremap i :noh<CR>i
+nnoremap I :noh<CR>I
+nnoremap a :noh<CR>a
+nnoremap A :noh<CR>A
