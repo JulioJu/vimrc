@@ -1,0 +1,23 @@
+snippet main
+    public class `expand('%:p:t:r')` {
+
+        public static void main(String args[]) {
+            ${0:#:body}
+
+        }
+    }
+
+snippet interface
+    public interface `expand('%:p:t:r')` extends ${1:#:Parent} {
+        ${0:TARGET}
+    }
+
+snippet class2
+    public class `expand('%:p:t:r')` {
+        ${0:TARGET}
+    }
+
+snippet class
+    class `expand('%:p:t:r')` ${1:extends} ${2:#:Parent} ${3:implements} ${4:#:Interface} {
+        ${0:TARGET}
+    }

@@ -1,10 +1,10 @@
 " My VIMRC File :
 " ---------------
-" @AUTHOR       : Guillaume Seren
-" @WEBSITE      : http://guillaumeseren.com
+" @Author   : Juanes Espinel (juanes0890@gmail.com)  
+" @Forked version from https://github.com/GuillaumeSeren/vimrc on the 16/10/2015 (Lot of modifications).
+" @AUTHOR       : Guillaume Seren ( http://guillaumeseren.com)
 " @LICENSE      : www.opensource.org/licenses/bsd-license.php
-" @Link         : https://github.com/GuillaumeSeren/vimrc
-" @CONTRIBUTOR  : Juanes Espinel (juanes0890@gmail.com)  Forked version 16/10/2015
+" @Link         : https://github.com/juanes10/vimrc
 " ---------------
 
 " Summary {{{1
@@ -76,15 +76,20 @@ if has('nvim')
     NeoBundle ('Raimondi/delimitMate')
 endif
 
+" SuperTab {{{3
+" https://github.com/ervandew/supertab
+" Perform all your vim insert mode completions with Tab
+NeoBundle 'ervandew/supertab'
+
 " Plugin disable in txt {{{3
 
-if has('lua')
+if !has('nvim')
     autocmd FileType * call PluginDisableInTxt()
 
-    function PluginDisableInTxt()
-    if (&ft!='text')
-        NeoBundleSource auto-pairs
-    endif
+    function! PluginDisableInTxt()
+      if (&ft!='text')
+          NeoBundleSource auto-pairs
+      endif
     endfunction
 
         " Auto-pairs {{{4
@@ -115,13 +120,6 @@ NeoBundle 'kien/rainbow_parentheses.vim'
  NeoBundle 'triglav/vim-visual-increment'
 " On peut aussi utiliser « '<,'>!seq -s ", " » 1 5 pour générer sur une seule ligne avec des « , ». À vois aussi avec awk.
 
-" html5-vim {{{3
-" http://vimawesome.com/plugin/html5-vim
-" HTML5 omnicomplete and syntax
-NeoBundleLazy 'othree/html5.vim', {
-      \ 'autoload': {
-      \ 'filetypes':['html']
-      \ }}
 
 " Deoplete {{{3
 " https://github.com/Shougo/deoplete.nvim
@@ -134,16 +132,8 @@ endif
 "  Indent object {{{3
 " https://github.com/michaeljsmith/vim-indent-object
 " Vim plugin that defines a new text object representing lines of code at the same indent level. Useful for python/vim scripts, etc. (better method for Python, it's for txt) !
- 
-autocmd FileType * call PluginEnableInTxt()
 
-function PluginEnableInTxt()
-  if(&ft=='text')
-    NeoBundleSource vim-indent-object
-  endif
-endfunction
-
-NeoBundleLazy 'michaeljsmith/vim-indent-object'
+NeoBundle 'michaeljsmith/vim-indent-object'
 
 
 " Restore_view {{{3
@@ -151,6 +141,68 @@ NeoBundleLazy 'michaeljsmith/vim-indent-object'
 " A plugin for automatically restoring file's cursor position and foldingu
 " https://github.com/vim-scripts/restore_view.vim
 NeoBundle 'vim-scripts/restore_view.vim'
+
+" html5-vim {{{3
+" http://vimawesome.com/plugin/html5-vim
+" HTML5 omnicomplete and syntax
+NeoBundleLazy 'othree/html5.vim', {
+      \ 'autoload': {
+      \ 'filetypes':['html', 'php']
+      \ }}
+
+" Emmet {{{3
+"  emmet for vim: http://emmet.io/
+"  http://mattn.github.io/emmet-vim
+NeoBundleLazy 'mattn/emmet-vim', {
+\ 'autoload': {
+\     'filetypes':['html', 'php']
+\ }}
+
+" Vim multiple cursors
+" True Sublime Text style multiple selections for Vim 
+" https://github.com/terryma/vim-multiple-cursors
+NeoBundle 'terryma/vim-multiple-cursors'
+
+" NerdCommenter
+" Vim plugin for intensely orgasmic commenting 
+" https://github.com/scrooloose/nerdcommenter
+NeoBundle 'scrooloose/nerdcommenter'
+
+" Vim Eclim {{{3
+" https://github.com/starcraftman/vim-eclim
+" A repo to use with vim plugin managers.
+" NeoBundle 'starcraftman/vim-eclim'
+" source /usr/share/vim/vimfiles/plugin/eclim.vim -- « Unable to determine eclim basedir.  Please report this issue on the eclim user mailing list. ».
+" NeoBundle '/usr/share/vim/vimfiles/pluginEclim' // Doesn't work
+" NeoBundleLocal seems to be for an other thing https://github.com/Shougo/neobundle.vim/issues/171.
+" Doesn't work
+" NeoBundleLocal '~/.nvim/pluginEclim'
+" Maybe, you can also simply use https://github.com/zowens/vim-eclim, with the current Eclim.
+"if has('nvim')
+"  NeoBundle 'juanes852/Eclim-for-Neovim'
+"endif
+" AU FINAL, J'AI TROUVÉ LA SOLUTION, APPERREMMENT sur Archlinux, LA VERSION COMPILÉE AVEC ECLIM2.5 NE FONCTIONNE PAS. J'AI UTILISÉ  YAOURT POUR ARCHLINUX, ET ÇA FONCTIONNE AU POILE !!!!
+" Voir aussi : https://github.com/ervandew/eclim/issues/385, et https://github.com/juanes852/Eclim-for-Neovim.
+
+" Markdown Vim Mode {{{1
+" https://github.com/plasticboy/vim-markdown
+" Markdown Vim Mode http://plasticboy.com/markdown-vim-mode/
+NeoBundleLazy 'plasticboy/vim-markdown', {
+\ 'autoload':{
+\     'filetypes':['markdown']
+\ }}
+let g:vim_markdown_folding_disabled=1
+
+" Vim instant markdown {{{1
+" https://github.com/suan/vim-instant-markdown
+" Instant Markdown previews from VIm! 
+NeoBundleLazy 'suan/vim-instant-markdown', {
+\ 'autoload':{
+\     'filetypes':['markdown']
+\ }}
+let g:instant_markdown_slow = 1
+let g:instant_markdown_autostart = 0
+
 " === Fin plugins non installés par Guillaume {{{3
 
 "" VIMPROC {{{3
@@ -175,7 +227,7 @@ NeoBundle 'vim-scripts/restore_view.vim'
 "NeoBundle 'Shougo/unite.vim.git'
 "
     " NeoComplete {{{3
-if has('lua')
+if !has('nvim')
     " https://github.com/Shougo/neocomplete.vim
     " Next generation completion framework after neocomplcache
     NeoBundle 'Shougo/neocomplete'
@@ -274,12 +326,12 @@ NeoBundle 'chrisbra/Recover.vim'
 " https://github.com/tpope/vim-surround
 NeoBundle 'tpope/vim-surround'
 
-" Vim-commentary {{{3
-" http://www.vim.org/scripts/script.php?script_id=3695
-" tpope/vim-commentary
-" commentary.vim: comment stuff out
-NeoBundle 'tpope/vim-commentary'
-
+"" Vim-commentary {{{3
+"" http://www.vim.org/scripts/script.php?script_id=3695
+"" tpope/vim-commentary
+"" commentary.vim: comment stuff out
+"NeoBundle 'tpope/vim-commentary'
+"
 " VimAirline {{{3
 " lean & mean status/tabline for vim that's light as air
 " https://github.com/bling/vim-airline
@@ -477,11 +529,11 @@ NeoBundleLazy 'Matt-Deacalion/vim-systemd-syntax', {
 \     'filetypes' : ['systemd']
 \ }}
 
-" Vim-Markdown {{{3
-NeoBundleLazy 'tpope/vim-markdown', {
-\ 'autoload':{
-\     'filetypes':['markdown']
-\ }}
+"" Vim-Markdown {{{3
+"NeoBundleLazy 'tpope/vim-markdown', {
+"\ 'autoload':{
+"\     'filetypes':['markdown']
+"\ }}
 
 " php.vim {{{3
 " old::
@@ -626,19 +678,18 @@ NeoBundleCheck
 " === Plugin non installés par Guillaume {{{2
 "=== }}}
 
+" SuperTab {{{2
+" https://github.com/ervandew/supertab
+" Perform all your vim insert mode completions with Tab
+" https://bbs.archlinux.org/viewtopic.php?id=81791 (there is a buc with deoplete, the last word use is in the end of the popup menu. It's not systematic. @FIXME. Try YCM. 
+let g:SuperTabDefaultCompletionType = "context"
+let g:SuperTabContextDefaultCompletionType = "<c-n>"
+
 " Restore_view {{{2
 " vim-scripts/restore_view.vim
 " A plugin for automatically restoring file's cursor position and foldingu
 " https://github.com/vim-scripts/restore_view.vim
 set viewoptions=cursor
-
-" IndentLine {{{3
-" A vim plugin to display the indention levels with thin vertical lines A vim plugin to display the indention levels with thin vertical lines u
-" https://github.com/Yggdroot/indentLine
-" vertical line indentation (see config http://www.lucianofiandesio.com/vim-configuration-for-happy-java-coding)
-let g:indentLine_color_term = 239
-let g:indentLine_color_gui = '#09AA08'
-let g:indentLine_char = '│'
 
 " DelimitMate {{{2
 " https://github.com/Raimondi/delimitMate
@@ -648,7 +699,7 @@ if has('nvim')
 endif
 " Auto-pairs {{{2
 
-if has('lua')
+if !has('nvim')
     " https://github.com/jiangmiao/auto-pairs
     " Vim plugin, insert or delete brackets, parens, quotes in pair
     " WARNING : MY VERSION OF AUTO-PAIRS IS CUSTOMIZED
@@ -687,7 +738,7 @@ let g:rbpt_colorpairs = [
 let g:rbpt_max = 16
 
 let g:rbpt_loadcmd_toggle = 0
-au VimEnter * RainbowParenthesesToggle
+au BufFilePost * RainbowParenthesesToggle
 au Syntax * RainbowParenthesesLoadRound
 au Syntax * RainbowParenthesesLoadSquare
 au Syntax * RainbowParenthesesLoadBraces
@@ -790,7 +841,7 @@ au Syntax * RainbowParenthesesLoadBraces
 "
 
 " NeoComplete {{{2
-if has('lua')
+if !has('nvim')
     "Note: This option must set it in .vimrc(_vimrc).  NOT IN .gvimrc(_gvimrc)!
     " Disable AutoComplPop.
     let g:acp_enableAtStartup = 0
@@ -835,7 +886,8 @@ if has('lua')
     " <C-h>, <BS>: close popup and delete backword char.
     inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
     inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
-    inoremap <expr><C-y>  neocomplete#close_popup()
+    " Conflict with emmet
+    " inoremap <expr><C-y>  neocomplete#close_popup()
     inoremap <expr><C-e>  neocomplete#cancel_popup()
 
     " Close popup by <Space>.
@@ -1086,12 +1138,12 @@ endif
 set directory=~/.vim/backup
 
 "" Backups with persistent undos {{{2
-"set backup
-"let g:dotvim_backups=expand('$HOME') . '/.vim/backups'
-"if ! isdirectory(g:dotvim_backups)
-"    call mkdir(g:dotvim_backups, "p")
-"endif
-"exec "set backupdir=" . g:dotvim_backups
+set backup
+let g:dotvim_backups=expand('$HOME') . '/.vim/backups'
+if ! isdirectory(g:dotvim_backups)
+    call mkdir(g:dotvim_backups, "p")
+endif
+exec "set backupdir=" . g:dotvim_backups
 "if has('persistent_undo')
 "    set undofile
 "    set undolevels=1000
@@ -1185,7 +1237,12 @@ set title
 
 " Show Special Char {{{2
 " show tabs / nbsp ' ' / trailing spaces
-set listchars=nbsp:¬,tab:··,trail:¤,extends:▷,precedes:◁
+if has("Win32")
+  set listchars=tab:--
+else
+  set listchars=nbsp:¬,tab:··,trail:¤,extends:▷,precedes:◁
+endif
+
 set list
 
 " Cursor {{{2
@@ -1220,7 +1277,7 @@ augroup highlight
     " Highlight MAIL:
     autocmd ColorScheme * call matchadd('todo', 'MAIL\|mail', 100)
     " Highlight misspelled word: errreur
-    autocmd ColorScheme * highlight SpellBad ctermfg=red guifg=red
+    " autocmd ColorScheme * highlight SpellBad ctermfg=red guifg=red
     " Highlight BUGFIX / FIXME
     autocmd ColorScheme * highlight fix ctermbg=darkred ctermfg=white guibg=darkred guibg=white
     autocmd ColorScheme * call matchadd('fix', 'BUGFIX\|@BUGFIX\|bugfix\|FIXME\|@FIXME\|fixme', 100)
@@ -1527,10 +1584,10 @@ noremap <Leader>o o<Esc>k
 noremap <Leader>O O<Esc>j
 
 augroup filetype_c
-	autocmd!
-	autocmd filetype c nnoremap <buffer> <Leader>à i#include <stdlib.h><CR>#include <stdio.h><CR><CR><ESC>
-	autocmd filetype c nnoremap <buffer> <Leader>mai iint main (int argc, char *argv[]) {<CR><CR><CR>printf ("\n\n*********************************\n\n");<CR><CR><CR>printf ("\n\n*********************************\n\n");<CR>return 0;<CR>}<ESC>kkkkkki    <ESC>
-	autocmd filetype p* nnoremap <buffer> <Leader>à i#!/usr/sbin/python3.4<CR># -*-coding:Utf-8 -*<CR><CR><ESC>
+  autocmd!
+  autocmd filetype c nnoremap <buffer> <Leader>à i#include <stdlib.h><CR>#include <stdio.h><CR><CR><ESC>
+  autocmd filetype c nnoremap <buffer> <Leader>mai iint main (int argc, char *argv[]) {<CR><CR><CR>printf ("\n\n*********************************\n\n");<CR><CR><CR>printf ("\n\n*********************************\n\n");<CR>return 0;<CR>}<ESC>kkkkkki    <ESC>
+  autocmd filetype p* nnoremap <buffer> <Leader>à i#!/usr/sbin/python3.4<CR># -*-coding:Utf-8 -*<CR><CR><ESC>
 augroup end
 
 nnoremap <leader>t :tabnew 
@@ -1542,22 +1599,70 @@ autocmd VimLeave * call system("echo -n $'" . escape(getreg(), "'") . "' | xsel 
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 "http://vim.wikia.com/wiki/Disable_automatic_comment_insertion This sets up an auto command that fires after any filetype-specific plugin; the command removes the three flags from the 'formatoptions' option that control the automatic insertion of comments. With this in your vimrc, a comment character will not be automatically inserted in the next line under any situation. 
 doautoall highlight ColorScheme
-set background=light "or put dark
-hi SpellBad ctermbg=001
+"hi clear
+if has("gui_running")
+  set background=dark
+  colorscheme literal_tango "Supprimer le « hi clear » dans le colorshceme par défaut afin que ça n'écrase pas mes highlight persos. @TODO ou voir « help syntax-reset »
+else
+  set background=light "or put dark
+endif
+if has("unix")
+  hi SpellBad ctermbg=202
+endif
 " Pour les couleurs voir https://upload.wikimedia.org/wikipedia/en/1/15/Xterm_256color_chart.svg
 highlight NbSp ctermbg=015
 match NbSp /\%xa0/
-highlight Pmenu ctermbg=005 gui=bold
+highlight Pmenu ctermbg=005 guibg=Purple
 highlight Search ctermbg=178
 highlight IncSearch ctermbg=118
 highlight visual ctermbg=249
 hi CursorColumn ctermbg=239
 map <silent> <F7> "<Esc>:silent setlocal spell! spelllang=fr,en<CR>"
-autocmd BufNew,BufRead,BufEnter *.txt setlocal spell spelllang=fr,en
-let g:neosnippet#snippets_directory='~/.vim/neosnippet-snippets_custom/'
+autocmd BufNew,BufRead,BufEnter *.txt,*.md setlocal spell spelllang=fr,en
+let g:neosnippet#snippets_directory='~/.vim/neosnippet-snippets_customs/'
 " Step the highlighting. 
 " ATTENTION, IL FAUT BIEN METTRE NNOREMAP, SINON, QUAND ON ENTRE EN VISUAL BLOCK, ÇA PLANTE QUAND ON VEUT REPASSER directement EN MODE INSERTION ^^
 nnoremap i :noh<CR>i
 nnoremap I :noh<CR>I
 nnoremap a :noh<CR>a
 nnoremap A :noh<CR>A
+
+autocmd BufNewFile,BufReadPost *.md set filetype=markdown
+let g:markdown_fenced_languages = ['html', 'python', 'bash=sh']
+"GVIM {{{2
+"————
+"http://vim.wikia.com/wiki/Restore_missing_gvim_menu_bar_under_GNOME See also help 'guioptions'
+set guioptions-=T
+set guioptions-=r
+set guifont=Monospace\ 12
+
+"http://vim.wikia.com/wiki/Hide_toolbar_or_menus_to_see_more_text
+set guioptions-=m  "remove menu bar
+set guioptions-=T  "remove toolbar
+
+"http://stackoverflow.com/questions/12448179/how-to-maximize-vims-windows-on-startup-with-vimrc
+au GUIEnter * call system('wmctrl -i -b add,fullscreen -r '.v:windowid)
+
+highlight Normal guifg=White guibg=Black
+
+" Microsoft Windows {{{2
+if has("Win32")
+  if &term=~'Win32'
+    colorscheme murphyJuanes "Le thème par défaut est très moche en console !  Attention, Murphy bug avec les SpellBad dans Windows. Je me le suis customisé (comenté tous les « red »). C'est pas mal comme thème, plus lisible pour programmer dans la console. @FIXME les codes couleurs ne semblent pas être les mêmes sous Linux et sous la console Microsoft Windows (voir aussi « help color » dans cmd.exe), mettre plutôt les noms des couleurs.
+    hi SpellBad ctermbg=darkred ctermfg=Grey
+    highlight Search ctermfg=Black
+    highlight IncSearch ctermfg=Black
+    hi CursorLine   cterm=NONE ctermbg=darkred ctermfg=NONE
+    hi CursorColumn cterm=NONE ctermbg=darkred ctermfg=NONE 
+    " See also http://vim.wikia.com/wiki/Highlight_current_line
+  endif
+  set encoding=utf-8 
+  " Sinon interprète mal mon vimrc ! et notamment le plugin IndentLine.
+endif
+
+" Script batch
+" ————————————
+"Pour avoir les accents dans la console (scripts bat et com). Sous Vim, ouvrir ce fichier, puis taper « e ++enc=cp850 » pour recharger le fichier et l'afficher avec un codage « cp850 ». Attention, le faire à l'ouverture du fichier, avant toute modification préalable, sinon ça plante. Pour vérifier si cela a été bien pris en compte, taper « set fileencoding ». Encodage non pris en charge sous Notepad++.
+" Ci après, automatisation. Permet de charger Vim en UTF-8 pour pas que a plante avec le plugin IndentLine grâce à « set encoding=utf-8 » ci-avant, puis recharge le fichier spécifique en cp850.
+" Sous Linux, ne semble pas fonctionner avec Vim, mais fonctionne avec Nvim le 5/11/2015.
+autocmd FileType dosbatch e ++enc=cp850

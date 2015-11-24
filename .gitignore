@@ -1,3 +1,10 @@
+after/*
 backup/*
+backups/*
 bundle/*
 tags/*
+view/*
+.netrwhist
+eclim
+plugin
+.-rplugin~
