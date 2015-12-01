@@ -114,12 +114,20 @@ NeoBundle 'myusuf3/numbers.vim'
 " Better Rainbow Parentheses
 NeoBundle 'kien/rainbow_parentheses.vim'
  
-" Vim Visual Increment {{{3
-" visual-increment.vim - use CTRL+A/X to create increasing sequence of numbers or letters via visual mode 
-" https://github.com/triglav/vim-visual-increment
- NeoBundle 'triglav/vim-visual-increment'
-" On peut aussi utiliser « '<,'>!seq -s ", " » 1 5 pour générer sur une seule ligne avec des « , ». À vois aussi avec awk.
+"" Vim Visual Increment {{{3
+"" visual-increment.vim - use CTRL+A/X to create increasing sequence of numbers or letters via visual mode 
+"" https://github.com/triglav/vim-visual-increment
+" NeoBundle 'triglav/vim-visual-increment'
+"" On peut aussi utiliser « '<,'>!seq -s ", " » 1 5 pour générer sur une seule ligne avec des « , ». À vois aussi avec awk.
 
+" VisIncr
+" https://github.com/vim-scripts/VisIncr
+" Produce increasing/decreasing columns of numbers, dates, or daynames 
+NeoBundle 'vim-scripts/VisIncr'
+
+" See also « :norm 5 <C-X><c-A> »
+vnoremap <C-a> :I<CR>
+vnoremap <C-x> :I -1<CR>
 
 " Deoplete {{{3
 " https://github.com/Shougo/deoplete.nvim
@@ -290,10 +298,10 @@ NeoBundle 'tpope/vim-sensible'
 " https://github.com/tpope/vim-repeat
 NeoBundle 'tpope/vim-repeat'
 
-" SpeedDating {{{3
-" speeddating.vim: use CTRL-A/CTRL-X to increment dates, times, and more
-" https://github.com/tpope/vim-speeddating
-NeoBundle 'tpope/vim-speeddating.git'
+"" SpeedDating {{{3
+"" speeddating.vim: use CTRL-A/CTRL-X to increment dates, times, and more
+"" https://github.com/tpope/vim-speeddating
+"NeoBundle 'tpope/vim-speeddating.git'
 
 "" EditorConfig {{{3
 "" EditorConfig plugin for Vim http://editorconfig.org
@@ -1429,14 +1437,14 @@ nmap yss <Plug>Yssurround
 nmap ySs <Plug>YSsurround
 nmap ySS <Plug>YSsurround
 
-" vim-commentary {{{2
-" remap for bépo
-xmap gc  <Plug>Commentary
-nmap gc  <Plug>Commentary
-omap gc  <Plug>Commentary
-nmap gcc <Plug>CommentaryLine
-nmap hgc <Plug>ChangeCommentary
-nmap gcu <Plug>Commentary<Plug>Commentary
+"" vim-commentary {{{2
+"" remap for bépo
+"xmap gc  <Plug>Commentary
+"nmap gc  <Plug>Commentary
+"omap gc  <Plug>Commentary
+"nmap gcc <Plug>CommentaryLine
+"nmap hgc <Plug>ChangeCommentary
+"nmap gcu <Plug>Commentary<Plug>Commentary
 
 "" SearchParty {{{2
 "" Extended search commands and maps for Vim
@@ -1445,11 +1453,11 @@ nmap gcu <Plug>Commentary<Plug>Commentary
 "nmap ^* <Plug>SearchPartyVisualFindNext
 "nmap ^l <Plug>SearchPartyHighlightClear
 
-" SpeedDating {{{2
-" Reselect after increment decrement
-map <C-A> <Plug>SpeedDatingUpgv
-map <C-X> <Plug>SpeedDatingDowngv
-
+"" SpeedDating {{{2
+"" Reselect after increment decrement
+"map <C-A> <Plug>SpeedDatingUpgv
+"map <C-X> <Plug>SpeedDatingDowngv
+"
 "" Vdebug tweak {{{2
 "let g:vdebug_keymap = {
 "\ "run"               : "<F5>",
@@ -1519,11 +1527,11 @@ endfunction
 " Change default leader key {{{2
 let mapleader = ","
 
-" Permet de sauvegarder par ctrl + s {{{2
-:nmap <c-s> :w<CR>
-" Fonctionne aussi en mode edition
-:imap <c-s> <Esc>:w<CR>a
-:imap <c-s> <Esc><c-s>
+"" Permet de sauvegarder par ctrl + s {{{2
+":nmap <c-s> :w<CR>
+"" Fonctionne aussi en mode edition
+":imap <c-s> <Esc>:w<CR>a
+":imap <c-s> <Esc><c-s>
 
 " Completion avec ctrl + space {{{2
 inoremap <expr> <C-Space> pumvisible() \|\| &omnifunc == '' ?
@@ -1552,7 +1560,7 @@ set mouse=a
 " @FIXME: Detect keyboard layout (qwerty / bépo)
 " @TODO: Move it at the end, the config must not be layout dependant.
 " I use kind dvorak-fr the «bépo» layout on my keyboard.
-source ~/.vim/vimrc.bepo
+" source ~/.vim/vimrc.bepo
 " remap number for direct access
 "source ~/.vim/vimrc.num
 "
@@ -1579,7 +1587,13 @@ noremap ; j
 " let mapleader = ',' 
 noremap \ ,
 
-noremap <Leader>W :w !sudo tee % > /dev/null
+
+if (&ft!='java')
+  noremap <Leader>w :wa<CR>:Java<CR><CR>G<C-w>w
+else
+  noremap <Leader>W :w !sudo tee % > /dev/null
+endif
+  
 noremap <Leader>o o<Esc>k
 noremap <Leader>O O<Esc>j
 
