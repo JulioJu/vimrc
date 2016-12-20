@@ -1,0 +1,238 @@
+export EDITOR=nvim
+# export TERM=xterm-256color
+# export PAGER="less -M"
+# alias nvim="nvim -u ~/.nvimrc"
+# Le 4/11/2015, suite à une mise à jour de neovim, nvim ne veut plus charger ~/.nvimrc par défaut. Bug du au faite qu'on est sur une version alpha d'un logiciel ?
+
+
+#Oh-my-ZSH {{{1
+#**************************
+
+# Path to your oh-my-zsh installation.
+export ZSH=$HOME/.oh-my-zsh
+
+# Set name of the theme to load.
+# Look in ~/.oh-my-zsh/themes/
+# Optionally, if you set this to "random", it'll load a random theme each
+# time that oh-my-zsh is loaded.
+#ZSH_THEME="ys"
+ZSH_THEME="tjkirch_mod_Ju"
+
+# Uncomment the following line to use case-sensitive completion.
+# CASE_SENSITIVE="true"
+
+# Uncomment the following line to disable bi-weekly auto-update checks.
+# DISABLE_AUTO_UPDATE="true"
+
+# Uncomment the following line to change how often to auto-update (in days).
+# export UPDATE_ZSH_DAYS=13
+
+# Uncomment the following line to disable colors in ls.
+# DISABLE_LS_COLORS="true"
+
+# Uncomment the following line to disable auto-setting terminal title.
+# DISABLE_AUTO_TITLE="true"
+
+# Uncomment the following line to enable command auto-correction.
+# ENABLE_CORRECTION="true"
+
+# Uncomment the following line to display red dots whilst waiting for completion.
+# COMPLETION_WAITING_DOTS="true"
+
+# Uncomment the following line if you want to disable marking untracked files
+# under VCS as dirty. This makes repository status check for large repositories
+# much, much faster.
+# DISABLE_UNTRACKED_FILES_DIRTY="true"
+
+# Uncomment the following line if you want to change the command execution time
+# stamp shown in the history command output.
+# The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
+# HIST_STAMPS="mm/dd/yyyy"
+
+# Would you like to use another custom folder than $ZSH/custom?
+# ZSH_CUSTOM=/path/to/new-custom-folder
+
+# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
+# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
+# Example format: plugins=(rails git textmate ruby lighthouse)
+# Add wisely, as too many plugins slow down shell startup.
+plugins=(git sudo zsh-syntax-highlighting compleat python)
+# last-working-dir
+source $ZSH/oh-my-zsh.sh
+
+# Configuration du plugin zsh-syntax-highlighting
+ZSH_HIGHLIGHT_HIGHLIGHTERS=(pattern)
+# ZSH_HIGHLIGHT_PATTERNS+=('\u00A0' 'fg=white,bold,bg=red')
+ZSH_HIGHLIGHT_PATTERNS+=(' ' 'fg=white,bold,bg=red')
+
+
+# User configuration
+
+export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
+# export MANPATH="/usr/local/man:$MANPATH"
+
+# You may need to manually set your language environment
+#export LANG=fr_FR.UTF-8
+
+# Preferred editor for local and remote sessions
+# if [[ -n $SSH_CONNECTION ]]; then
+#   export EDITOR='vim'
+# else
+#   export EDITOR='mvim'
+# fi
+
+# Compilation flags
+# export ARCHFLAGS="-arch x86_64"
+
+# ssh
+# export SSH_KEY_PATH="~/.ssh/dsa_id"
+
+# Set personal aliases, overriding those provided by oh-my-zsh libs,
+# plugins, and themes. Aliases can be placed here, though oh-my-zsh
+# users are encouraged to define aliases within the ZSH_CUSTOM folder.
+# For a full list of active aliases, run `alias`.
+#
+# Example aliases
+# alias zshconfig="mate ~/.zshrc"
+# alias ohmyzsh="mate ~/.oh-my-zsh"
+
+
+## Gnome terminal {{{1
+# *****************
+# gnome-terminal: keep track of directory in new tab http://unix.stackexchange.com/questions/93476/gnome-terminal-keep-track-of-directory-in-new-tab
+# /etc/profile.d/vte.sh
+
+
+
+
+# Vi mode {{{1
+# ************************************
+# Voir notamment http://zsh.sourceforge.net/Doc/Release/Zsh-Line-Editor.html 
+
+bindkey -v # Use vi key bindings.
+bindkey -M vicmd v edit-command-line # ESC-v to edit in an external editor.
+
+# 
+stty erase '^h'
+bindkey '\e[3~' delete-char
+
+
+#http://zshwiki.org/home/zle/vi-mode A common request with vi key bindings is to have the mode displayed somewhere such as the prompt. The following makes use of the RPROMPT for this:
+precmd() {
+  RPROMPT=""
+}
+zle-keymap-select() {
+  RPROMPT=""
+  [[ $KEYMAP = vicmd ]] && RPROMPT="(CMD)"
+  () { return $__prompt_status }
+  zle reset-prompt
+}
+zle-line-init() {
+  typeset -g __prompt_status="$?"
+}
+zle -N zle-keymap-select
+zle -N zle-line-init
+
+#Why isn't Control-R working (anymore)?
+bindkey -M viins '^r' history-incremental-search-backward
+bindkey -M vicmd '^r' history-incremental-search-backward
+
+#http://zshwiki.org/home/zle/vi-mode
+bindkey -a u undo
+bindkey -a '^R' redo
+bindkey '^?' backward-delete-char
+bindkey '^H' backward-delete-char
+bindkey '^G' what-cursor-position
+
+
+##Bidouillage by Julio, optimisé pour bépo. 
+##Voir aussi https://github.com/vjousse/dotfiles/blob/master/zsh/vim.zsh (merci Benji)
+##http://zsh.sourceforge.net/Doc/Release/Zsh-Line-Editor.html
+#bindkey -a c backward-char
+#bindkey -a r forward-char
+#bindkey -a b backward-word 
+#bindkey -a é forward-word 
+#bindkey -M vicmd "H" vi-replace
+#bindkey -M vicmd "h" vi-replace-chars
+#bindkey -M vicmd "l" vi-change
+#bindkey -M vicmd "L" vi-change-eol
+#bindkey -M vicmd "k" vi-substitute
+#bindkey -M vicmd "K" vi-change-whole-line
+## bindkey -M vicmd 't' history-substring-search-up # sous l'index, on remonte plus l'historique qu'on ne le descend :-). 
+
+#Search for qwerty
+##https://github.com/zsh-users/zsh-history-substring-search
+source $ZSH/plugins/history-substring-search/history-substring-search.zsh
+bindkey -M viins '^[[B' history-substring-search-down
+bindkey -M viins '^[[A' history-substring-search-up
+bindkey -M viins '^[[B' history-substring-search-down
+bindkey -a j vi-down-line-or-history
+bindkey -a k vi-up-line-or-history
+
+
+# Defined shortcut keys: F5 (voir plugin sudo.zsh dans oh-my-zsh).  
+bindkey '^[[15~' sudo-command-line # touche F5
+
+
+
+#  bindkey -M vicmd "i" vi-insert
+
+
+# http://unix.stackexchange.com/questions/84867/zsh-completion-enabling-shift-tab
+zmodload zsh/complist
+bindkey -M menuselect '^[[Z' reverse-menu-complete
+
+# File manager key binds {{{1
+# https://wiki.archlinux.org/index.php/Zsh#Key_Binding
+cdUndoKey() {
+  popd      > /dev/null
+  zle       reset-prompt
+  echo
+  ls
+  echo
+}
+
+cdParentKey() {
+  pushd .. > /dev/null
+  zle      reset-prompt
+  echo
+  ls
+  echo
+}
+
+zle -N                 cdParentKey
+zle -N                 cdUndoKey
+# bindkey '^[[1;3A'      cdParentKey
+# bindkey '^[[1;3D'      cdUndoKey
+bindkey '^[[5;3~'        cdParentKey # alt + pageUp on laptop Samsung NC10 Terminator software
+bindkey '^[[6;3~'        cdUndoKey # alt + pageDown on laptop Samsung NC10 with Terminator software
+
+
+# less {{{1
+# http://superuser.com/questions/117841/get-colors-in-less-command
+export LESS='-R -M'
+export LESSOPEN='|~/.lessfilter %s'
+# alias less="less -M"
+
+
+# cmatrix {{{1
+cmatrix -bs
+# b (autoriser caractères gras, s mode screensaver (appuie touche, on débloque,, C c'est la couleur.
+
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# Vim-superman {{{1
+# https://github.com/jez/vim-superman
+
+vman() {
+  nvim -c "SuperMan $*"
+
+  if [ "$?" != "0" ]; then
+    echo "No manual entry for $*"
+  fi
+}
+
+compdef vman="man"
+
+# vim: ft=zsh

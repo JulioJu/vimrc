@@ -1,0 +1,5 @@
+
+set reresh-mode auto = auto
+set line-graphics = utf-8
+set commit-order = date
+
