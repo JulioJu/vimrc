@@ -1,0 +1,211 @@
+
+snippet //
+<!-- ${1} -->${0}
+endsnippet
+
+# Prologue {{{1
+
+snippet schema
+<xsd:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	${0}
+</xsd:schema>
+endsnippet
+
+# Simple type
+
+snippet element
+<xsd:element name="${1}" />
+endsnippet
+
+snippet element_string
+<xsd:element name="${1}" type="xsd:string" />
+endsnippet
+
+snippet string
+<xsd:element name="${1}" type="xsd:string" />
+endsnippet
+
+snippet element_int
+<xsd:element name="${1}" type="xsd:positiveInteger" />
+endsnippet
+
+snippet int
+<xsd:element name="${1}" type="xsd:positiveInteger" />
+endsnippet
+
+snippet element_date
+<xsd:element name="${1}" type="xsd:date" />
+endsnippet
+
+snippet element_ref
+<xsd:element ref="${2}" />
+endsnippet
+
+## Named type
+
+snippet element_type
+<xsd:element name="${1}" type="${2}" />
+endsnippet
+
+## Attributes
+
+snippet attribute
+<xsd:attribute name="${1}" type="xsd:${2}" default="${3}" use="${4:optional}" />
+endsnippet
+
+snippet attribute_simple
+<xsd:attribute name="${1}" type="xsd:${2}" default="${3}" />
+endsnippet
+
+snippet attribute_ref
+<xsd:attribute ref="${2}" />
+endsnippet
+
+snippet attribute_uri
+<xsd:attribute name="src" type="xs:anyURI" />
+endsnippet
+
+## Restrictions
+
+snippet simpleType
+<xsd:simpleType>
+	<xsd:restriction base="xsd:${1}">
+		${0}
+	</xsd:restriction>
+</xsd:simpleType>
+endsnippet
+
+snippet enumeration
+<xsd:enumeration value="${1}" />
+endsnippet
+
+snippet pattern
+<xsd:pattern value="${1}" />
+endsnippet
+
+snippet Exclusive
+<xsd:${1}Exclusive value="${2}" />
+endsnippet
+
+snippet Inclusive
+<xsd:${1}Inclusive value="${2}" />
+endsnippet
+
+snippet Digits
+<xsd:${1}Digits value="${2}" />
+endsnippet
+
+snippet whiteSpace
+<xsd:${1}Digits value="${2}" />
+endsnippet
+
+# complex type
+
+snippet complexType
+<xsd:element name="${1}">
+	<xsd:complexType>
+		${0}
+	</xsd:complexType>
+</xsd:element>
+endsnippet
+
+snippet complexTypeTag
+<xsd:complexType>
+	${0}
+</xsd:complexType>
+endsnippet
+
+## Elements
+snippet sequence
+<xsd:sequence>
+	${0}
+</xsd:sequence>
+endsnippet
+
+snippet complexContentBase
+<xsd:complexContent>
+	<xsd:extension base="${1}">
+		${0}
+	</xsd:extension>
+</xsd:complexContent>
+endsnippet
+
+### Other to add
+
+## Empty (with attributes)
+
+# Syntax complicated with complexContent
+# snippet complexContent
+# <xsd:element name="${1}">
+# 	<xsd:complexType>
+# 	<xsd:complexContent>
+# 			${3}
+# 		</xsd:complexContent>
+# 	</xsd:complexType>
+# </xsd:element>
+# endsnippet
+
+### Best to do : add attribute tag in complexType tag
+
+## Text only (with attribute and simpleContent). There is extension or restriction) 
+
+snippet complexContentBase
+<xsd:simpleContent>
+	<xsd:extension base="${1}">
+		${0}
+	</xsd:extension>
+</xsd:simpleContent>
+endsnippet
+
+## Mixed, text and elements
+
+snippet complexTypeTagMixed
+<xsd:complexType mixed="true">
+	${0}
+</xsd:complexType>
+endsnippet
+
+## Indicators
+
+snippet choice
+<xsd:choice>
+	${0}
+</xsd:choice>
+endsnippet
+
+snippet all
+<xsd:all>
+	${0}
+</xsd:all>
+endsnippet
+
+snippet maxOccurs
+maxOccurs="${0}"
+endsnippet
+
+snippet minOccurs
+minOccurs="${0}"
+endsnippet
+
+snippet group
+<xsd:group name="${1}">
+	${0}
+</xsd:group>
+endsnippet
+
+snippet attributeGroup
+<xsd:attributeGroup name="${1}">
+	${0}
+</xsd:attributeGroup>
+endsnippet
+
+## sequence (defined above)
+
+# Other
+
+## Useful for add extension. Used also for empty elements, but it's not the simplest syntax
+snippet complexContentTag
+<xsd:complexContent>
+	${0}
+</xsd:complexContent>
+endsnippet

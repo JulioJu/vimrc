@@ -1,0 +1,29 @@
+
+snippet //
+<!-- ${1} -->
+endsnippet
+
+snippet xml
+<?xml version="1.0" encoding="UTF-8"?>
+	<xsl:stylesheet version="1.0"
+	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+    <xsl:output method="${1:xml}" indent="yes"/>
+		${0}
+	</xsl:stylesheet>
+endsnippet
+
+
+# Do not use !
+# snippet copy
+# <xsl:copy>
+# 	${0}
+# </xsl:copy>
+# endsnippet
+
+# Put into apply-tempate
+
+snippet sort
+<xsl:apply-templates select="${1:*}">
+	<xsl:sort select="${2}" data-type="${2:number}${3:text}"${4: order="descending"}${5: case-order="lower-first"} />
+</xsl:apply-templates>
+endsnippet

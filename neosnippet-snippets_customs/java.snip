@@ -9,15 +9,29 @@ snippet main
 
 snippet interface
     public interface `expand('%:p:t:r')` extends ${1:#:Parent} {
+
         ${0:TARGET}
+
     }
 
 snippet class2
     public class `expand('%:p:t:r')` {
+
         ${0:TARGET}
+
     }
 
 snippet class
     class `expand('%:p:t:r')` ${1:extends} ${2:#:Parent} ${3:implements} ${4:#:Interface} {
+
         ${0:TARGET}
+
     }
+
+snippet println
+    options word
+      │ System.out.println(${1});${0:TARGET}
+
+snippet print
+    options word
+      │ System.out.print(${1});${0:TARGET}

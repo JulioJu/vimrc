@@ -1,0 +1,31 @@
+snippet html5
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<title>${1:`substitute(vim_snippets#Filename('', 'Page Title'), '^.', '\u&', '')`}</title>
+	${2}</head>
+	<body>
+		${0}
+	</body>
+</html>
+endsnippet
+
+snippet html5Bootstrap
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+		<title>${1:`substitute(vim_snippets#Filename('', 'Page Title'), '^.', '\u&', '')`}</title>
+		${2}<link rel="stylesheet" href="../dist/css/bootstrap.css" type="text/css" media="all" />
+		<script src="./js/jquery-3.1.1.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../dist/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		${0}
+	</body>
+</html>
+endsnippet
