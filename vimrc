@@ -71,10 +71,11 @@
     " https://github.com/Yggdroot/indentLine
     Plug 'Yggdroot/indentLine'
 
-    " Numbers {{{2
-    " numbers.vim is a vim plugin for better line numbers
-    " https://github.com/myusuf3/numbers.vim
-    Plug 'myusuf3/numbers.vim'
+    "" Numbers {{{2
+    "" numbers.vim is a vim plugin for better line numbers
+    "" https://github.com/myusuf3/numbers.vim
+    "" Plug 'myusuf3/numbers.vim'
+    "" ==> bug when enter in terminal
 
     " Rainbow_parentheses.vim {{{2
     " https://github.com/kien/rainbow_parentheses.vim
@@ -111,11 +112,12 @@
 
     Plug 'michaeljsmith/vim-indent-object'
 
-    " Restore_view {{{2
-    " vim-scripts/restore_view.vim
-    " A plugin for automatically restoring file's cursor position and foldingu
-    " https://github.com/vim-scripts/restore_view.vim
-    Plug 'vim-scripts/restore_view.vim'
+    " " Restore_view {{{2
+    " " vim-scripts/restore_view.vim
+    " " A plugin for automatically restoring file's cursor position and foldingu
+    " " https://github.com/vim-scripts/restore_view.vim
+    " Plug 'vim-scripts/restore_view.vim'
+    " Bug in when launch several buffers from differents path : change path.
 
     " Vim multiple cursors {{{2
     " True Sublime Text style multiple selections for Vim
@@ -146,6 +148,32 @@
     Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
     Plug 'junegunn/fzf.vim'
 
+    " Vim ranger {{{2
+    " Plug 'francoiscabrol/ranger.vim'
+    " https://github.com/francoiscabrol/ranger.vim
+    Plug 'francoiscabrol/ranger.vim'
+
+    " Vim bclose (dependancy for ranger) {{{2
+    " https://github.com/rbgrouleff/bclose.vim
+    " Ranger integration in vim and neovim
+    Plug 'rbgrouleff/bclose.vim'
+
+
+    " NERDTree {{{2
+    " A tree explorer plugin for vim.
+    " https://github.com/scrooloose/nerdtree
+    Plug 'scrooloose/nerdtree'
+
+    " Vim buffergator {{2
+    " Vim plugin to list, select and switch between buffers.
+    " https://github.com/jeetsukumaran/vim-buffergator
+    Plug 'jeetsukumaran/vim-buffergator'
+
+    " Vim tabber {{{2
+    " A Vim plugin for labeling tabs, styled after Powerline, with additional tab management utilities.
+    " https://github.com/fweep/vim-tabber
+    Plug 'fweep/vim-tabber'
+
     " " Coloresque {{{2
     " " css/less/sass/html color preview for vim
     " " https://github.com/gorodinskiy/vim-coloresque
@@ -162,6 +190,9 @@
     " \     'filetypes':['php', 'html']
     " \ }}
 
+    " YouCompleteMe {{{2
+    " A code-completion engine for Vim
+    " https://github.com/Valloric/YouCompleteMe
     Plug 'Valloric/YouCompleteMe', { 'do': './install.py --tern-completer' }
     function! BuildYCM(info)
     " info is a dictionary with 3 fields
@@ -217,7 +248,7 @@
     " Emmet {{{2
     "  emmet for vim: http://emmet.io/
     "  http://mattn.github.io/emmet-vim
-    Plug 'mattn/emmet-vim', { 'for' : ['html', 'php', 'jsp', 'xml', 'dtd', 'xsd', 'xsl']}
+    Plug 'mattn/emmet-vim', { 'for' : ['html', 'php', 'jsp', 'xml', 'dtd', 'xsd', 'xsl', 'xhtml']}
 
     " Neomake {{{2
     " A plugin for asynchronous :make using Neovim's job-control functionality
@@ -255,9 +286,10 @@
     " \ }}
     " let g:vim_markdown_folding_disabled=1
 
-    Plug 'vim-pandoc/vim-pandoc', { 'for': ['md']}
-
-    Plug 'vim-pandoc/vim-pandoc-syntax', { 'for': ['md']}
+    " " Pandoc {{{2
+    " Plug 'vim-pandoc/vim-pandoc', { 'for': ['md']}
+    "
+    " Plug 'vim-pandoc/vim-pandoc-syntax', { 'for': ['md']}
 
     " " Vim instant markdown {{{2
     " " https://github.com/suan/vim-instant-markdown
@@ -307,7 +339,6 @@
     Plug 'jvanja/vim-bootstrap4-snippets', { 'for': ['javascript', 'html']}
 
     " VIMPROC {{{2
-    " Use for typescript
     " Recommended to install
     " original repos on github
     " After install, turn shell ~/.vim/bundle/vimproc,
@@ -372,16 +403,26 @@
     " https://github.com/hotchpotch/perldoc-vim
     Plug 'hotchpotch/perldoc-vim', { 'for' : ['perl'] }
 
-    " vim-superman {{{2
-    " https://github.com/jez/vim-superman
-    " Read Unix man pages faster than a speeding bullet! https://blog.jez.io/2014/12/20/vim-as-a-man-page-viewer/
-    Plug 'jez/vim-superman'
+    " " vim-superman {{{2
+    " " https://github.com/jez/vim-superman
+    " " Read Unix man pages faster than a speeding bullet! https://blog.jez.io/2014/12/20/vim-as-a-man-page-viewer/
+    " Plug 'jez/vim-superman'
 
+    " Neoamn {{{2
+    " A modern man page plugin for vim
+    " https://github.com/nhooyr/neoman.vim
+    Plug 'nhooyr/neoman.vim'
 
     " Zeal Vim {{{ 2
     " Zeal for Vim
     " https://github.com/KabbAmine/zeavim.vim
-    Plug 'KabbAmine/zeavim.vim'
+    Plug 'KabbAmine/zeavim.vim', {'on': [
+                \   'Zeavim', 'Docset',
+                \   '<Plug>Zeavim',
+                \   '<Plug>ZVVisSelection',
+                \   '<Plug>ZVKeyDocset',
+                \   '<Plug>ZVMotion'
+                \ ]}
 
     " vim-ipmotion {{{2
     " Improved paragraph motion http://www.vim.org/scripts/script.php?script_id=3952
@@ -391,6 +432,35 @@
     " vim-abolish {{{2
     " https://github.com/tpope/vim-abolish
     Plug 'tpope/vim-abolish'
+
+    " Vim Pager {{{2
+    " Use Vim as PAGER http://www.vim.org/scripts/script.php…
+    " https://github.com/rkitover/vimpager
+    Plug 'rkitover/vimpager'
+
+
+    " Vim ipmotion {{{2
+    " https://github.com/terryma/vim-expand-region
+    " Vim plugin that allows you to visually select increasingly larger regions of text using the same key combination.
+    " Plug 'justinmk/vim-ipmotion'
+
+    " Vim Grammalecte {{{2
+    " https://github.com/dpelle/vim-Grammalecte
+    " A vim plugin for the Grammalecte French grammar checker
+    Plug 'dpelle/vim-Grammalecte'
+
+    " Vim polyglot (distro) {{{2
+    " https://github.com/sheerun/vim-polyglot
+    " A solid language pack for Vim.
+
+    " spaceneovim (distro) {{{2
+    " https://github.com/Tehnix/spaceneovim
+    " Spacemacs for Neovim
+
+    " " Vim Peekaboo {{{2
+    " " 👀 " / @ / CTRL-R
+    " " https://github.com/occupytheweb/vim-peekaboo
+    " Plug 'junegunn/vim-peekaboo'
 
     " === Fin plugins non installés par Guillaume {{{2
 
@@ -530,9 +600,15 @@
     "" <Shift-Tab> -- Find previous wiki link
     "Plug 'vimwiki/vimwiki'
     "
-    "" EasyMotion {{{2
-    "" Vim motions on speed!
-    "" https://github.com/Lokaltog/vim-easymotion
+
+    " Vim Quickscokp {{{2
+    " Lightning fast left-right movement in Vim
+    " https://github.com/unblevable/quick-scope
+    Plug 'unblevable/quick-scope'
+
+    " EasyMotion {{{2
+    " Vim motions on speed!
+    " https://github.com/Lokaltog/vim-easymotion
     Plug 'Lokaltog/vim-easymotion'
     "
     " Stupid-EasyMotion {{{2
@@ -542,7 +618,16 @@
     " <Leader><Leader>w  - make every word a target
     " <Leader><Leader>W  - make every space separated word a target
     " <Leader><Leader>fx - make every character x in the line a target
-    Plug 'joequery/Stupid-EasyMotion'
+    " Plug 'joequery/Stupid-EasyMotion'
+
+    " Incsearch {{{2
+    " Improved incremental searching for Vim
+    " https://github.com/haya14busa/incsearch.vim
+    Plug 'haya14busa/incsearch.vim'
+
+    " " Incsearch easymotion {{{2
+    " " https://github.com/haya14busa/incsearch-easymotion.vim
+    " Plug 'haya14busa/incsearch-easymotion.vim'
 
     "" quickfixsigns {{{2
     "" Mark quickfix & location list items with signs
@@ -596,12 +681,12 @@
     "" http://www.vim.org/scripts/script.php?script_id=4410
     "Plug 'tpope/vim-characterize'
     "
-    "" Vim-DevIcons {{{2
-    "" https://github.com/ryanoasis/vim-devicons#installation
-    "" adds font icons (glyphs ★♨☢) to programming languages, libraries, and web
-    "" developer filetypes for: NERDTree, powerline, vim-airline, ctrlp, unite,
-    "" lightline.vim, vimfiler, and flagship
-    "Plug 'ryanoasis/vim-devicons'
+    " Vim-DevIcons {{{2
+    " https://github.com/ryanoasis/vim-devicons#installation
+    " adds font icons (glyphs ★♨☢) to programming languages, libraries, and web
+    " developer filetypes for: NERDTree, powerline, vim-airline, ctrlp, unite,
+    " lightline.vim, vimfiler, and flagship
+    Plug 'ryanoasis/vim-devicons'
     "
     "" goyo {{{2
     "" Distraction-free writing in Vim
@@ -765,14 +850,15 @@
     " https://github.com/othree/yajs.vim
     Plug 'othree/yajs.vim', { 'for': ['javascript', 'html', 'php'] }
 
-    " sparkup {{{2
-    " A parser for a condensed HTML format
-    " https://github.com/rstacruz/sparkup
-    Plug 'rstacruz/sparkup', { 'for': ['html', 'php', 'jsp', 'xml', 'dtd', 'xsd', 'xsl'] }
+    " " sparkup {{{2
+    " " A parser for a condensed HTML format
+    " " https://github.com/rstacruz/sparkup
+    " Same ase Emmet
+    " Plug 'rstacruz/sparkup', { 'for': ['html', 'php', 'jsp', 'xml', 'dtd', 'xsd', 'xsl', 'xhtml'] }
 
     " ragtag {{{2
     " ragtag.vim: ghetto HTML/XML mappings (formerly allml.vim)
-    Plug 'tpope/vim-ragtag', { 'for': ['html', 'php', 'jsp', 'xml', 'dtd', 'xsd', 'xsl'] }
+    Plug 'tpope/vim-ragtag', { 'for': ['html', 'php', 'jsp', 'xml', 'dtd', 'xsd', 'xsl', 'xhtml'] }
 
     " vim-latex {{{2
     " lervag/vim-latex
@@ -815,11 +901,26 @@
     " let g:SuperTabDefaultCompletionType = "context"
     " let g:SuperTabContextDefaultCompletionType = "<c-n>"
 
-    " Restore_view {{{2
-    " vim-scripts/restore_view.vim
-    " A plugin for automatically restoring file's cursor position and foldingu
-    " https://github.com/vim-scripts/restore_view.vim
-    set viewoptions=cursor
+    " " Restore_view {{{2
+    " " vim-scripts/restore_view.vim
+    " " A plugin for automatically restoring file's cursor position and foldingu
+    " " https://github.com/vim-scripts/restore_view.vim
+    " set viewoptions=cursor
+
+    " Vim buffergator {{2
+    " Vim plugin to list, select and switch between buffers.
+    " https://github.com/jeetsukumaran/vim-buffergator
+    let g:buffergator_suppress_keymaps = 1
+
+    " Vim Quickscokp {{{2
+    " Lightning fast left-right movement in Vim
+    " https://github.com/unblevable/quick-scope
+    let g:qs_highlight_on_keys = ['f', 'F']
+
+    " Vim tabber {{{2
+    " A Vim plugin for labeling tabs, styled after Powerline, with additional tab management utilities.
+    " https://github.com/fweep/vim-tabber
+    set tabline=%!tabber#TabLine()
 
     " DelimitMate {{{2
     " https://github.com/Raimondi/delimitMate
@@ -827,8 +928,9 @@
     " if has('nvim')
         let delimitMate_expand_cr = 1
     " endif
-    " Auto-pairs {{{2
 
+    " " Auto-pairs {{{2
+    "
     " if !has('nvim')
     "     " https://github.com/jiangmiao/auto-pairs
     "     " Vim plugin, insert or delete brackets, parens, quotes in pair
@@ -852,6 +954,12 @@
     " YCM {{{2
     " A code-completion engine for Vim
     " https://github.com/Valloric/YouCompleteMe
+    " @TODO for every YCM update, delete in
+    " ~/.vim/plugged/YouCompleteMe/autoload/youcompleteme.vim :
+    " See https://github.com/Valloric/YouCompleteMe/pull/1415
+    " \ getbufvar( a:buffer, '&buftype' ) ==# 'nofile' ||
+
+    " autocmd CompleteDone * pclose
     let g:ycm_server_python_interpreter="/usr/bin/python3"
 
     " Support for TypeScript
@@ -863,6 +971,8 @@
 
     let g:ycm_collect_identifiers_from_comments_and_strings = 1
     let g:ycm_complete_in_comments = 1
+    let g:ycm_cache_omnifunc=0
+    let g:ycm_autoclose_preview_window_after_completion = 1
 
     " Ulti-Snip {{{2
     " UltiSnips - The ultimate snippet solution for Vim. Send pull requests to SirVer/ultisnips!
@@ -880,12 +990,14 @@
     let g:formatdef_my_custom_php = '"html-beautify -f - -s ".shiftwidth()'
     let g:formatters_php = ['my_custom_php']
     let g:formatters_xml = ['my_custom_php']
+    let g:formatters_xhtml = ['my_custom_php']
     let g:formatters_xsd = ['my_custom_php']
 
     " Eclim {{{2
     " http://eclim.org/
-    let g:EclimCompletionMethod = 'omnifunc'
+    " let g:EclimCompletionMethod = 'omnifunc'
     let g:EclimJavascriptValidate = 0
+    let g:airline#extensions#eclim#enabled = 1
 
     " VisIncr {{{2
     " https://github.com/vim-scripts/VisIncr
@@ -944,6 +1056,14 @@
     \        'empty_element_suffix': ' />',
     \    },
     \}
+
+    " Vim Pager {{{2
+    " Use Vim as PAGER http://www.vim.org/scripts/script.php…
+    " https://github.com/rkitover/vimpager
+    let g:vimpager = {}
+    let g:less     = {}
+    let g:vimpager.passthrough = 0
+    let g:less.enabled = 0
 
     " === Fin  Plugin non installés par Guillaume {{{2
     " }}}
@@ -1210,7 +1330,7 @@
         let g:airline#extensions#tabline#enabled = 1
         let g:airline_powerline_fonts = 1
     endif
-
+    let g:airline#extensions#tabline#fnametruncate = 0
     " DBEXT {{{2
     " vim-scripts/dbext.vim
     " Provides database access to many dbms (Oracle, Sybase, Microsoft, MySQL,
@@ -1287,7 +1407,7 @@
   " Indispensable pour ne pas tout casser avec ce qui va suivre
   set preserveindent
   " Largeur de l'autoindentation
-  set shiftwidth=2
+  set shiftwidth=4
   " Arrondit la valeur de l'indentation
   set shiftround
   " Largeur du caractère tab
@@ -1395,29 +1515,29 @@
   "    exec "set undodir=" . g:dotvim_backups
   "endif
   "
-  " LINE WRAPPING {{{2
-  " Laisse les lignes déborder de l'écran si besoin
-  "set nowrap
-  " Ne laisse pas les ligne deborder de l'écran
-  " set si "Smart indent
-  if (&ft!='text' && &ft!='')
-     set wrap "Wrap lines
-     set linebreak
-     set nolist
-     " set formatoptions=a2wtqcj
-     " Size of the linewrapping
-     set textwidth=80
-
-
-     " https://github.com/fabi1cazenave/dotFiles/blob/master/vim/vimrc
-     " 80-character lines (= Mozilla guidelines)
-     set textwidth=80      	" line length above which to break a line
-     set colorcolumn=+0    	" highlight the textwidth limit
-     " set nowrap
-     " set nowrapscan
-     " set linebreak
-     " set formatoptions=wtcqj
-  endif
+  " " LINE WRAPPING {{{2
+  " " Laisse les lignes déborder de l'écran si besoin
+  " "set nowrap
+  " " Ne laisse pas les ligne deborder de l'écran
+  " " set si "Smart indent
+  " if (&ft!='text' && &ft!='')
+  "    set wrap "Wrap lines
+  "    set linebreak
+  "    set nolist
+  "    " set formatoptions=a2wtqcj
+  "    " Size of the linewrapping
+  "    set textwidth=80
+  "
+  "
+  "    " https://github.com/fabi1cazenave/dotFiles/blob/master/vim/vimrc
+  "    " 80-character lines (= Mozilla guidelines)
+  "    set textwidth=80      	" line length above which to break a line
+  "    set colorcolumn=+0    	" highlight the textwidth limit
+  "    " set nowrap
+  "    " set nowrapscan
+  "    " set linebreak
+  "    " set formatoptions=wtcqj
+  " endif
 
   " SPELL CHECKER {{{2
   " @TODO: Remap the mapping of the spell checker
@@ -1458,8 +1578,8 @@
 
   " COLORSHEME {{{2
   " set the background light or dark
-  set background=dark
   " set background=light
+  set background=dark
   let g:solarized_termtrans = 1
   colorscheme solarized
   " Change le colorsheme en mode diff
@@ -1735,8 +1855,35 @@
   "\ "eval_visual"       : "<Leader>e",
   "\ }
   "
-  " Vim Easy Motion {{{2
-  let g:EasyMotion_leader_key = '\'
+  " EasyMotion {{{2
+  " Vim motions on speed!
+  " https://github.com/Lokaltog/vim-easymotion
+   map <Leader> <Plug>(easymotion-prefix)
+   nmap ,s <Plug>(easymotion-F)
+   nmap ,g <Plug>(easymotion-overwin-f2)
+   let g:EasyMotion_keys = 'asdfghjklqwertyuiopzxcvbnm'
+   let g:Easymotion_do_mapping=0
+
+  " Incsearch {{{2
+  " Improved incremental searching for Vim
+  " https://github.com/haya14busa/incsearch.vim
+  map /  <Plug>(incsearch-forward)
+  map ?  <Plug>(incsearch-backward)
+  map g/ <Plug>(incsearch-stay)
+  set hlsearch
+  let g:incsearch#auto_nohlsearch = 0
+  map n  <Plug>(incsearch-nohl-n)
+  map N  <Plug>(incsearch-nohl-N)
+  map *  <Plug>(incsearch-nohl-*)
+  map #  <Plug>(incsearch-nohl-#)
+  map g* <Plug>(incsearch-nohl-g*)
+  map g# <Plug>(incsearch-nohl-g#)
+
+  " " Incsearch easymotion {{{2
+  " " https://github.com/haya14busa/incsearch-easymotion.vim
+  "   map z/ <Plug>(incsearch-easymotion-/)
+  "   map z? <Plug>(incsearch-easymotion-?)
+  "   map zg/ <Plug>(incsearch-easymotion-stay)
 
   "" Disable Arrow in insert mode {{{2
   "ino <down>  <Nop>
@@ -1868,8 +2015,14 @@
     autocmd filetype p* nnoremap <buffer> <Leader>à i#!/usr/sbin/python3.4<CR># -*-coding:Utf-8 -*<CR><CR><ESC>
   augroup end
 
-  nnoremap <leader>t :tabnew
-  nnoremap <leader>v :vs
+  nnoremap <leader>t :tabnew<SPACE><CR>:
+  nnoremap <leader>v :vs<SPACE>
+  nnoremap <leader>e :e<SPACE>
+  nnoremap <leader>b :b<SPACE>
+  nnoremap \t q:itabnew<SPACE>
+  nnoremap \v q:ivs<SPACE>
+  nnoremap \e q:ie<SPACE>
+  nnoremap \\e :enew<CR>:bw#<CR>q:ie<SPACE>./
 
 "http://asktherelic.com/2011/04/02/on-easily-replacing-text-in-vim/
 " vmap <Leader>r "sy:%s/<C-R>=substitute(@s,"\n",'\\n','g')<CR>/
@@ -1879,12 +2032,35 @@ match NbSp /\%xa0/
 if has('nvim')
   nnoremap <leader><leader>t :tabnew<CR>:terminal<CR>
   nnoremap <leader><leader>v :vs!<CR>:terminal<CR>
-  " tnoremap <Esc> <C-\><C-n>
+  tnoremap <F5> <C-\><C-n>
   tnoremap <A-h> <C-\><C-n><C-w>h
   tnoremap <A-j> <C-\><C-n><C-w>j
   tnoremap <A-k> <C-\><C-n><C-w>k
   tnoremap <A-l> <C-\><C-n><C-w>l
   autocmd BufWinEnter,WinEnter term://* startinsert
+  autocmd BufWinEnter,WinEnter term://* setlocal nornu nonu statusline=%{b:term_title}
+  autocmd BufLeave term://* stopinsert
+  tnoremap <Leader>q <C-\><C-n>:bw!<CR>
+  tnoremap <Leader>gt <C-\><C-n>gt<CR>
+  tnoremap <Leader>gT <C-\><C-n>gT<CR>
+  tnoremap <Leader>1gt <C-\><C-n>1gt<CR>
+  tnoremap <Leader>2gt <C-\><C-n>2gt<CR>
+  tnoremap <Leader>3gt <C-\><C-n>3gt<CR>
+  tnoremap <Leader>4gt <C-\><C-n>4gt<CR>
+  tnoremap <Leader>5gt <C-\><C-n>5gt<CR>
+  tnoremap <Leader>6gt <C-\><C-n>6gt<CR>
+  tnoremap <Leader>7gt <C-\><C-n>7gt<CR>
+  tnoremap <Leader>8gt <C-\><C-n>8gt<CR>
+  tnoremap <Leader>9gt <C-\><C-n>9gt<CR>
+  tnoremap <leader>t <C-\><C-n>:tabnew<SPACE>
+  tnoremap <leader>v <C-\><C-n>:vs<SPACE><CR><C-\><C-n>:enew<CR>:
+  tnoremap <leader>e <C-\><C-n>:enew!<CR>:bw!#<CR>:e<SPACE>
+  tnoremap <leader><leader>t <C-\><C-n>:tabnew<CR>:terminal<CR>
+  tnoremap <leader><leader>v <C-\><C-n>:vs<CR><C-\><C-n>:terminal<CR>
+  tnoremap \t <C-\><C-n>q:itabnew<SPACE>
+  tnoremap \v <C-\><C-n>q:ivs<SPACE>
+  tnoremap \e <C-\><C-n>:enew!<CR>:bw!#<CR>q:ie<SPACE>
+  set inccommand=split
 endif
 nnoremap <A-h> <C-w>h
 nnoremap <A-j> <C-w>j
@@ -1944,8 +2120,10 @@ noremap <NUL> <C-u>zz
 " nnoremap <C-Space> <C-u>zz
 " nnoremap <C-@> <C-Space>
 
-autocmd BufNewFile,BufReadPost *.md set filetype=markdown
-let g:markdown_fenced_languages = ['html', 'python', 'bash=sh']
+" Vim buffergator
+" Vim plugin to list, select and switch between buffers.
+" https://github.com/jeetsukumaran/vim-buffergator
+" noremap <Leader>b :BuffergatorToggle<Cr>
 
 " php.vim
 " old::
@@ -1967,8 +2145,6 @@ augroup END
 " http://stackoverflow.com/questions/6453595/prevent-vim-from-clearing-the-clipboard-on-exit
 autocmd VimLeave * call system("xsel -ib", getreg('+'))
 
-autocmd CompleteDone * pclose
-
 " Define word as word separator
 " For it works in html, comment « "set isk+=. » in .vim/plugged/vim-colorsesque/after/syntax/css/vim-coloresque.vim:125.
 " Or rather add
@@ -1976,9 +2152,8 @@ autocmd CompleteDone * pclose
 "     :set isk+=.
 " endif
 " Doesn't work if we add « set isk-=. » at te end of .vim/plugged/vim-colorsesque/after/syntax/html.vim. Likewise if we add  it ~/.vim/syntax, not resolves it.
+" Change ~/.vim/plugged/vim-coloresque/after/syntax/css/vim-coloresque.vim
 autocmd FileType html,javascript,jsp set iskeyword-=.
-
-set iskeyword+=:
 
 " http://vim.wikia.com/wiki/Remove_unwanted_spaces
 " However, this is a very dangerous autocmd to have as it will always strip trailing whitespace from every file a user saves. Sometimes, trailing whitespace is desired, or even essential in a file so be careful when implementing this autocmd.
@@ -1987,6 +2162,27 @@ autocmd BufWritePre * %s/\s\+$//e
 
 au BufRead,BufNewFile *.jsp set filetype=jsp.html
 
+" http://vi.stackexchange.com/questions/5511/showing-a-different-background-color-or-layout-beyond-80-column-using-spf13
+set textwidth=80
+set colorcolumn=+1
+" fo-=t otherwise break line automatically
+autocmd BufNewFile,BufReadPost *.md set filetype=markdown fo-=t
+let g:markdown_fenced_languages = ['html', 'python', 'bash=sh']
+set fo-=t
+
+highlight ColorColumn term=reverse ctermbg=1
+" augroup colorcolumn
+"     autocmd!
+"     autocmd ColorScheme solarized highlight ColorColumn term=reverse ctermbg=1 guibg=LightGrey
+" augroup end
+
+" https://robots.thoughtbot.com/vim-splits-move-faster-and-more-naturally
+set splitbelow
+set splitright
+
+cnoremap sv vert belowright sb<Space>
+
+autocmd BufWinEnter,WinEnter set fo-=t
 "GVIM {{{2
 "————
 "http://vim.wikia.com/wiki/Restore_missing_gvim_menu_bar_under_GNOME See also help 'guioptions'
@@ -2002,7 +2198,7 @@ set guioptions-=T  "remove toolbar
 au GUIEnter * call system('wmctrl -i -b add,fullscreen -r '.v:windowid)
 
 " highlight Normal guifg=White guibg=Black
-highlight Normal guibg=Black
+" highlight Normal guibg=Black
 
 " Microsoft Windows {{{2
 if has("Win32")
@@ -2048,4 +2244,3 @@ def autoread_loop():
 thread.start_new_thread(autoread_loop, ())
 EOF
 endfun
-

@@ -42,9 +42,9 @@ set nodigraph
 
 " spare one VimGolf point (and a Shift press) on :q, :w, :e, :x
 noremap <Leader>q :q<CR>
-"noremap <Leader>w :w<CR>
-noremap <Leader>e :e<CR>
-noremap <Leader>x :x<CR>
+noremap <Leader>w :w<CR>
+" noremap <Leader>e :e<CR>
+" noremap <Leader>x :x<CR>
 
 " lazy code folding / unfolding
 "noremap <Tab>   za
@@ -204,16 +204,16 @@ cnoremap kj <Esc>
 "endif
 
 " scroll current window
-noremap <C-j> <C-y>
-noremap <C-k> <C-e>
+" noremap <C-j> <C-y>
+" noremap <C-k> <C-e>
 
 " open a vertical split and switch over (v)
-nnoremap <leader>v <C-w>v<C-w>l
-nnoremap         ŭ <C-w>v<C-w>l
+" nnoremap <leader>v <C-w>v<C-w>l
+" nnoremap         ŭ <C-w>v<C-w>l
 
 " open a horizontal split (s)
-nnoremap <leader>v <C-w>s
-nnoremap         ß <C-w>s
+" nnoremap <leader>v <C-w>s
+" nnoremap         ß <C-w>s
 
 " code completion
 "inoremap <M-j> <C-n>

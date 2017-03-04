@@ -16,3 +16,5 @@ set hintchars=hjklasdfgyuiopqwertnmzxcvb
 "http://5digits.org/help/pentadactyl/faq.xhtml#faq-website-keys
 "How can I display my hints in upper case but type them in lower case? --> how can I display my hints in lower case and type them in lower case (bidouillage from Julio). POur afficher les hints en upper case, commenter la ligne ci-dessous.
 highlight -a Hint text-transform: lowercase;
+
+" vim: ft=vim

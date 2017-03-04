@@ -10,3 +10,5 @@ colorscheme solarized_nvimqt
 if &diff
     colorscheme solarized_nvimqt
 endif
+
+highlight Normal guibg=black

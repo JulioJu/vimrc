@@ -1,3 +1,3 @@
 nnoremap s :action AceJumpAction<cr>
 set vim-surround
-set rnu
+source ~/.vimrc

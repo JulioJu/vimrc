@@ -107,12 +107,12 @@ export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/g
 
 # Vi mode {{{1
 # ************************************
-# Voir notamment http://zsh.sourceforge.net/Doc/Release/Zsh-Line-Editor.html 
+# Voir notamment http://zsh.sourceforge.net/Doc/Release/Zsh-Line-Editor.html
 
 bindkey -v # Use vi key bindings.
 bindkey -M vicmd v edit-command-line # ESC-v to edit in an external editor.
 
-# 
+#
 stty erase '^h'
 bindkey '\e[3~' delete-char
 
@@ -145,20 +145,20 @@ bindkey '^H' backward-delete-char
 bindkey '^G' what-cursor-position
 
 
-##Bidouillage by Julio, optimisé pour bépo. 
+##Bidouillage by Julio, optimisé pour bépo.
 ##Voir aussi https://github.com/vjousse/dotfiles/blob/master/zsh/vim.zsh (merci Benji)
 ##http://zsh.sourceforge.net/Doc/Release/Zsh-Line-Editor.html
 #bindkey -a c backward-char
 #bindkey -a r forward-char
-#bindkey -a b backward-word 
-#bindkey -a é forward-word 
+#bindkey -a b backward-word
+#bindkey -a é forward-word
 #bindkey -M vicmd "H" vi-replace
 #bindkey -M vicmd "h" vi-replace-chars
 #bindkey -M vicmd "l" vi-change
 #bindkey -M vicmd "L" vi-change-eol
 #bindkey -M vicmd "k" vi-substitute
 #bindkey -M vicmd "K" vi-change-whole-line
-## bindkey -M vicmd 't' history-substring-search-up # sous l'index, on remonte plus l'historique qu'on ne le descend :-). 
+## bindkey -M vicmd 't' history-substring-search-up # sous l'index, on remonte plus l'historique qu'on ne le descend :-).
 
 #Search for qwerty
 ##https://github.com/zsh-users/zsh-history-substring-search
@@ -170,7 +170,7 @@ bindkey -a j vi-down-line-or-history
 bindkey -a k vi-up-line-or-history
 
 
-# Defined shortcut keys: F5 (voir plugin sudo.zsh dans oh-my-zsh).  
+# Defined shortcut keys: F5 (voir plugin sudo.zsh dans oh-my-zsh).
 bindkey '^[[15~' sudo-command-line # touche F5
 
 
@@ -181,6 +181,12 @@ bindkey '^[[15~' sudo-command-line # touche F5
 # http://unix.stackexchange.com/questions/84867/zsh-completion-enabling-shift-tab
 zmodload zsh/complist
 bindkey -M menuselect '^[[Z' reverse-menu-complete
+
+
+# zce easymotion {{{1
+# https://github.com/hchbaw/zce.zsh
+source ~/.oh-my-zsh/custom/plugins/zce.zsh/zce.zsh
+bindkey "^B" zce
 
 # File manager key binds {{{1
 # https://wiki.archlinux.org/index.php/Zsh#Key_Binding
@@ -222,17 +228,33 @@ cmatrix -bs
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-# Vim-superman {{{1
-# https://github.com/jez/vim-superman
+## Vim-superman {{{1
+## https://github.com/jez/vim-superman
+#
+#vman() {
+#  nvim -c "SuperMan $*"
+#
+#  if [ "$?" != "0" ]; then
+#    echo "No manual entry for $*"
+#  fi
+#}
+#
+#compdef vman="man"
 
-vman() {
-  nvim -c "SuperMan $*"
+# Neoman {{{1
+export MANPAGER="nvim -c 'set ft=neoman' -"
+source ~/.vim/plugged/neoman.vim/scripts/nman.zsh
 
-  if [ "$?" != "0" ]; then
-    echo "No manual entry for $*"
-  fi
+# xstat {{{1
+# http://moiseevigor.github.io/software/2015/01/30/get-file-creation-time-on-linux-with-ext4/
+xstat() {
+  for target in "${@}"; do
+    inode=$(ls -di "${target}" | cut -d ' ' -f 1)
+    fs=$(df "${target}"  | tail -1 | awk '{print $1}')
+    crtime=$(sudo debugfs -R 'stat <'"${inode}"'>' "${fs}" 2>/dev/null |
+    grep -oP 'crtime.*--\s*\K.*')
+    printf "%s\t%s\n" "${crtime}" "${target}"
+  done
 }
-
-compdef vman="man"
 
 # vim: ft=zsh
