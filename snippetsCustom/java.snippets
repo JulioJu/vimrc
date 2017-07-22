@@ -73,3 +73,21 @@ endsnippet
 snippet forward
 this.getServletContext().getRequestDispatcher("/${1:FILE}.jsp").forward(request, response);
 endsnippet
+
+snippet log
+Logger log = LogManager.getRootLogger();
+log.${1}("${2}");
+endsnippet
+
+snippet logg
+log.${1}("${2}");
+endsnippet
+
+snippet logt
+Logger log = LogManager.getRootLogger();
+log.trace(${0});
+endsnippet
+
+snippet logtt
+log.trace(${0});
+endsnippet

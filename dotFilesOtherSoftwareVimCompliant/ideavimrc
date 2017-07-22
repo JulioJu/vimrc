@@ -1,3 +1,14 @@
 nnoremap s :action AceJumpAction<cr>
 set vim-surround
-source ~/.vimrc
+" source ~/.vimrc
+" Back forward Incsearch plugin
+map / /
+map ? ?
+map g/ g/
+map n n
+map N N
+map * *
+map # #
+map g* g
+map g# g
+set relativenumber

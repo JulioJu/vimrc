@@ -100,10 +100,7 @@ export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/g
 ## Gnome terminal {{{1
 # *****************
 # gnome-terminal: keep track of directory in new tab http://unix.stackexchange.com/questions/93476/gnome-terminal-keep-track-of-directory-in-new-tab
-# /etc/profile.d/vte.sh
-
-
-
+. /etc/profile.d/vte.sh
 
 # Vi mode {{{1
 # ************************************
@@ -225,8 +222,14 @@ export LESSOPEN='|~/.lessfilter %s'
 cmatrix -bs
 # b (autoriser caractères gras, s mode screensaver (appuie touche, on débloque,, C c'est la couleur.
 
+# FZF
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# https://medium.com/@crashybang/supercharge-vim-with-fzf-and-ripgrep-d4661fc853d2
+# export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*"'
+# Add folders for JHipster project
+export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*" --glob "!*/target/*" --glob "!*/test/*" --glob "!*/config/*"'
 
 ## Vim-superman {{{1
 ## https://github.com/jez/vim-superman
@@ -256,5 +259,16 @@ xstat() {
     printf "%s\t%s\n" "${crtime}" "${target}"
   done
 }
+
+# JHipster {{{1
+# tabtab source for jhipster package
+# uninstall by removing these lines or running `tabtab uninstall jhipster`
+# [[ -f /home/julioprayer/.config/yarn/global/node_modules/tabtab/.completions/jhipster.zsh ]] && . /home/julioprayer/.config/yarn/global/node_modules/tabtab/.completions/jhipster.zsh
+
+# Alias {{{1
+alias nvrd="nvr --remote-send ':bw!#<CR>'"
+alias nvrt="nvr --remote-tab"
+alias nvrv="nvr --remote-send ':vert belowright sb#<CR>'"
+alias rgg="rg --follow --hidden --files -g"
 
 # vim: ft=zsh

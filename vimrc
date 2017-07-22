@@ -60,10 +60,10 @@
         Plug ('Raimondi/delimitMate')
     " endif
 
-    " SuperTab {{{2
-    " https://github.com/ervandew/supertab
-    " Perform all your vim insert mode completions with Tab
-    Plug 'ervandew/supertab'
+    " " SuperTab {{{2
+    " " https://github.com/ervandew/supertab
+    " " Perform all your vim insert mode completions with Tab
+    " Plug 'ervandew/supertab'
 
 
     " IndentLine {{{2
@@ -88,28 +88,41 @@
     Plug 'triglav/vim-visual-increment'
     "" On peut aussi utiliser « '<,'>!seq -s ", " » 1 5 pour générer sur une seule ligne avec des « , ». À vois aussi avec awk.
 
-    " VisIncr {{{2
-    " https://github.com/vim-scripts/VisIncr
-    " Produce increasing/decreasing columns of numbers, dates, or daynames
-    Plug 'vim-scripts/VisIncr'
+    "" VisIncr {{{2
+    "" https://github.com/vim-scripts/VisIncr
+    "" Produce increasing/decreasing columns of numbers, dates, or daynames
+    "Plug 'vim-scripts/VisIncr'
 
     " Ulti-Snip {{{2
     " UltiSnips - The ultimate snippet solution for Vim. Send pull requests to SirVer/ultisnips!
     " https://github.com/SirVer/ultisnips
     Plug 'SirVer/ultisnips'
 
-"    " Deoplete {{{2
-"    " https://github.com/Shougo/deoplete.nvim
-"    " Dark powered asynchronous completion framework for neovim
-"    if has('nvim')
-"        Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-"        let g:deoplete#enable_at_startup = 1
-"    endif
-"
+    " Vim-snippets {{{2
+    " vim-snipmate default snippets (Previously snipmate-snippets)
+    " https://github.com/honza/vim-snippets
+    Plug 'honza/vim-snippets'
+
+    " Deoplete {{{2
+    " https://github.com/Shougo/deoplete.nvim
+    " Dark powered asynchronous completion framework for neovim
+    if has('nvim')
+       Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+       " See https://github.com/Shougo/deoplete.nvim/issues/133
+        Plug 'Shougo/context_filetype.vim'
+    endif
+
+    " nvim - typescript {{{2
+    " Typescript tooling for Neovim
+    " https://github.com/mhartington/nvim-typescript
+    if has('nvim')
+       " Plug 'mhartington/nvim-typescript',  {'for' : ['typescript']}
+       " It has Deoplete as dependency
+    endif
+
     "  Indent object {{{2
     " https://github.com/michaeljsmith/vim-indent-object
     " Vim plugin that defines a new text object representing lines of code at the same indent level. Useful for python/vim scripts, etc. (better method for Python, it's for txt) !
-
     Plug 'michaeljsmith/vim-indent-object'
 
     " " Restore_view {{{2
@@ -190,27 +203,53 @@
     " \     'filetypes':['php', 'html']
     " \ }}
 
-    " YouCompleteMe {{{2
-    " A code-completion engine for Vim
-    " https://github.com/Valloric/YouCompleteMe
-    Plug 'Valloric/YouCompleteMe', { 'do': './install.py --tern-completer' }
-    function! BuildYCM(info)
-    " info is a dictionary with 3 fields
-    " - name:   name of the plugin
-    " - status: 'installed', 'updated', or 'unchanged'
-    " - force:  set on PlugInstall! or PlugUpdate!
-    if a:info.status == 'installed' || a:info.force
-        !./install.py --tern-completer
-    endif
-    endfunction
+    " " YouCompleteMe {{{2
+    " " A code-completion engine for Vim
+    " " https://github.com/Valloric/YouCompleteMe
+    " Plug 'Valloric/YouCompleteMe', { 'do': './install.py --tern-completer' }
+    " function! BuildYCM(info)
+    " " info is a dictionary with 3 fields
+    " " - name:   name of the plugin
+    " " - status: 'installed', 'updated', or 'unchanged'
+    " " - force:  set on PlugInstall! or PlugUpdate!
+    " if a:info.status == 'installed' || a:info.force
+    "     !./install.py --tern-completer
+    " endif
+    " endfunction
+    "
+    " " Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM') }
+    " " " See also http://elblogdedually.blogspot.fr/2015/03/arch-linux-neovim-with-vim.html
 
-    Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM') }
-    " See also http://elblogdedually.blogspot.fr/2015/03/arch-linux-neovim-with-vim.html
+    " Deoplete {{{2
+    " https://github.com/Shougo/deoplete.nvim
+    " Dark powered asynchronous completion framework for neovim
 
-    " Vim-snippets {{{2
-    " vim-snipmate default snippets (Previously snipmate-snippets)
-    " https://github.com/honza/vim-snippets
-    Plug 'honza/vim-snippets'
+    " Eclim support
+    " See https://www.reddit.com/r/vim/comments/5xspok/trouble_with_eclim_and_deoplete/
+    let g:deoplete#omni#input_patterns = {}
+    let g:deoplete#omni#input_patterns.java = '[^. *\t]\.\w*'
+
+    " Autoclose preview windows
+    " https://github.com/Shougo/deoplete.nvim/issues/115
+    autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
+
+    " https://github.com/Shougo/deoplete.nvim/issues/100
+    " use tab to forward cycle
+    inoremap <silent><expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+    " use tab to backward cycle
+    inoremap <silent><expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
+
+    " Lazy load Deoplete to reduce statuptime
+    " See manpage
+    " Enable deoplete when InsertEnter.
+    let g:deoplete#enable_at_startup = 0
+    autocmd InsertEnter * call deoplete#enable()
+
+    " Context filetype
+    " https://github.com/Shougo/deoplete.nvim/issues/133
+    let g:context_filetype#same_filetypes = 1
+
+
 
     " " Plugin disable in txt (AutoPairs) {{{2
     " if !has('nvim')
@@ -305,7 +344,7 @@
     " " Vim JavaScript {{{2
     " " Vastly improved Javascript indentation and syntax support in Vim.
     " https://github.com/pangloss/vim-javascript
-    Plug 'vim-javascript', { 'for': ['javascript']}
+    Plug 'pangloss/vim-javascript', { 'for': ['javascript']}
 
     " YAJS {{{2
     " See below
@@ -328,10 +367,10 @@
     " https://github.com/burnettk/vim-angular
     Plug 'burnettk/vim-angular', { 'for': ['javascript']}
 
-    " Bootstrap 3 snippets {{{2
-    " Twitter Bootstrap 3 Snippets for Vim
-    " https://github.com/chrisgillis/vim-bootstrap3-snippets
-    Plug 'chrisgillis/vim-bootstrap3-snippets', { 'for': ['javascript', 'html']}
+    " " Bootstrap 3 snippets {{{2
+    " " Twitter Bootstrap 3 Snippets for Vim
+    " " https://github.com/chrisgillis/vim-bootstrap3-snippets
+    " Plug 'chrisgillis/vim-bootstrap3-snippets', { 'for': ['javascript', 'html']}
 
     " Bootstrap 4 snippets {{{2
     " Bootstrap 4 markup snippets for Vim
@@ -453,9 +492,9 @@
     " https://github.com/sheerun/vim-polyglot
     " A solid language pack for Vim.
 
-    " spaceneovim (distro) {{{2
-    " https://github.com/Tehnix/spaceneovim
-    " Spacemacs for Neovim
+    "" spaceneovim (distro) {{{2
+    "" https://github.com/Tehnix/spaceneovim
+    "" Spacemacs for Neovim
 
     " " Vim Peekaboo {{{2
     " " 👀 " / @ / CTRL-R
@@ -733,15 +772,15 @@
     "
     " Lazy specific plugins and others bundles {{{1
 
-    " a.vim {{{2
-    " A few of quick commands to swtich between source files and header files
-    " quickly.
-    Plug 'a.vim', { 'for': ['c', 'h'] }
+    "" a.vim {{{2
+    "" A few of quick commands to swtich between source files and header files
+    "" quickly.
+    " Plug 'vim-scripts/a.vim', { 'for': ['c', 'h'] }
 
-    " Vim-OrgMode {{{2
-    " Text outlining and task management for Vim based on Emacs' Org-Mode
-    " https://github.com/jceb/vim-orgmode
-    Plug 'jceb/vim-orgmode', { 'for': 'org' } | Plug 'vim-scripts/utl.vim'
+    "" Vim-OrgMode {{{2
+    "" Text outlining and task management for Vim based on Emacs' Org-Mode
+    "" https://github.com/jceb/vim-orgmode
+    "Plug 'jceb/vim-orgmode', { 'for': 'org' } | Plug 'vim-scripts/utl.vim'
 
     " Rails {{{2
     " rails.vim: Ruby on Rails power tools
@@ -897,7 +936,7 @@
     " " SuperTab {{{2
     " " https://github.com/ervandew/supertab
     " " Perform all your vim insert mode completions with Tab
-    " " https://bbs.archlinux.org/viewtopic.php?id=81791 (there is a buc with deoplete, the last word use is in the end of the popup menu. It's not systematic. @FIXME. Try YCM.
+    " Useful for YCM
     " let g:SuperTabDefaultCompletionType = "context"
     " let g:SuperTabContextDefaultCompletionType = "<c-n>"
 
@@ -951,6 +990,11 @@
     " https://github.com/tomtom/tcomment_vim
     " Si on remet le remapage ici, ça plante. Du coup je l'ai mis plus bas @FIXME.
 
+    " Vim ranger {{{2
+    " Plug 'francoiscabrol/ranger.vim'
+    " https://github.com/francoiscabrol/ranger.vim
+    let g:ranger_map_keys = 0
+
     " YCM {{{2
     " A code-completion engine for Vim
     " https://github.com/Valloric/YouCompleteMe
@@ -977,9 +1021,9 @@
     " Ulti-Snip {{{2
     " UltiSnips - The ultimate snippet solution for Vim. Send pull requests to SirVer/ultisnips!
     " https://github.com/SirVer/ultisnips
-    let g:UltiSnipsExpandTrigger="<C-k>"
-    let g:UltiSnipsJumpForwardTrigger="<c-j>"
-    let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+    let g:UltiSnipsExpandTrigger="<leader>k"
+    let g:UltiSnipsJumpForwardTrigger="<leader>j"
+    let g:UltiSnipsJumpBackwardTrigger="<leader>z"
     let g:UltiSnipsSnippetDirectories=["UltiSnips", "snippetsCustom"]
 
     " Vim Autoformat {{{2
@@ -995,7 +1039,7 @@
 
     " Eclim {{{2
     " http://eclim.org/
-    " let g:EclimCompletionMethod = 'omnifunc'
+    let g:EclimCompletionMethod = 'omnifunc'
     let g:EclimJavascriptValidate = 0
     let g:airline#extensions#eclim#enabled = 1
 
@@ -1531,8 +1575,8 @@
   "
   "    " https://github.com/fabi1cazenave/dotFiles/blob/master/vim/vimrc
   "    " 80-character lines (= Mozilla guidelines)
-  "    set textwidth=80      	" line length above which to break a line
-  "    set colorcolumn=+0    	" highlight the textwidth limit
+  "    set textwidth=80         " line length above which to break a line
+  "    set colorcolumn=+0       " highlight the textwidth limit
   "    " set nowrap
   "    " set nowrapscan
   "    " set linebreak
@@ -1860,6 +1904,7 @@
   " https://github.com/Lokaltog/vim-easymotion
    map <Leader> <Plug>(easymotion-prefix)
    nmap ,s <Plug>(easymotion-F)
+   nmap ,f <Plug>(easymotion-f)
    nmap ,g <Plug>(easymotion-overwin-f2)
    let g:EasyMotion_keys = 'asdfghjklqwertyuiopzxcvbnm'
    let g:Easymotion_do_mapping=0
@@ -2054,6 +2099,7 @@ if has('nvim')
   tnoremap <Leader>9gt <C-\><C-n>9gt<CR>
   tnoremap <leader>t <C-\><C-n>:tabnew<SPACE>
   tnoremap <leader>v <C-\><C-n>:vs<SPACE><CR><C-\><C-n>:enew<CR>:
+  tnoremap <leader>b <C-\><C-n>:enew!<CR>:bw!#<CR>:b<SPACE>
   tnoremap <leader>e <C-\><C-n>:enew!<CR>:bw!#<CR>:e<SPACE>
   tnoremap <leader><leader>t <C-\><C-n>:tabnew<CR>:terminal<CR>
   tnoremap <leader><leader>v <C-\><C-n>:vs<CR><C-\><C-n>:terminal<CR>
@@ -2183,6 +2229,9 @@ set splitright
 cnoremap sv vert belowright sb<Space>
 
 autocmd BufWinEnter,WinEnter set fo-=t
+
+" https://medium.com/@crashybang/supercharge-vim-with-fzf-and-ripgrep-d4661fc853d2
+command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>), 1, <bang>0)
 "GVIM {{{2
 "————
 "http://vim.wikia.com/wiki/Restore_missing_gvim_menu_bar_under_GNOME See also help 'guioptions'
@@ -2244,3 +2293,4 @@ def autoread_loop():
 thread.start_new_thread(autoread_loop, ())
 EOF
 endfun
+
