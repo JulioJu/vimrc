@@ -112,13 +112,13 @@
         Plug 'Shougo/context_filetype.vim'
     endif
 
-    " nvim - typescript {{{2
-    " Typescript tooling for Neovim
-    " https://github.com/mhartington/nvim-typescript
-    if has('nvim')
-       " Plug 'mhartington/nvim-typescript',  {'for' : ['typescript']}
-       " It has Deoplete as dependency
-    endif
+    " " nvim - typescript {{{2
+    " " Typescript tooling for Neovim
+    " " https://github.com/mhartington/nvim-typescript
+    " " It works with Deoplete, and not with YCM. It's concurrent of Tsuquyomi
+    " if has('nvim')
+    "    Plug 'mhartington/nvim-typescript', {'for': 'typescript'} " Doesn't work
+    " endif
 
     "  Indent object {{{2
     " https://github.com/michaeljsmith/vim-indent-object
@@ -177,6 +177,11 @@
     " https://github.com/scrooloose/nerdtree
     Plug 'scrooloose/nerdtree'
 
+    " nerdtree-git-plugin {{{2
+    " A plugin of NERDTree showing git status
+    " https://github.com/Xuyuanp/nerdtree-git-plugin
+    Plug 'Xuyuanp/nerdtree-git-plugin'
+
     " Vim buffergator {{2
     " Vim plugin to list, select and switch between buffers.
     " https://github.com/jeetsukumaran/vim-buffergator
@@ -206,7 +211,7 @@
     " " YouCompleteMe {{{2
     " " A code-completion engine for Vim
     " " https://github.com/Valloric/YouCompleteMe
-    " Plug 'Valloric/YouCompleteMe', { 'do': './install.py --tern-completer' }
+    " " Plug 'Valloric/YouCompleteMe', { 'do': './install.py --tern-completer' }
     " function! BuildYCM(info)
     " " info is a dictionary with 3 fields
     " " - name:   name of the plugin
@@ -217,40 +222,8 @@
     " endif
     " endfunction
     "
-    " " Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM') }
-    " " " See also http://elblogdedually.blogspot.fr/2015/03/arch-linux-neovim-with-vim.html
-
-    " Deoplete {{{2
-    " https://github.com/Shougo/deoplete.nvim
-    " Dark powered asynchronous completion framework for neovim
-
-    " Eclim support
-    " See https://www.reddit.com/r/vim/comments/5xspok/trouble_with_eclim_and_deoplete/
-    let g:deoplete#omni#input_patterns = {}
-    let g:deoplete#omni#input_patterns.java = '[^. *\t]\.\w*'
-
-    " Autoclose preview windows
-    " https://github.com/Shougo/deoplete.nvim/issues/115
-    autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
-
-    " https://github.com/Shougo/deoplete.nvim/issues/100
-    " use tab to forward cycle
-    inoremap <silent><expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
-    " use tab to backward cycle
-    inoremap <silent><expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
-
-    " Lazy load Deoplete to reduce statuptime
-    " See manpage
-    " Enable deoplete when InsertEnter.
-    let g:deoplete#enable_at_startup = 0
-    autocmd InsertEnter * call deoplete#enable()
-
-    " Context filetype
-    " https://github.com/Shougo/deoplete.nvim/issues/133
-    let g:context_filetype#same_filetypes = 1
-
-
-
+    " Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM') }
+    " " See also http://elblogdedually.blogspot.fr/2015/03/arch-linux-neovim-with-vim.html
     " " Plugin disable in txt (AutoPairs) {{{2
     " if !has('nvim')
     " "    autocmd FileType * call PluginDisableInTxt()
@@ -352,7 +325,7 @@
     " Vim Js Indent {{{2
     " JavaScript indentation for VIM
     " https://github.com/gavocanov/vim-js-indent
-    Plug 'gavocanov/vim-js-indent', { 'for': ['javascript', 'php', 'html']}
+    Plug 'gavocanov/vim-js-indent', { 'for': ['javascript', 'php', 'html', 'typescript']}
 
     " Javascript librairies {{{2
     " Syntax for JavaScript libraries
@@ -362,10 +335,10 @@
         Plug 'othree/javascript-libraries-syntax.vim'
     endif
 
-    " Vim angular {{{2
-    " AngularJS with Vim
-    " https://github.com/burnettk/vim-angular
-    Plug 'burnettk/vim-angular', { 'for': ['javascript']}
+    " " Vim angular {{{2
+    " " AngularJS with Vim
+    " " https://github.com/burnettk/vim-angular
+    " Plug 'burnettk/vim-angular', { 'for': ['javascript']}
 
     " " Bootstrap 3 snippets {{{2
     " " Twitter Bootstrap 3 Snippets for Vim
@@ -397,11 +370,18 @@
     " Vim Typscript support  {{{2
     " Typescript syntax files for Vim
     " https://github.com/Microsoft/TypeScript/wiki/TypeScript-Editor-Support#vim
-    Plug 'leafgarland/typescript-vim'
-    Plug 'HerringtonDarkholme/yats.vim'
-    Plug 'Quramy/tsuquyomi'
-    Plug 'clausreinke/typescript-tools.vim'
+    " Notes: With YouCompleteMe, as in an IDE, Tsuquyomi is lauching every time
+    " one word is writing, and not only on « :wq » as with Syntastic. Doesn't
+    " work with Deoplete.
+    Plug 'leafgarland/typescript-vim', { 'for': ['typescript']}
+    Plug 'HerringtonDarkholme/yats.vim', { 'for': ['typescript']}
+    Plug 'Quramy/tsuquyomi', { 'for': ['typescript']}
+    Plug 'clausreinke/typescript-tools.vim', { 'for': ['typescript']}
 
+    " vim-js-pretty-template {{{2
+    " highlights JavaScript's Template Strings in other FileType syntax rule http://www.vim.org/scripts/script.php…
+    " https://github.com/Quramy/vim-js-pretty-template
+    Plug 'Quramy/vim-js-pretty-template'
 
     " Vim-jsdoc {{{2
     " Generate JSDoc to your JavaScript code.
@@ -500,6 +480,16 @@
     " " 👀 " / @ / CTRL-R
     " " https://github.com/occupytheweb/vim-peekaboo
     " Plug 'junegunn/vim-peekaboo'
+
+    " Vim magit {{{2
+    " https://github.com/jreybert/vimagit
+    " Ease your git workflow within Vim
+    Plug 'jreybert/vimagit'
+
+    " Vim Gutter
+    " https://github.com/airblade/vim-gitgutter
+    " A Vim plugin which shows a git diff in the gutter (sign column) and stages/undoes hunks.
+    Plug 'airblade/vim-gitgutter'
 
     " === Fin plugins non installés par Guillaume {{{2
 
@@ -995,28 +985,57 @@
     " https://github.com/francoiscabrol/ranger.vim
     let g:ranger_map_keys = 0
 
-    " YCM {{{2
-    " A code-completion engine for Vim
-    " https://github.com/Valloric/YouCompleteMe
-    " @TODO for every YCM update, delete in
-    " ~/.vim/plugged/YouCompleteMe/autoload/youcompleteme.vim :
-    " See https://github.com/Valloric/YouCompleteMe/pull/1415
-    " \ getbufvar( a:buffer, '&buftype' ) ==# 'nofile' ||
+    " Deoplete {{{2
+    " https://github.com/Shougo/deoplete.nvim
+    " Dark powered asynchronous completion framework for neovim
 
-    " autocmd CompleteDone * pclose
-    let g:ycm_server_python_interpreter="/usr/bin/python3"
+    " Eclim support
+    " See https://www.reddit.com/r/vim/comments/5xspok/trouble_with_eclim_and_deoplete/
+    let g:deoplete#omni#input_patterns = {}
+    let g:deoplete#omni#input_patterns.java = '[^. *\t]\.\w*'
 
-    " Support for TypeScript
-    " https://github.com/Microsoft/TypeScript/wiki/TypeScript-Editor-Support#vim
-    if !exists("g:ycm_semantic_triggers")
-        let g:ycm_semantic_triggers = {}
-    endif
-    let g:ycm_semantic_triggers['typescript'] = ['.']
+    " Autoclose preview windows
+    " https://github.com/Shougo/deoplete.nvim/issues/115
+    autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 
-    let g:ycm_collect_identifiers_from_comments_and_strings = 1
-    let g:ycm_complete_in_comments = 1
-    let g:ycm_cache_omnifunc=0
-    let g:ycm_autoclose_preview_window_after_completion = 1
+    " https://github.com/Shougo/deoplete.nvim/issues/100
+    " use tab to forward cycle
+    inoremap <silent><expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+    " use tab to backward cycle
+    inoremap <silent><expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
+
+    " Lazy load Deoplete to reduce statuptime
+    " See manpage
+    " Enable deoplete when InsertEnter.
+    let g:deoplete#enable_at_startup = 0
+    autocmd InsertEnter * call deoplete#enable()
+
+    " Context filetype
+    " https://github.com/Shougo/deoplete.nvim/issues/133
+    let g:context_filetype#same_filetypes = 1
+
+    " " YCM {{{2
+    " " A code-completion engine for Vim
+    " " https://github.com/Valloric/YouCompleteMe
+    " " @TODO for every YCM update, delete in
+    " " ~/.vim/plugged/YouCompleteMe/autoload/youcompleteme.vim :
+    " " See https://github.com/Valloric/YouCompleteMe/pull/1415
+    " " \ getbufvar( a:buffer, '&buftype' ) ==# 'nofile' ||
+    "
+    " " autocmd CompleteDone * pclose
+    " let g:ycm_server_python_interpreter="/usr/bin/python3"
+    "
+    " " Support for TypeScript
+    " " https://github.com/Microsoft/TypeScript/wiki/TypeScript-Editor-Support#vim
+    " if !exists("g:ycm_semantic_triggers")
+    "     let g:ycm_semantic_triggers = {}
+    " endif
+    " let g:ycm_semantic_triggers['typescript'] = ['.']
+    "
+    " let g:ycm_collect_identifiers_from_comments_and_strings = 1
+    " let g:ycm_complete_in_comments = 1
+    " let g:ycm_cache_omnifunc=0
+    " let g:ycm_autoclose_preview_window_after_completion = 1
 
     " Ulti-Snip {{{2
     " UltiSnips - The ultimate snippet solution for Vim. Send pull requests to SirVer/ultisnips!
@@ -1056,6 +1075,13 @@
     let g:pdv_template_dir = $HOME ."/.vim/plugged/pdv/templates_snip"
     nnoremap <buffer> <C-p> :call pdv#DocumentWithSnip()<CR>
 
+    " vim-js-pretty-template {{{2
+    " highlights JavaScript's Template Strings in other FileType syntax rule http://www.vim.org/scripts/script.php…
+    " https://github.com/Quramy/vim-js-pretty-template
+    autocmd FileType javascript JsPreTmpl html
+    autocmd FileType typescript JsPreTmpl html
+    autocmd FileType typescript syn clear foldBraces " For leafgarland/typescript-vim users only. Please see #1 for details.
+
     " Vim-jsdoc {{{2
     " Generate JSDoc to your JavaScript code.
     " https://github.com/heavenshell/vim-jsdoc
@@ -1066,7 +1092,7 @@
     " Javascript librairies {{{2
     " Syntax for JavaScript libraries
     " https://github.com/othree/javascript-libraries-syntax.vim
-    let g:used_javascript_libs = 'angularjs'
+    " let g:used_javascript_libs = 'angularjs'
     " let g:used_javascript_libs = 'jquery'
 
     " Tern for vim {{{2
@@ -1108,6 +1134,12 @@
     let g:less     = {}
     let g:vimpager.passthrough = 0
     let g:less.enabled = 0
+
+    " Vim magit {{{2
+    " https://github.com/jreybert/vimagit
+    " Ease your git workflow within Vim
+    let g:magit_default_show_all_files = 0
+    let g:magit_default_fold_level = 2
 
     " === Fin  Plugin non installés par Guillaume {{{2
     " }}}
@@ -1322,11 +1354,12 @@
     let g:syntastic_check_on_wq                                           = 0
     let g:syntastic_enable_signs                                          = 1
     let g:syntastic_aggregate_errors                                      = 1
-    let g:syntastic_typescript_checkers                                       = ['tslint', 'eslint', 'tsuquyomi' ]
-    " let g:syntastic_typescript_checkers                                       = ['tslint']
+    let g:tsuquyomi_disable_quickfix                                      = 1
+    let g:syntastic_typescript_checkers                                   = [ 'tsuquyomi' ]
+    " let g:syntastic_typescript_checkers                                 = ['tslint', 'eslint', 'tsuquyomi' ]
     let g:syntastic_php_checkers                                          = ['php', 'phpcs', 'phpmd']
-    " let g:syntastic_xsd_checkers                                          = ['xmllint'] " doesn't work, needs arguments, use eclim
-    " let g:syntastic_jsp_checkers                                          = ['xmllint'] " doesn't work, not very useful I think
+    " let g:syntastic_xsd_checkers                                        = ['xmllint'] " doesn't work, needs arguments, use eclim
+    " let g:syntastic_jsp_checkers                                        = ['xmllint'] " doesn't work, not very useful I think
     let b:syntastic_mode                                                  = "active"
     " from : https://github.com/scrooloose/syntastic/wiki/PHP%3A---phpcs
     let g:syntastic_php_phpcs_args                                        = "--encoding=utf-8 --tab-width=4 --standard=PSR2"
@@ -1347,25 +1380,25 @@
     let g:syntastic_perl_checkers                                         = ["perl"]
     let g:syntastic_html_tidy_blocklevel_tags                             = ["medical-practice", "add-patient", "button-add-patient"]
     " md, multiple, layout and minlength are for https://material.angularjs.org/latest/demo/input
-    let g:syntastic_html_tidy_ignore_errors                               = [" proprietary attribute \"ng-",
-                                                                            \" proprietary attribute \"md-",
-                                                                            \" proprietary attribute \"flex-",
-                                                                            \" proprietary attribute \"flex",
-                                                                            \" proprietary attribute \"multiple",
-                                                                            \" proprietary attribute \"layout",
-                                                                            \" proprietary attribute \"minlength"
-                                                                            \ ]
+    " let g:syntastic_html_tidy_ignore_errors                               = [" proprietary attribute \"ng-",
+    "                                                                         \" proprietary attribute \"md-",
+    "                                                                         \" proprietary attribute \"flex-",
+    "                                                                         \" proprietary attribute \"flex",
+    "                                                                         \" proprietary attribute \"multiple",
+    "                                                                         \" proprietary attribute \"layout",
+    "                                                                         \" proprietary attribute \"minlength"
+    "                                                                         \ ]
     let g:syntastic_javascript_checkers                                   = ['eslint']
-    let g:syntastic_html_tidy_quiet_messages = {
-        \ "regex": [
-                    \ '^<md-.\+> is not recognized!$',
-                    \ '^discarding unexpected </md-.\+>$',
-                    \ '^discarding unexpected <md-.\+>$',
-                    \ '^<ng-.\+> is not recognized!$',
-                    \ '^discarding unexpected </ng-.\+>$',
-                    \ '^discarding unexpected <ng-.\+>$',
-                    \ '^<img> lacks "src" attribute$'
-                    \ ] }
+    " let g:syntastic_html_tidy_quiet_messages = {
+    "     \ "regex": [
+    "                 \ '^<md-.\+> is not recognized!$',
+    "                 \ '^discarding unexpected </md-.\+>$',
+    "                 \ '^discarding unexpected <md-.\+>$',
+    "                 \ '^<ng-.\+> is not recognized!$',
+    "                 \ '^discarding unexpected </ng-.\+>$',
+    "                 \ '^discarding unexpected <ng-.\+>$',
+    "                 \ '^<img> lacks "src" attribute$'
+    "                 \ ] }
 
     " Vim-Airline {{{2
     if &term=~'linux'
