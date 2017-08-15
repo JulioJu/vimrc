@@ -356,16 +356,18 @@
     " After install, turn shell ~/.vim/bundle/vimproc,
     " (n,g)make -f your_machines_makefile
 
-    Plug 'Shougo/vimproc', {
-    \ 'build' : {
-    \     'windows' : 'tools\\update-dll-mingw',
-    \     'cygwin'  : 'make -f make_cygwin.mak',
-    \     'mac'     : 'make -f make_mac.mak',
-    \     'linux'   : 'make',
-    \     'unix'    : 'gmake',
-    \    },
-    \ }
-
+    " Seems not work
+    " Plug 'Shougo/vimproc', {
+    " \ 'build' : {
+    " \     'windows' : 'tools\\update-dll-mingw',
+    " \     'cygwin'  : 'make -f make_cygwin.mak',
+    " \     'mac'     : 'make -f make_mac.mak',
+    " \     'linux'   : 'make',
+    " \     'unix'    : 'gmake',
+    " \    },
+    " \ }
+    "
+    Plug 'Shougo/vimproc', { 'do': 'make'}
 
     " Vim Typscript support  {{{2
     " Typescript syntax files for Vim
@@ -772,10 +774,10 @@
     "" https://github.com/jceb/vim-orgmode
     "Plug 'jceb/vim-orgmode', { 'for': 'org' } | Plug 'vim-scripts/utl.vim'
 
-    " Rails {{{2
-    " rails.vim: Ruby on Rails power tools
-    " https://github.com/tpope/vim-rails
-    Plug 'tpope/vim-rails', { 'for': 'ruby' }
+    " " Rails {{{2
+    " " rails.vim: Ruby on Rails power tools
+    " " https://github.com/tpope/vim-rails
+    " Plug 'tpope/vim-rails', { 'for': 'ruby' }
 
     " lua-ftplugin {{{2
     " Lua file type plug-in for the Vim text editor
@@ -2029,12 +2031,17 @@
   imap <C-@> <C-Space>
 
   " " Est fait pour être utiliser seulement sur tout le document ;-). Du coup on serait obligé de faire forcément systématiquement « gg=G »
+  " Tidy seems does not work with Vim in ArchLinux.
   augroup linterConfiguration
   "     autocmd FileType xml   setlocal  makeprg=xmllint\ -
   "     autocmd FileType xml   setlocal  equalprg=xmllint\ --format\ -
   "     " autocmd FileType html  setlocal  equalprg=tidy\ -q\ -i\ -w\ 80\ -utf8\ --quote-nbsp\ no\ --output-xhtml\ yes\ --show-warnings\ no\ --show-body-only\ auto\ --tidy-mark\ no\ -
   "     " For HTML5
   "     autocmd FileType html  setlocal  equalprg=tidy\ -q\ --show-errors\ 0\ --show-warnings\ 0\ --force-output\ --indent\ auto\ --indent-spaces
+  " From https://stackoverflow.com/questions/815548/how-do-i-tidy-up-an-html-files-indentation-in-vi (but doesn't work, beacause html-beauty does not take into account of context. It considers first as the first line of the file!)
+  " autocmd FileType html setlocal equalprg=tidy -config ~/.vim/tidyrc_html.txt
+  " From https://github.com/wongyouth/vimfiles/blob/master/vimrc:
+  " autocmd filetype html setlocal equalprg=html-beautify\ -f\ -\ -s\ 4 -l -1
   "     autocmd FileType xhtml setlocal  equalprg=tidy\ -q\ -i\ -w\ 80\ -utf8\ --quote-nbsp\ no\ --output-xhtml\ yes\ --show-warnings\ no\ --show-body-only\ auto\ --tidy-mark\ no\ -
   "     autocmd FileType json  setlocal  equalprg=python\ -mjson.tool
         autocmd FileType perl setlocal equalprg=perltidy\ -st
@@ -2265,6 +2272,17 @@ autocmd BufWinEnter,WinEnter set fo-=t
 
 " https://medium.com/@crashybang/supercharge-vim-with-fzf-and-ripgrep-d4661fc853d2
 command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>), 1, <bang>0)
+
+" https://superuser.com/questions/604122/vim-file-name-completion-relative-to-current-file
+autocmd InsertEnter * let save_cwd = getcwd() | set autochdir
+autocmd InsertLeave * set noautochdir | execute 'cd' fnameescape(save_cwd)
+
+" " https://github.com/blueyed/dotfiles/blob/master/vimrc#L29
+" " indent these tags for ft=html
+" let g:html_indent_inctags = "body,html,head,p,tbody"
+" " do not indent these
+" let g:html_indent_autotags = "br,input,img"
+
 "GVIM {{{2
 "————
 "http://vim.wikia.com/wiki/Restore_missing_gvim_menu_bar_under_GNOME See also help 'guioptions'
