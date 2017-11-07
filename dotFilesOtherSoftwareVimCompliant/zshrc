@@ -56,15 +56,9 @@ ZSH_THEME="tjkirch_mod_Ju"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git sudo zsh-syntax-highlighting compleat python)
+plugins=(git sudo zsh-syntax-highlighting history-substring-search compleat python zce.zsh)
 # last-working-dir
 source $ZSH/oh-my-zsh.sh
-
-# Configuration du plugin zsh-syntax-highlighting
-ZSH_HIGHLIGHT_HIGHLIGHTERS=(pattern)
-# ZSH_HIGHLIGHT_PATTERNS+=('\u00A0' 'fg=white,bold,bg=red')
-ZSH_HIGHLIGHT_PATTERNS+=(' ' 'fg=white,bold,bg=red')
-
 
 # User configuration
 
@@ -157,22 +151,29 @@ bindkey '^G' what-cursor-position
 #bindkey -M vicmd "K" vi-change-whole-line
 ## bindkey -M vicmd 't' history-substring-search-up # sous l'index, on remonte plus l'historique qu'on ne le descend :-).
 
-#Search for qwerty
+# history {{{1
 ##https://github.com/zsh-users/zsh-history-substring-search
-source $ZSH/plugins/history-substring-search/history-substring-search.zsh
 bindkey -M viins '^[[B' history-substring-search-down
 bindkey -M viins '^[[A' history-substring-search-up
-bindkey -M viins '^[[B' history-substring-search-down
 bindkey -a j vi-down-line-or-history
 bindkey -a k vi-up-line-or-history
 
+# history for emac mapping {{{2
+bindkey '^[[B' history-substring-search-down
+bindkey '^[[A' history-substring-search-up
+
+# Configuration du plugin zsh-syntax-highlighting {{{1
+ZSH_HIGHLIGHT_HIGHLIGHTERS=(pattern)
+# ZSH_HIGHLIGHT_PATTERNS+=('\u00A0' 'fg=white,bold,bg=red')
+ZSH_HIGHLIGHT_PATTERNS+=(' ' 'fg=white,bold,bg=red')
+
+# Plugin sudo custom for vi mapping {{{1
 
 # Defined shortcut keys: F5 (voir plugin sudo.zsh dans oh-my-zsh).
 bindkey '^[[15~' sudo-command-line # touche F5
 
 
-
-#  bindkey -M vicmd "i" vi-insert
+# Completion shift-tabl with vi mapping {{{1
 
 
 # http://unix.stackexchange.com/questions/84867/zsh-completion-enabling-shift-tab
@@ -182,7 +183,7 @@ bindkey -M menuselect '^[[Z' reverse-menu-complete
 
 # zce easymotion {{{1
 # https://github.com/hchbaw/zce.zsh
-source ~/.oh-my-zsh/custom/plugins/zce.zsh/zce.zsh
+# source ~/.oh-my-zsh/custom/plugins/zce.zsh/zce.zsh
 bindkey "^B" zce
 
 # File manager key binds {{{1

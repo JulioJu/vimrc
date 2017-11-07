@@ -289,33 +289,13 @@
     " AU FINAL, J'AI TROUVÉ LA SOLUTION, APPERREMMENT sur Archlinux, LA VERSION COMPILÉE AVEC ECLIM2.5 NE FONCTIONNE PAS. J'AI UTILISÉ  YAOURT POUR ARCHLINUX, ET ÇA FONCTIONNE AU POILE !!!!
     " Voir aussi : https://github.com/ervandew/eclim/issues/385, et https://github.com/juanes852/Eclim-for-Neovim.
 
-    " " Mardwown {{{2
-    " " https://github.com/plasticboy/vim-markdown
-    " " Markdown Vim Mode http://plasticboy.com/markdown-vim-mode/
-    " NeoBundleLazy 'plasticboy/vim-markdown', {
-    " \ 'autoload':{
-    " \     'filetypes':['markdown']
-    " \ }}
-    " let g:vim_markdown_folding_disabled=1
-
-    " " Pandoc {{{2
-    " Plug 'vim-pandoc/vim-pandoc', { 'for': ['md']}
-    "
-    " Plug 'vim-pandoc/vim-pandoc-syntax', { 'for': ['md']}
-
-    " " Vim instant markdown {{{2
-    " " https://github.com/suan/vim-instant-markdown
-    " " Instant Markdown previews from VIm!
-    " Plug 'suan/vim-instant-markdown', { 'for': 'filetypes':['markdown']}
-    " let g:instant_markdown_slow = 1
-    " let g:instant_markdown_autostart = 0
 
     " Interesting link to JS {{{2
     " https://davidosomething.com/blog/vim-for-javascript/
 
 
-    " " Vim JavaScript {{{2
-    " " Vastly improved Javascript indentation and syntax support in Vim.
+    " Vim JavaScript {{{2
+    " Vastly improved Javascript indentation and syntax support in Vim.
     " https://github.com/pangloss/vim-javascript
     Plug 'pangloss/vim-javascript', { 'for': ['javascript']}
 
@@ -704,6 +684,24 @@
     " select text in visual mode, then hit : Tabularize /:
     " change the : with the needed char to align
     Plug 'godlygeek/tabular'
+
+    " Mardwown {{{2
+    " https://github.com/plasticboy/vim-markdown
+    " Markdown Vim Mode http://plasticboy.com/markdown-vim-mode/
+    Plug 'plasticboy/vim-markdown', { 'for': ['markdown']}
+    let g:vim_markdown_folding_disabled=1
+
+    " " Pandoc {{{2
+    " Plug 'vim-pandoc/vim-pandoc', { 'for': ['md']}
+    "
+    " Plug 'vim-pandoc/vim-pandoc-syntax', { 'for': ['md']}
+
+    " Vim instant markdown {{{2
+    " https://github.com/suan/vim-instant-markdown
+    " Instant Markdown previews from VIm!
+    Plug 'suan/vim-instant-markdown', { 'for': ['markdown']}
+    let g:instant_markdown_slow = 1
+    let g:instant_markdown_autostart = 0
 
     "" Characterize {{{2
     "" tpope/vim-characterize
@@ -1142,6 +1140,7 @@
     " Ease your git workflow within Vim
     let g:magit_default_show_all_files = 0
     let g:magit_default_fold_level = 2
+    let g:magit_discard_untracked_do_delete=1
 
     " === Fin  Plugin non installés par Guillaume {{{2
     " }}}
@@ -2250,17 +2249,10 @@ au BufRead,BufNewFile *.jsp set filetype=jsp.html
 
 " http://vi.stackexchange.com/questions/5511/showing-a-different-background-color-or-layout-beyond-80-column-using-spf13
 set textwidth=80
-set colorcolumn=+1
 " fo-=t otherwise break line automatically
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown fo-=t
 let g:markdown_fenced_languages = ['html', 'python', 'bash=sh']
 set fo-=t
-
-highlight ColorColumn term=reverse ctermbg=1
-" augroup colorcolumn
-"     autocmd!
-"     autocmd ColorScheme solarized highlight ColorColumn term=reverse ctermbg=1 guibg=LightGrey
-" augroup end
 
 " https://robots.thoughtbot.com/vim-splits-move-faster-and-more-naturally
 set splitbelow
@@ -2345,3 +2337,7 @@ thread.start_new_thread(autoread_loop, ())
 EOF
 endfun
 
+" Hightlight customization {{{2
+let &colorcolumn="81,".join(range(81,999),",")
+highlight ColorColumn ctermbg=235 guibg=#2c2d27
+" highlight ColorColumn term=reverse ctermbg=1
