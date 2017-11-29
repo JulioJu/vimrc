@@ -109,7 +109,8 @@
     if has('nvim')
        Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
        " See https://github.com/Shougo/deoplete.nvim/issues/133
-        Plug 'Shougo/context_filetype.vim'
+       " https://github.com/Shougo/deoplete.nvim/issues/578
+       Plug 'Shougo/context_filetype.vim'
     endif
 
     " " nvim - typescript {{{2
@@ -267,10 +268,10 @@
     " https://github.com/benekastah/neomake
     Plug 'benekastah/neomake', { 'for' : ['c']}
 
-    " Vim browser reload plugin {{{2
-    " vim plugin to reload your browser, Linux version
-    " https://github.com/lordm/vim-browser-reload-linux
-    Plug 'lordm/vim-browser-reload-linux', { 'for': ['html', 'php', 'javascript', 'typescript']}
+    " " Vim browser reload plugin {{{2
+    " " vim plugin to reload your browser, Linux version
+    " " https://github.com/lordm/vim-browser-reload-linux
+    " Plug 'lordm/vim-browser-reload-linux', { 'for': ['html', 'php', 'javascript', 'typescript']}
 
 
     " Vim Eclim {{{2
@@ -380,6 +381,11 @@
     " https://github.com/1995eaton/vim-better-javascript-completion
     Plug '1995eaton/vim-better-javascript-completion', { 'for': ['javascript', 'php', 'html']}
 
+    " vim jsx {{{2
+    " React JSX syntax highlighting and indenting for vim.
+    " https://github.com/mxw/vim-jsx
+    Plug 'mxw/vim-jsx'
+
     " Vim mustache {{{2
     " Mustache template system for VIMScript
     " https://github.com/tobyS/vmustache
@@ -468,10 +474,20 @@
     " Ease your git workflow within Vim
     Plug 'jreybert/vimagit'
 
-    " Vim Gutter
+    " Vim Gutter {{{2
     " https://github.com/airblade/vim-gitgutter
     " A Vim plugin which shows a git diff in the gutter (sign column) and stages/undoes hunks.
     Plug 'airblade/vim-gitgutter'
+
+    " Vim sparql {{{2
+    " Vim syntax file for SPARQL http://www.vim.org/scripts/script.php…
+    Plug 'rvesse/vim-sparql'
+
+    " Vim startify
+    " The fancy start screen for Vim.
+    " https://github.com/mhinz/vim-startify
+    Plug 'mhinz/vim-startify'
+
 
     " === Fin plugins non installés par Guillaume {{{2
 
@@ -989,30 +1005,34 @@
     " https://github.com/Shougo/deoplete.nvim
     " Dark powered asynchronous completion framework for neovim
 
-    " Eclim support
-    " See https://www.reddit.com/r/vim/comments/5xspok/trouble_with_eclim_and_deoplete/
-    let g:deoplete#omni#input_patterns = {}
-    let g:deoplete#omni#input_patterns.java = '[^. *\t]\.\w*'
+    if has('nvim')
+        " Eclim support
+        " See https://www.reddit.com/r/vim/comments/5xspok/trouble_with_eclim_and_deoplete/
+        let g:deoplete#omni#input_patterns = {}
+        let g:deoplete#omni#input_patterns.java = '[^. *\t]\.\w*'
 
-    " Autoclose preview windows
-    " https://github.com/Shougo/deoplete.nvim/issues/115
-    autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
+        " Autoclose preview windows
+        " https://github.com/Shougo/deoplete.nvim/issues/115
+        autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 
-    " https://github.com/Shougo/deoplete.nvim/issues/100
-    " use tab to forward cycle
-    inoremap <silent><expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
-    " use tab to backward cycle
-    inoremap <silent><expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
+        " https://github.com/Shougo/deoplete.nvim/issues/100
+        " use tab to forward cycle
+        inoremap <silent><expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+        " use tab to backward cycle
+        inoremap <silent><expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
 
-    " Lazy load Deoplete to reduce statuptime
-    " See manpage
-    " Enable deoplete when InsertEnter.
-    let g:deoplete#enable_at_startup = 0
-    autocmd InsertEnter * call deoplete#enable()
+        " Lazy load Deoplete to reduce statuptime
+        " See manpage
+        " Enable deoplete when InsertEnter.
+        let g:deoplete#enable_at_startup = 0
+        autocmd InsertEnter * call deoplete#enable()
 
-    " Context filetype
-    " https://github.com/Shougo/deoplete.nvim/issues/133
-    let g:context_filetype#same_filetypes = 1
+        " Context filetype
+        " https://github.com/Shougo/deoplete.nvim/issues/133
+        " See :help g:context_filetype#same_filetypes
+        " And https://github.com/Shougo/deoplete.nvim/issues/578#issuecomment-344122258
+        " let g:context_filetype#same_filetypes = 1
+    endif
 
     " " YCM {{{2
     " " A code-completion engine for Vim
@@ -1355,7 +1375,7 @@
     let g:syntastic_check_on_wq                                           = 0
     let g:syntastic_enable_signs                                          = 1
     let g:syntastic_aggregate_errors                                      = 1
-    let g:tsuquyomi_disable_quickfix                                      = 1
+    let g:tsuquyomi_disable_quickfix                                      = 0
     let g:syntastic_typescript_checkers                                   = [ 'tsuquyomi' ]
     " let g:syntastic_typescript_checkers                                 = ['tslint', 'eslint', 'tsuquyomi' ]
     let g:syntastic_php_checkers                                          = ['php', 'phpcs', 'phpmd']
@@ -2275,6 +2295,9 @@ autocmd InsertLeave * set noautochdir | execute 'cd' fnameescape(save_cwd)
 " " do not indent these
 " let g:html_indent_autotags = "br,input,img"
 
+" When on a buffer becomes hidden when it is |abandon|ed
+set hidden
+
 "GVIM {{{2
 "————
 "http://vim.wikia.com/wiki/Restore_missing_gvim_menu_bar_under_GNOME See also help 'guioptions'
@@ -2341,3 +2364,4 @@ endfun
 let &colorcolumn="81,".join(range(81,999),",")
 highlight ColorColumn ctermbg=235 guibg=#2c2d27
 " highlight ColorColumn term=reverse ctermbg=1
+
