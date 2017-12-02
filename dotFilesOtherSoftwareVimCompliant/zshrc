@@ -5,91 +5,42 @@ export EDITOR=nvr
 # Le 4/11/2015, suite à une mise à jour de neovim, nvim ne veut plus charger ~/.nvimrc par défaut. Bug du au faite qu'on est sur une version alpha d'un logiciel ?
 
 
-#Oh-my-ZSH {{{1
+#zplug {{{1
 #**************************
+source /usr/share/zsh/scripts/zplug/init.zsh
 
-# Path to your oh-my-zsh installation.
-export ZSH=$HOME/.oh-my-zsh
+# Make sure to use double quotes
+# zplug "zsh-users/zsh-history-substring-search"
 
-# Set name of the theme to load.
-# Look in ~/.oh-my-zsh/themes/
-# Optionally, if you set this to "random", it'll load a random theme each
-# time that oh-my-zsh is loaded.
-#ZSH_THEME="ys"
-ZSH_THEME="tjkirch_Ju"
+# Supports oh-my-zsh plugins and the like
+zplug "plugins/sudo",   from:oh-my-zsh
+zplug "plugins/git",   from:oh-my-zsh
+zplug "lib/history",   from:oh-my-zsh
+zplug "lib/directories",   from:oh-my-zsh
+zplug "lib/compfix",   from:oh-my-zsh # handle completions insecurities
+zplug "lib/completion",   from:oh-my-zsh # completion settings
+zplug "lib/grep",   from:oh-my-zsh
+zplug "lib/nvm",   from:oh-my-zsh # get node version
+zplug "lib/spectrum",   from:oh-my-zsh # A script to make using 256 colors in zsh less painful.
+zplug "lib/termsupport", from:oh-my-zsh # Set terminal window and tab/icon title
+zplug "lib/theme-and-appearance", from:oh-my-zsh
 
-# Uncomment the following line to use case-sensitive completion.
-# CASE_SENSITIVE="true"
 
-# Uncomment the following line to disable bi-weekly auto-update checks.
-# DISABLE_AUTO_UPDATE="true"
+zplug "b4b4r07/enhancd", use:init.sh
+zplug "trapd00r/LS_COLORS", use:''
 
-# Uncomment the following line to change how often to auto-update (in days).
-# export UPDATE_ZSH_DAYS=13
+# Set the priority when loading
+# e.g., zsh-syntax-highlighting must be loaded
+# after executing compinit command and sourcing other plugins
+# (If the defer tag is given 2 or above, run after compinit command)
+zplug "zsh-users/zsh-syntax-highlighting", defer:2
 
-# Uncomment the following line to disable colors in ls.
-# DISABLE_LS_COLORS="true"
+# Can manage local plugins
+# Load theme file
+zplug "~/.oh-my-zsh/custom/themes", from:local, use:"tjkirch_Ju.zsh-theme", as:theme, from:local
 
-# Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
-
-# Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
-
-# Uncomment the following line to display red dots whilst waiting for completion.
-# COMPLETION_WAITING_DOTS="true"
-
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
-
-# Uncomment the following line if you want to change the command execution time
-# stamp shown in the history command output.
-# The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# HIST_STAMPS="mm/dd/yyyy"
-
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
-
-# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
-plugins=(git sudo zsh-syntax-highlighting history-substring-search compleat python zce.zsh)
-# last-working-dir
-source $ZSH/oh-my-zsh.sh
-
-# User configuration
-
-export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
-# export MANPATH="/usr/local/man:$MANPATH"
-
-# You may need to manually set your language environment
-#export LANG=fr_FR.UTF-8
-
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
-
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
-
-# ssh
-# export SSH_KEY_PATH="~/.ssh/dsa_id"
-
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-
+# Then, source plugins and add commands to $PATH
+zplug load
 
 ## Gnome terminal {{{1
 # *****************
@@ -214,6 +165,7 @@ bindkey '^[[6;3~'        cdUndoKey # alt + pageDown on laptop Samsung NC10 with 
 
 # less {{{1
 # http://superuser.com/questions/117841/get-colors-in-less-command
+ # HOW TO INSTALL: see at http://pygments.org/docs/styles/#
 export LESS='-R -M'
 export LESSOPEN='|~/.lessfilter %s'
 # alias less="less -M"
@@ -272,4 +224,7 @@ alias nvrt="nvr --remote-tab"
 alias nvrv="nvr --remote-send ':vert belowright sb#<CR>'"
 alias rgg="rg --follow --hidden --files -g"
 
-# vim: ft=zsh
+ # LS_COLOR {{{1
+eval $( dircolors -b $ZPLUG_REPOS/trapd00r/LS_COLORS/LS_COLORS )
+
+ # vim: ft=zsh
