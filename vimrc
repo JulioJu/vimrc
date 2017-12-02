@@ -2141,7 +2141,12 @@ if has('nvim')
   tnoremap <A-j> <C-\><C-n><C-w>j
   tnoremap <A-k> <C-\><C-n><C-w>k
   tnoremap <A-l> <C-\><C-n><C-w>l
-  autocmd BufWinEnter,WinEnter term://* startinsert
+  " Actually, there is a bug with autcmd when we open a new terminal. Do not
+  " execute BufWinEnter and WinEnter.
+  " Without « VimEnter » autocmd, if we quit the term immediatly
+  " cause error in file ~/.local/share/nvim/shada/main.shada
+  " (see the console output when we reopen nvim).
+  autocmd VimEnter,BufWinEnter,WinEnter term://* startinsert
   autocmd BufWinEnter,WinEnter term://* setlocal nornu nonu statusline=%{b:term_title}
   autocmd BufLeave term://* stopinsert
   tnoremap <Leader>q <C-\><C-n>:bw!<CR>
@@ -2297,6 +2302,12 @@ autocmd InsertLeave * set noautochdir | execute 'cd' fnameescape(save_cwd)
 
 " When on a buffer becomes hidden when it is |abandon|ed
 set hidden
+
+" Problems with Ctrl-{R,T} in Neovim terminal
+" https://github.com/junegunn/fzf/issues/809
+let $FZF_DEFAULT_OPTS .= ' --no-height'
+
+let g:terminal_scrollback_buffer_size = 100000
 
 "GVIM {{{2
 "————
