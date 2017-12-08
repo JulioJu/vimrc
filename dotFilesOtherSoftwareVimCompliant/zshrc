@@ -1,9 +1,12 @@
-export EDITOR=nvr
+export EDITOR='nvr --remote-wait-silent'
 # export TERM=xterm-256color
 # export PAGER="less -M"
 # alias nvim="nvim -u ~/.nvimrc"
 # Le 4/11/2015, suite à une mise à jour de neovim, nvim ne veut plus charger ~/.nvimrc par défaut. Bug du au faite qu'on est sur une version alpha d'un logiciel ?
 
+# Enhancd {{{1
+export ENHANCD_FILTER="fzf"
+export ENHANCD_COMMAND=cdd
 
 #zplug {{{1
 #**************************
@@ -226,5 +229,6 @@ alias rgg="rg --follow --hidden --files -g"
 
  # LS_COLOR {{{1
 eval $( dircolors -b $ZPLUG_REPOS/trapd00r/LS_COLORS/LS_COLORS )
+
 
  # vim: ft=zsh

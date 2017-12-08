@@ -2141,13 +2141,10 @@ if has('nvim')
   tnoremap <A-j> <C-\><C-n><C-w>j
   tnoremap <A-k> <C-\><C-n><C-w>k
   tnoremap <A-l> <C-\><C-n><C-w>l
-  " Actually, there is a bug with autcmd when we open a new terminal. Do not
-  " execute BufWinEnter and WinEnter.
-  " Without « VimEnter » autocmd, if we quit the term immediatly
-  " cause error in file ~/.local/share/nvim/shada/main.shada
-  " (see the console output when we reopen nvim).
+  " See https://github.com/neovim/neovim/issues/7678#issuecomment-349228286
+  autocmd TermOpen * startinsert
   autocmd VimEnter,BufWinEnter,WinEnter term://* startinsert
-  autocmd BufWinEnter,WinEnter term://* setlocal nornu nonu statusline=%{b:term_title}
+  autocmd TermOpen * setlocal nornu nonu statusline=%{b:term_title}
   autocmd BufLeave term://* stopinsert
   tnoremap <Leader>q <C-\><C-n>:bw!<CR>
   tnoremap <Leader>gt <C-\><C-n>gt<CR>
@@ -2171,6 +2168,9 @@ if has('nvim')
   tnoremap \v <C-\><C-n>q:ivs<SPACE>
   tnoremap \e <C-\><C-n>:enew!<CR>:bw!#<CR>q:ie<SPACE>
   set inccommand=split
+  nnoremap <leader>wwww :w<CR>:b#<CR><C-\><C-n>:bw#<CR>i
+  " With Neovim 0.2.1 and 0.2.2 there is a bug with Terminal:
+  " See https://github.com/neovim/neovim/issues/7677#issuecomment-348876942
 endif
 nnoremap <A-h> <C-w>h
 nnoremap <A-j> <C-w>j
