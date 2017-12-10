@@ -1,0 +1,10 @@
+lxpanel --profile LXDE &
+pcmanfm --desktop --profile LXDE &
+xscreensaver -no-splash &
+synclient TapButton1=0 TapButton2=0 TapButton3=0 VertTwoFingerScroll=0 &
+urxvt -e nvim +term &
+redshift-gtk &
+xfce4-volumed &
+xrandr --output LVDS-0 --mode 1600x900 --rate 60.31 &
+xfce4-power-manager &
+nm-applet &

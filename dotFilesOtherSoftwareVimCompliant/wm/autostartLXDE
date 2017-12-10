@@ -1,0 +1,8 @@
+@lxpanel --profile LXDE
+@pcmanfm --desktop --profile LXDE
+@xscreensaver -no-splash
+@synclient TapButton1=0 TapButton2=0 TapButton3=0
+@synclient VertTwoFingerScroll=0
+@urxvt -e nvim +term
+@redshift-gtk
+@xfce4-volumed
