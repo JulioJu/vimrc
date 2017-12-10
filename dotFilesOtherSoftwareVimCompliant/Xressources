@@ -1,0 +1,116 @@
+! --------------------------------------------------------
+! File    : ~/.Xressources
+! Author  : Guillaume Seren (see https://github.com/GuillaumeSeren/urxvt)
+! Author  : Julio Prayer
+! Licence : GPLv2
+!
+! This file provide the configuration of X client applications,
+! mostly needed for urxvt tweaking.
+!
+! Get the actual configuration with :
+! xrdb -query -all
+! Reload with :
+! xrdb ~/.Xresources
+! To reread your .Xresources file, and keep your old resources, type:
+! xrdb -merge ~/.Xresources
+! WARNING @TODO
+! With Openbox, reference ~/.Xresources in ~/.xprofile (for lightdm) or in
+! ~/.xinitrc (for startx).
+! Several solutions to do that
+! See https://bbs.archlinux.org/viewtopic.php?id=204649
+! --------------------------------------------------------
+
+!! History {{{1
+!! size matters
+! *saveLines            : 32767
+
+!! Set termName {{{1
+! URxvt*termName        : screen-256color
+
+! Xft {{{1
+! anti-aliasing
+Xft*antialias         : true
+Xft.hinting           : true
+Xft.hintstyle         : hintslight
+Xft*dpi               : 96
+
+! Xterm {{{1
+XTerm*renderFont      : true
+! XTerm*faceName        : xft:Inconsolata for Powerline Plus Nerd File Types Mono Plus Font Awesome Plus Octicons Plus Pomicons:size=8
+XTerm*faceName        : xft:Monospace:size=10:antialias=true
+
+! let’s be 8bit-clean {{{1
+XTerm*utf8            : 1
+XTerm*eightBitInput   : false
+XTerm*eightBitControl : false
+XTerm*eightBitOutput  : true
+
+! disable fullscreen on <Alt-Return> {{{1
+! prevent Alt+Enter keys from toggling fullscreen mode
+XTerm*fullscreen      : never
+XTerm*omitTranslation : fullscreen
+
+! URxvt über alles {{{1
+URxvt*loginShell      : false
+URxvt*scrollBar       : false
+URxvt*scrollBar_right : false
+URxvt*transparent     : false
+URxvt*shading         : 0
+URxvt*cursorBlink     : false
+
+! Font configuration {{{1
+! WARNING
+! WARNING
+! Compile with font-width-fix.patch (from Arch Linux, named rxvt-unicode-patched).
+! Without this patch we could use « fontSize », but the font spacing is bigger.
+! See also https://github.com/ryanoasis/nerd-fonts/issues/150
+! In ArchLinux, with package nerd-fonts-complete (powerline-fonts does not
+!       work or is less popular) and the package ttf-google-fonts-git (
+!       and particulary with ttf-google-fonts-git, the others of this group
+!       package are not useful)
+! See availble fonts with « fc-list | grep -i nerd ». One should match
+!       « InconsolataGo Nerd Font Mono » »
+URxvt.font              : xft:Inconsolata Nerd Font Mono:size=12
+! URxvt.font        : xft:Inconsolata for Powerline Plus Nerd File Types Mono Plus Font Awesome Plus Octicons Plus Pomicons:size=8
+! URxvt*letterSpace       : -1
+
+!! Hack to act more like XTerm.
+!! Source: http://www.netswarm.net/misc/urxvt-xtermcompat.txt
+!! Fix Shift/Control/Meta with function and insert keys.
+!! S-F1 is normally sent as F11-F20, and S-F11+S-F12 being extra strange.
+!#include "/home/julioprayer/.vim/dotFilesOtherSoftwareVimCompliant/urxvt/urxvt-xtermcompat.txt"
+
+!! extensions (+ disable the selection popup)
+!URxvt.perl-ext-common : default,selection-autotransform,url-select,keyboard-select,rotate-colors,matcher,resize-font
+!URxvt.perl-ext        : default,clipboard
+
+!! url-select {{{1
+!URxvt.url-select.launcher  : firefox
+!URxvt.url-select.underline : true
+!URxvt.url-select.button    : 2
+
+!! Resize-Font {{{1
+!URxvt.keysym.M-C-plus      : perl:resize-font:bigger
+!URxvt.keysym.M-C-minus     : perl:resize-font:smaller
+!URxvt.keysym.M-C-equal     : perl:resize-font:reset
+!URxvt.keysym.M-C-question  : perl:resize-font:show
+
+! Color scheme {{{1
+#include "/home/julioprayer/.vim/dotFilesOtherSoftwareVimCompliant/urxvt/urxvt-colours-solarized-dark"
+!! URxvt.rotate-colors.files : /home/julioprayer/.vim/dotFilesOtherSoftwareVimCompliant/urxvt/urxvt-colours-solarized-light,/home/julioprayer/.vim/dotFilesOtherSoftwareVimCompliant/urxvt-config/urxvt-colours-solarized-dark
+!! rotate-color {{{1
+!URxvt.keysym.M-C-u: perl:rotate-colors:next
+!URxvt.keysym.M-C-p: perl:rotate-colors:prev
+!! This 'force' color overiding, only for test
+!URxvt.keysym.M-C-d : command:\033]4;12;#9090FF\007\033]4;1;#AA0000\007\033]4;15;#FFFFFF\007\033]4;14;#55FFFF\007\033]4;5;#AA00AA\007\033]4;3;#AA5500\007\033]4;7;#AAAAAA\007\033]4;10;#55FF55\007\033]4;13;#FF55FF\007\033]4;4;#0000AD\007\033]4;8;#555555\007\033]11;#000000\007\033]4;9;#FF5555\007\033]4;2;#00AA00\007\033]\007\033]4;0;#000000\007\033]4;11;#FFFF55\007\033]10;#00FF00\007\033]5;0;#00FF00\007\033]4;6;#00AAAA\007
+!URxvt.keysym.M-C-l : command:\033]4;12;#72729F9FCFCF\007\033]4;1;#CCCC00000000\007\033]4;15;#EEEEEEEEECEC\007\033]4;14;#3434E2E2E2E2\007\033]4;5;#757550507B7B\007\033]4;3;#C4C4A0A00000\007\033]4;7;#D3D3D7D7CFCF\007\033]4;4;#34346565A4A4\007\033]4;10;#8A8AE2E23434\007\033]4;13;#ADAD7F7FA8A8\007\033]4;8;#555557575353\007\033]11;#FFFFFFFFFFFF\007\033]4;9;#EFEF29292929\007\033]4;2;#4E4E9A9A0606\007\033]4;0;#2E2E34343636\007\033]4;11;#FCFCE9E94F4F\007\033]10;#000000000000\007\033]4;6;#060698209A9A\007
+!
+! Cursor {{{1
+Xcursor.theme         : Vanilla-DMZ-AA
+Xcursor.size          : 22
+
+! Terminal icon {{{1
+! Compile with --enable-pixbuf and --enable-frills
+URxvt.iconFile: /home/julioprayer/.vim/dotFilesOtherSoftwareVimCompliant/urxvt/terminal_icon_for_urxvt.jpg
+
+/* vim: set ft=xdefaults foldmethod=marker :*/

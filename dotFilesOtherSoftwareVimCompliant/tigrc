@@ -1,3 +1,10 @@
+# See also https://github.com/jonas/tig/issues/428
+# From https://github.com/jonas/tig/issues/522
+set main-view-date = custom
+set main-view-date-local = true
+set main-view-date-format = "%F %R %Z"
+
+# From tupperVim
 set refresh-mode = auto
 set line-graphics = utf-8
 set commit-order = date
