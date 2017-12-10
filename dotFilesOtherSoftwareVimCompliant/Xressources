@@ -25,6 +25,8 @@
 ! *saveLines            : 32767
 
 !! Set termName {{{1
+! Into Neovim terminal, $TERM=xterm-256color
+! Into rxvt-unicode, $TERM=rxvt-unicode-256color
 ! URxvt*termName        : screen-256color
 
 ! Xft {{{1
@@ -61,16 +63,22 @@ URxvt*cursorBlink     : false
 ! Font configuration {{{1
 ! WARNING
 ! WARNING
-! Compile with font-width-fix.patch (from Arch Linux, named rxvt-unicode-patched).
+! Compile urxvt with font-width-fix.patch (from Arch Linux, named rxvt-unicode-patched).
 ! Without this patch we could use « fontSize », but the font spacing is bigger.
 ! See also https://github.com/ryanoasis/nerd-fonts/issues/150
-! In ArchLinux, with package nerd-fonts-complete (powerline-fonts does not
-!       work or is less popular) and the package ttf-google-fonts-git (
-!       and particulary with ttf-google-fonts-git, the others of this group
-!       package are not useful)
-! See availble fonts with « fc-list | grep -i nerd ». One should match
-!       « InconsolataGo Nerd Font Mono » »
-URxvt.font              : xft:Inconsolata Nerd Font Mono:size=12
+
+! In ArchLinux, we could use nerd-fonts-complete package to patch fonts or
+! directly dowlonad some patched fonts retrieved from https://github.com/powerline/fonts
+
+! See availble fonts with « fc-list | grep -i nerd ». One should match the
+! font choosen.
+
+! Inconsolat do not work very well with vim-airline and vim-devicons (character
+! at the right of « utf-8 61% » do not appeared.
+! URxvt.font              : xft:Inconsolata Nerd Font Mono:size=12
+! Good review of DejaVu Mono at https://www.slant.co/topics/67/viewpoints/4/~best-programming-fonts~dejavu-sans-mono
+URxvt.font              : xft:DejaVuSansMono Nerd Font Mono:size=10
+
 ! URxvt.font        : xft:Inconsolata for Powerline Plus Nerd File Types Mono Plus Font Awesome Plus Octicons Plus Pomicons:size=8
 ! URxvt*letterSpace       : -1
 

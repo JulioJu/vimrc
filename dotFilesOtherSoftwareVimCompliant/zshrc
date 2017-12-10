@@ -6,7 +6,8 @@ export EDITOR='nvr --remote-wait-silent'
 
 # Enhancd {{{1
 export ENHANCD_FILTER="fzf"
-export ENHANCD_COMMAND=cdd
+# export ENHANCD_COMMAND=cdd
+# export ENHANCD_HYPHEN_ARG=="--"
 
 #zplug {{{1
 #**************************
@@ -224,8 +225,10 @@ xstat() {
 # Alias {{{1
 alias nvrd="nvr --remote-send ':bw!#<CR>'"
 alias nvrt="nvr --remote-tab"
-alias nvrv="nvr --remote-send ':vert belowright sb#<CR>'"
+alias nvrv="nvr --remote-send ':vert belowright sb#<CR><C-\><C-n><C-w>h'"
+alias nvrsb="nvr --remote-send ':sb#<CR><C-\><C-n><C-w>k'"
 alias rgg="rg --follow --hidden --files -g"
+alias ncd='nvr -c ":cd $(pwd)"'
 
  # LS_COLOR {{{1
 eval $( dircolors -b $ZPLUG_REPOS/trapd00r/LS_COLORS/LS_COLORS )

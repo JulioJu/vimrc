@@ -1428,6 +1428,8 @@
         let g:airline#extensions#tabline#enabled = 1
         let g:airline_powerline_fonts = 1
     endif
+    " See https://github.com/ryanoasis/vim-devicons
+    let g:airline_powerline_fonts = 1
     let g:airline#extensions#tabline#fnametruncate = 0
     " DBEXT {{{2
     " vim-scripts/dbext.vim
@@ -2133,6 +2135,7 @@
 highlight NbSp ctermbg=015
 match NbSp /\%xa0/
 
+nnoremap <leader><leader>q :bd<CR>
 if has('nvim')
   nnoremap <leader><leader>t :tabnew<CR>:terminal<CR>
   nnoremap <leader><leader>v :vs!<CR>:terminal<CR>
