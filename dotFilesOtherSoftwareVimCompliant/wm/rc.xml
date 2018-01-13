@@ -980,6 +980,7 @@
     </application>
     <application name="Eclipse" class="Eclipse" type="normal">
       <decor>no</decor>
+      <maximized>true</maximized>
     </application>
     <application class="jetbrains-studio" type="normal">
       <decor>no</decor>

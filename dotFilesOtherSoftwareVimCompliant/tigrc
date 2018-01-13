@@ -9,6 +9,10 @@ set refresh-mode = auto
 set line-graphics = utf-8
 set commit-order = date
 
+# View short commit hash in main view
+# https://github.com/jonas/tig/issues/340
+set main-view-id = yes
+
 # https://github.com/jonas/tig/blob/master/contrib/vim.tigrc
 bind generic h scroll-left
 bind generic j move-down
