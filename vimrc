@@ -356,10 +356,16 @@
     " Notes: With YouCompleteMe, as in an IDE, Tsuquyomi is lauching every time
     " one word is writing, and not only on « :wq » as with Syntastic. Doesn't
     " work with Deoplete.
+
+    " Syntax
     Plug 'leafgarland/typescript-vim', { 'for': ['typescript']}
     Plug 'HerringtonDarkholme/yats.vim', { 'for': ['typescript']}
-    Plug 'Quramy/tsuquyomi', { 'for': ['typescript']}
-    Plug 'clausreinke/typescript-tools.vim', { 'for': ['typescript']}
+
+    " Do not use Tsuquyomi and Syntaxic. Use ALE instead.
+    " See https://github.com/Quramy/tsuquyomi/issues/82
+    " Plug 'Quramy/tsuquyomi', { 'for': ['typescript']}
+    " Not needed with ALE. Cause problems with ALE.
+    " Plug 'clausreinke/typescript-tools.vim', { 'for': ['typescript']}
 
     " vim-js-pretty-template {{{2
     " highlights JavaScript's Template Strings in other FileType syntax rule http://www.vim.org/scripts/script.php…
@@ -529,10 +535,15 @@
     "
 
 
-    " SYNTASTIC {{{2
-    " Syntax checking hacks for vim
-    " https://github.com/scrooloose/syntastic
-    Plug 'scrooloose/syntastic'
+    " " SYNTASTIC {{{2
+    " " Syntax checking hacks for vim
+    " " https://github.com/scroolose/syntastic
+    " Plug 'scrooloose/syntastic'
+
+    " ALE {{{2
+    " Asynchronous Lint Engine
+    " https://github.com/w0rp/ale
+    Plug 'w0rp/ale'
 
     " Sensible {{{2
     " sensible.vim: Defaults everyone can agree on
@@ -1367,59 +1378,77 @@
     "   set conceallevel=2 concealcursor=i
     " endif
 
-    " SYNTASTIC {{{2
-    " Syntax checking hacks for vim
-    " https://github.com/scrooloose/syntastic
-    let g:syntastic_always_populate_loc_list                              = 1
-    let g:syntastic_check_on_open                                         = 1
-    let g:syntastic_check_on_wq                                           = 0
-    let g:syntastic_enable_signs                                          = 1
-    let g:syntastic_aggregate_errors                                      = 1
-    let g:tsuquyomi_disable_quickfix                                      = 0
-    let g:syntastic_typescript_checkers                                   = [ 'tsuquyomi' ]
-    " let g:syntastic_typescript_checkers                                 = ['tslint', 'eslint', 'tsuquyomi' ]
-    let g:syntastic_php_checkers                                          = ['php', 'phpcs', 'phpmd']
-    " let g:syntastic_xsd_checkers                                        = ['xmllint'] " doesn't work, needs arguments, use eclim
-    " let g:syntastic_jsp_checkers                                        = ['xmllint'] " doesn't work, not very useful I think
-    let b:syntastic_mode                                                  = "active"
-    " from : https://github.com/scrooloose/syntastic/wiki/PHP%3A---phpcs
-    let g:syntastic_php_phpcs_args                                        = "--encoding=utf-8 --tab-width=4 --standard=PSR2"
-    let g:syntastic_html_tidy_exec                                        = '/usr/sbin/tidy'
-    set statusline+=%#warningmsg#
-    set statusline+=%{SyntasticStatuslineFlag()}
-    set statusline+=%*
-    let g:syntastic_c_checkers                                            = ['make','splint']
-    " let g:syntastic_auto_jump                                           = 3
-    " https://github.com/scrooloose/syntastic/issues/1041
-    " let g:syntastic_php_checkers                                        = ['php', 'tidy']
-    let g:syntastic_php_checkers                                          = ["php", "phpmd"]
-    " let g:syntastic_html_checkers                                       = ['tidy', 'jshint']
-    let g:syntastic_html_checkers                                         = ['tidy']
-    let g:syntastic_aggregate_errors                                      = 1
-    au BufEnter *.php set ft=php.html
-    let g:syntastic_enable_perl_checker                                   = 1
-    let g:syntastic_perl_checkers                                         = ["perl"]
-    let g:syntastic_html_tidy_blocklevel_tags                             = ["medical-practice", "add-patient", "button-add-patient"]
-    " md, multiple, layout and minlength are for https://material.angularjs.org/latest/demo/input
-    " let g:syntastic_html_tidy_ignore_errors                               = [" proprietary attribute \"ng-",
-    "                                                                         \" proprietary attribute \"md-",
-    "                                                                         \" proprietary attribute \"flex-",
-    "                                                                         \" proprietary attribute \"flex",
-    "                                                                         \" proprietary attribute \"multiple",
-    "                                                                         \" proprietary attribute \"layout",
-    "                                                                         \" proprietary attribute \"minlength"
-    "                                                                         \ ]
-    let g:syntastic_javascript_checkers                                   = ['eslint']
-    " let g:syntastic_html_tidy_quiet_messages = {
-    "     \ "regex": [
-    "                 \ '^<md-.\+> is not recognized!$',
-    "                 \ '^discarding unexpected </md-.\+>$',
-    "                 \ '^discarding unexpected <md-.\+>$',
-    "                 \ '^<ng-.\+> is not recognized!$',
-    "                 \ '^discarding unexpected </ng-.\+>$',
-    "                 \ '^discarding unexpected <ng-.\+>$',
-    "                 \ '^<img> lacks "src" attribute$'
-    "                 \ ] }
+    " " SYNTASTIC {{{2
+    " " Syntax checking hacks for vim
+    " " https://github.com/scrooloose/syntastic
+    " let g:syntastic_always_populate_loc_list                              = 1
+    " let g:syntastic_check_on_open                                         = 1
+    " let g:syntastic_check_on_wq                                           = 0
+    " let g:syntastic_enable_signs                                          = 1
+    " let g:syntastic_aggregate_errors                                      = 1
+    " let g:tsuquyomi_disable_quickfix                                      = 0
+    " let g:syntastic_typescript_checkers                                   = [ 'tsuquyomi' ]
+    " " let g:syntastic_typescript_checkers                                 = ['tslint', 'eslint', 'tsuquyomi' ]
+    " let g:syntastic_php_checkers                                          = ['php', 'phpcs', 'phpmd']
+    " " let g:syntastic_xsd_checkers                                        = ['xmllint'] " doesn't work, needs arguments, use eclim
+    " " let g:syntastic_jsp_checkers                                        = ['xmllint'] " doesn't work, not very useful I think
+    " let b:syntastic_mode                                                  = "active"
+    " " from : https://github.com/scrooloose/syntastic/wiki/PHP%3A---phpcs
+    " let g:syntastic_php_phpcs_args                                        = "--encoding=utf-8 --tab-width=4 --standard=PSR2"
+    " let g:syntastic_html_tidy_exec                                        = '/usr/sbin/tidy'
+    " set statusline+=%#warningmsg#
+    " set statusline+=%{SyntasticStatuslineFlag()}
+    " set statusline+=%*
+    " let g:syntastic_c_checkers                                            = ['make','splint']
+    " " let g:syntastic_auto_jump                                           = 3
+    " " https://github.com/scrooloose/syntastic/issues/1041
+    " " let g:syntastic_php_checkers                                        = ['php', 'tidy']
+    " let g:syntastic_php_checkers                                          = ["php", "phpmd"]
+    " " let g:syntastic_html_checkers                                       = ['tidy', 'jshint']
+    " let g:syntastic_html_checkers                                         = ['tidy']
+    " let g:syntastic_aggregate_errors                                      = 1
+    " au BufEnter *.php set ft=php.html
+    " let g:syntastic_enable_perl_checker                                   = 0
+    " " let g:syntastic_perl_checkers                                         = ["perl"]
+    " let g:syntastic_html_tidy_blocklevel_tags                             = ["medical-practice", "add-patient", "button-add-patient"]
+    " " md, multiple, layout and minlength are for https://material.angularjs.org/latest/demo/input
+    " " let g:syntastic_html_tidy_ignore_errors                               = [" proprietary attribute \"ng-",
+    " "                                                                         \" proprietary attribute \"md-",
+    " "                                                                         \" proprietary attribute \"flex-",
+    " "                                                                         \" proprietary attribute \"flex",
+    " "                                                                         \" proprietary attribute \"multiple",
+    " "                                                                         \" proprietary attribute \"layout",
+    " "                                                                         \" proprietary attribute \"minlength"
+    " "                                                                         \ ]
+    " let g:syntastic_javascript_checkers                                   = ['eslint']
+    " " let g:syntastic_html_tidy_quiet_messages = {
+    " "     \ "regex": [
+    " "                 \ '^<md-.\+> is not recognized!$',
+    " "                 \ '^discarding unexpected </md-.\+>$',
+    " "                 \ '^discarding unexpected <md-.\+>$',
+    " "                 \ '^<ng-.\+> is not recognized!$',
+    " "                 \ '^discarding unexpected </ng-.\+>$',
+    " "                 \ '^discarding unexpected <ng-.\+>$',
+    " "                 \ '^<img> lacks "src" attribute$'
+    " "                 \ ] }
+    "
+
+    " ALE {{{2
+    " Asynchronous Lint Engine
+    " https://github.com/w0rp/ale
+    " Use only Eclim
+    let g:ale_linters = {
+    \   'java': [''],
+    \}
+    " Enable completion where available.
+    let g:ale_completion_enabled = 1
+    "  Set g:ale_lint_on_text_changed to never or normal. You won't get as
+    "  frequent error checking, but ALE shouldn't block your ability to edit a
+    "  document after you save a file, so the asynchronous nature of the plugin
+    "  will still be an advantage.
+    let g:ale_lint_on_text_changed = "never"
+    " Set this. Airline will handle the rest.
+    let g:airline#extensions#ale#enabled = 1
 
     " Vim-Airline {{{2
     if &term=~'linux'
