@@ -1,0 +1,28 @@
+/* See https://developer.mozilla.org/en-US/docs/Mozilla/Tech/XUL/Tutorial/Modifying_the_Default_Skin */
+/* And http://kb.mozillazine.org/index.php?title=UserContent.css&printable=yes */
+/* Useful for Adwaita-dark theme of LXappearence. */
+/* In the profil folder, create a folder "chrome" and place this file in it. */
+
+/*
+ Declare userContent.css make a bug
+    - during the load page mail.google.com: the text is displayed in grey,
+        and not in black
+    - in the connection page of cas-uga.grenet.fr: the backrong-color is grey
+        and not white.
+ * When we havn't file userContent.css: no problems.
+ * When we have file userContent.css and not Adwaita-dark then (like Adwaita) in
+        LXappearence: no problems.
+ */
+html {
+    color: black;
+}
+
+input {
+    color: black;
+    background-color: white;
+}
+
+textarea {
+    color: black;
+    background-color: white;
+}
