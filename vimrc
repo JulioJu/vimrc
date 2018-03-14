@@ -1177,9 +1177,10 @@
         " Vim magit {{{2
         " https://github.com/jreybert/vimagit
         " Ease your git workflow within Vim
-        let g:magit_default_show_all_files = 0
+        " let g:magit_default_show_all_files = 0
         let g:magit_default_fold_level = 2
         let g:magit_discard_untracked_do_delete=1
+        let g:magit_auto_foldopen = 1
 
         " === Fin  Plugin non installés par Guillaume {{{2
         " }}}
@@ -1461,7 +1462,7 @@
         " https://github.com/w0rp/ale/issues/1285
         " Enable completion where available.
         let g:ale_completion_enabled = 1
-        let g:ale_typescript_tslint_config_path = 'tslint.yaml'
+        " let g:ale_typescript_tslint_config_path = '../tslint.yaml'
 
         " Language Client Neovim {{{2
         " https://github.com/autozimu/LanguageClient-neovim
@@ -2291,6 +2292,8 @@ noremap <Space> <C-d>zz
 noremap <NUL> <C-u>zz
 " nnoremap <C-Space> <C-u>zz
 " nnoremap <C-@> <C-Space>
+
+set virtualedit=block
 
 " Vim buffergator
 " Vim plugin to list, select and switch between buffers.

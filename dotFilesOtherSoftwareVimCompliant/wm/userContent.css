@@ -1,5 +1,5 @@
 /* See https://developer.mozilla.org/en-US/docs/Mozilla/Tech/XUL/Tutorial/Modifying_the_Default_Skin */
-/* And http://kb.mozillazine.org/index.php?title=UserContent.css&printable=yes */
+/* And http://kb.mozillazine.org/UserChrome-example.css */
 /* Useful for Adwaita-dark theme of LXappearence. */
 /* In the profil folder, create a folder "chrome" and place this file in it. */
 
@@ -13,6 +13,11 @@
  * When we have file userContent.css and not Adwaita-dark then (like Adwaita) in
         LXappearence: no problems.
  */
+
+/*
+ * Doesn't work for locals files
+ */
+
 html {
     color: black;
 }

@@ -946,8 +946,12 @@
     -->
     <!--
 
-      http://askubuntu.com/questions/445529/how-can-i-have-an-application-automatically-display-on-all-desktops-under-openbo «««« obxprop | grep "^_OB_APP"  »»»»» -->
+      http://askubuntu.com/questions/445529/how-can-i-have-an-application-automatically-display-on-all-desktops-under-openbo `obxprop | grep "^_OB_APP"` -->
     <application class="Chromium" type="normal">
+      <decor>no</decor>
+      <maximized>true</maximized>
+    </application>
+    <application class="Google-chrome" type="normal">
       <decor>no</decor>
       <maximized>true</maximized>
     </application>
