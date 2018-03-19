@@ -8,5 +8,7 @@ xfce4-volumed &
 xrandr --output LVDS-0 --mode 1600x900 --rate 60.31 &
 xfce4-power-manager &
 nm-applet &
+xinput float "AT Translated Set 2 keyboard" &
+xkbcomp -w9 /opt/lafayette_linux_v0.5.xkb $DISPLAY &
 
 # vim: ft=sh

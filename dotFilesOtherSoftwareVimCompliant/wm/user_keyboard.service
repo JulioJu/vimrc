@@ -1,0 +1,13 @@
+[Unit]
+Description=Run start_my_connection
+After=suspend.target
+#After=hibernate.target
+#After=hybrid-sleep.target
+
+[Service]
+ExecStart=/home/julioprayer/.vim/dotFilesOtherSoftwareVimCompliant/wm/user_keyboard.sh
+
+[Install]
+WantedBy=suspend.target
+#WantedBy=hibernate.target
+#WantedBy=hybrid-sleep.target

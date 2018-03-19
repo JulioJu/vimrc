@@ -121,6 +121,11 @@
            Plug 'Shougo/context_filetype.vim'
         endif
 
+        " ALE {{{2
+        " Asynchronous Lint Engine
+        " https://github.com/w0rp/ale
+        Plug 'w0rp/ale'
+
         " " nvim - typescript {{{2
         " " Typescript tooling for Neovim
         " " https://github.com/mhartington/nvim-typescript
@@ -400,6 +405,16 @@
         " https://github.com/mxw/vim-jsx
         Plug 'mxw/vim-jsx'
 
+        " Vim ejs {{{2
+        " Vim syntax highlighting for javascript EJS html templates
+        " https://github.com/nikvdp/ejs-syntax
+        Plug 'nikvdp/ejs-syntax'
+
+        " " Vim jst {{{2
+        " " A vim plugin for highlighting and indenting JST/EJS syntax
+        " " https://github.com/briancollins/vim-jst
+        " Plug 'briancollins/vim-jst'
+
         " Vim mustache {{{2
         " Mustache template system for VIMScript
         " https://github.com/tobyS/vmustache
@@ -547,11 +562,6 @@
         " " Syntax checking hacks for vim
         " " https://github.com/scroolose/syntastic
         " Plug 'scrooloose/syntastic'
-
-        " ALE {{{2
-        " Asynchronous Lint Engine
-        " https://github.com/w0rp/ale
-        Plug 'w0rp/ale'
 
         " Sensible {{{2
         " sensible.vim: Defaults everyone can agree on
@@ -1053,6 +1063,28 @@
             " let g:context_filetype#same_filetypes = 1
         endif
 
+        " ALE {{{2
+        " Asynchronous Lint Engine
+        " https://github.com/w0rp/ale
+        " Use only Eclim
+        let g:ale_linters = {
+        \   'java': [''],
+        \}
+        " Typescript
+        " =======
+        "  Set g:ale_lint_on_text_changed to never or normal. You won't get as
+        "  frequent error checking, but ALE shouldn't block your ability to edit a
+        "  document after you save a file, so the asynchronous nature of the plugin
+        "  will still be an advantage.
+        " TSserver seems only like continuous checking.
+        " let g:ale_lint_on_text_changed = "never"
+        " Set this. Airline will handle the rest.
+        let g:airline#extensions#ale#enabled = 1
+        " https://github.com/w0rp/ale/issues/1285
+        " Enable completion where available.
+        let g:ale_completion_enabled = 1
+        " let g:ale_typescript_tslint_config_path = '../tslint.yaml'
+
         " " YCM {{{2
         " " A code-completion engine for Vim
         " " https://github.com/Valloric/YouCompleteMe
@@ -1118,7 +1150,8 @@
         " highlights JavaScript's Template Strings in other FileType syntax rule http://www.vim.org/scripts/script.php…
         " https://github.com/Quramy/vim-js-pretty-template
         autocmd FileType javascript JsPreTmpl html
-        autocmd FileType typescript JsPreTmpl html
+        " Cause some crashes.
+        " autocmd FileType typescript JsPreTmpl html
         autocmd FileType typescript syn clear foldBraces " For leafgarland/typescript-vim users only. Please see #1 for details.
 
         " Vim-jsdoc {{{2
@@ -1442,28 +1475,6 @@
         " "                 \ ] }
         "
 
-        " ALE {{{2
-        " Asynchronous Lint Engine
-        " https://github.com/w0rp/ale
-        " Use only Eclim
-        let g:ale_linters = {
-        \   'java': [''],
-        \}
-        " Typescript
-        " =======
-        "  Set g:ale_lint_on_text_changed to never or normal. You won't get as
-        "  frequent error checking, but ALE shouldn't block your ability to edit a
-        "  document after you save a file, so the asynchronous nature of the plugin
-        "  will still be an advantage.
-        " TSserver seems only like continuous checking.
-        " let g:ale_lint_on_text_changed = "never"
-        " Set this. Airline will handle the rest.
-        let g:airline#extensions#ale#enabled = 1
-        " https://github.com/w0rp/ale/issues/1285
-        " Enable completion where available.
-        let g:ale_completion_enabled = 1
-        " let g:ale_typescript_tslint_config_path = '../tslint.yaml'
-
         " Language Client Neovim {{{2
         " https://github.com/autozimu/LanguageClient-neovim
         " Language Server Protocol (LSP) support for vim and neovim.
@@ -1665,13 +1676,13 @@
       call mkdir(g:dotvim_backups, "p")
   endif
   exec "set backupdir=" . g:dotvim_backups
-  "if has('persistent_undo')
-  "    set undofile
-  "    set undolevels=1000
-  "    set undoreload=10000
-  "    exec "set undodir=" . g:dotvim_backups
-  "endif
-  "
+  if has('persistent_undo')
+     set undofile
+     set undolevels=1000
+     set undoreload=10000
+     exec "set undodir=" . g:dotvim_backups
+  endif
+
   " " LINE WRAPPING {{{2
   " " Laisse les lignes déborder de l'écran si besoin
   " "set nowrap

@@ -106,6 +106,10 @@ bindkey '^G' what-cursor-position
 #bindkey -M vicmd "K" vi-change-whole-line
 ## bindkey -M vicmd 't' history-substring-search-up # sous l'index, on remonte plus l'historique qu'on ne le descend :-).
 
+# Enable function edit-command-line when we don't use oh-my-zsh
+zle -N edit-command-line
+autoload -z edit-command-line
+
 # history {{{1
 ##https://github.com/zsh-users/zsh-history-substring-search
 bindkey -M viins '^[[B' history-substring-search-down
@@ -190,7 +194,7 @@ cmatrix -bs
 # https://medium.com/@crashybang/supercharge-vim-with-fzf-and-ripgrep-d4661fc853d2
 # export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*"'
 # Add folders for JHipster project
-export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*" --glob "!*/target/*" --glob "!*/test/*" --glob "!*/config/*"'
+export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*" --glob "!*/target/*'
 
 ## Vim-superman {{{1
 ## https://github.com/jez/vim-superman
@@ -228,6 +232,7 @@ xstat() {
 
 # Alias {{{1
 alias nvrd="nvr --remote-send ':bw!#<CR>'"
+alias nvrm="nvr --remote-table jejioejijie --remote-send ':MagitOnly<CR>:bw!#<CR>'"
 alias nvrt="nvr --remote-tab"
 alias nvrv="nvr --remote-send ':vert belowright sb#<CR><C-\><C-n><C-w>h'"
 alias nvrsb="nvr --remote-send ':sb#<CR><C-\><C-n><C-w>k'"
