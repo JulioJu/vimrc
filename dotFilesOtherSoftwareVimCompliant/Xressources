@@ -107,9 +107,11 @@ URxvt.font              : xft:DejaVuSansMono Nerd Font Mono:size=10
 !URxvt.keysym.M-C-question  : perl:resize-font:show
 
 ! Color scheme {{{1
+! Switch to solarized-light thanks in ~/.vimrc
+! nnoremap <leader>lll :mksession! /tmp/session.vim<CR>:!sed -i -e 's/urxvt-colours-solarized------/urxvt-colours-solarized------/' ~/.vim/dotFilesOtherSoftwareVimCompliant/Xressources<CR>:!xrdb ~/.vim/dotFilesOtherSoftwareVimCompliant/Xressources<CR>:!sed -i -e 's/urxvt-colours-solarized------/urxvt-colours-solarized------/' ~/.Xressources<CR>:qa<CR>
 #include "/home/julioprayer/.vim/dotFilesOtherSoftwareVimCompliant/urxvt/urxvt-colours-solarized-dark"
-! #include "/home/julioprayer/.vim/dotFilesOtherSoftwareVimCompliant/urxvt/urxvt-colours-solarized-light"
-! URxvt.rotate-colors.files : /home/julioprayer/.vim/dotFilesOtherSoftwareVimCompliant/urxvt/urxvt-colours-solarized-light,/home/julioprayer/.vim/dotFilesOtherSoftwareVimCompliant/urxvt-config/urxvt-colours-solarized-dark
+! #include "/home/julioprayer/.vim/dotFilesOtherSoftwareVimCompliant/urxvt/urxvt-colours-solarized------"
+! URxvt.rotate-colors.files : /home/julioprayer/.vim/dotFilesOtherSoftwareVimCompliant/urxvt/urxvt-colours-solarized------,/home/julioprayer/.vim/dotFilesOtherSoftwareVimCompliant/urxvt-config/urxvt-colours-solarized------
 !! rotate-color {{{1
 !URxvt.keysym.M-C-u: perl:rotate-colors:next
 !URxvt.keysym.M-C-p: perl:rotate-colors:prev

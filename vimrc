@@ -2246,6 +2246,8 @@ if has('nvim')
   " With Neovim 0.2.1 and 0.2.2 there is a bug with Terminal:
   " See https://github.com/neovim/neovim/issues/7677#issuecomment-348876942
 endif
+nnoremap <leader>lll :mksession! /tmp/session.vim<CR>:!sed -i -e 's/urxvt-colours-solarized-dark/urxvt-colours-solarized-light/' ~/.vim/dotFilesOtherSoftwareVimCompliant/Xressources<CR>:!xrdb ~/.vim/dotFilesOtherSoftwareVimCompliant/Xressources<CR>:!sed -i -e 's/urxvt-colours-solarized-light/urxvt-colours-solarized-dark/' ~/.Xressources<CR>:qa<CR>
+nnoremap <leader>uuu :source /tmp/session.vim<CR>:set highlight bg=light<CR><CR>
 nnoremap <A-h> <C-w>h
 nnoremap <A-j> <C-w>j
 nnoremap <A-k> <C-w>k
