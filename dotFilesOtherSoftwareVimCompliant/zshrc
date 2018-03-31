@@ -194,7 +194,22 @@ cmatrix -bs
 # https://medium.com/@crashybang/supercharge-vim-with-fzf-and-ripgrep-d4661fc853d2
 # export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*"'
 # Add folders for JHipster project
-export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*" --glob "!*/target/*'
+export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*" --glob "!*/target/* --glob "!*/node_modules/*'
+# export FZF_DEFAULT_COMMAND='fd --hidden --follow --exclude node_modules'
+# To apply the command to CTRL-T as well
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+
+# Use fd (https://github.com/sharkdp/fd) instead of the default find
+# command for listing path candidates.
+# - The first argument to the function ($1) is the base path to start traversal
+# - See the source code (completion.{bash,zsh}) for the details.
+_fzf_compgen_path() {
+    fd --hidden --follow --exclude ".git" --exclude "node_modules" . "$1"
+}
+# Use fd to generate the list for directory completion
+_fzf_compgen_dir() {
+    fd --type d --hidden --follow --exclude ".git" --exclude "node_modules" . "$1"
+}
 
 ## Vim-superman {{{1
 ## https://github.com/jez/vim-superman
@@ -238,9 +253,14 @@ alias nvrv="nvr --remote-send ':vert belowright sb#<CR><C-\><C-n><C-w>h'"
 alias nvrsb="nvr --remote-send ':sb#<CR><C-\><C-n><C-w>k'"
 alias rgg="rg --follow --hidden --files -g"
 alias ncd='nvr -c ":cd $(pwd)"'
+unalias grv
 
  # LS_COLOR {{{1
 eval $( dircolors -b $ZPLUG_REPOS/trapd00r/LS_COLORS/LS_COLORS )
+
+# Other {{{1
+# https://stackoverflow.com/questions/32232655/go-get-results-in-terminal-prompts-disabled-error-for-github-private-repo
+export GIT_TERMINAL_PROMPT=1
 
 
  # vim: ft=zsh

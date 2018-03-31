@@ -300,8 +300,13 @@
         "if has('nvim')
         "  Plug 'juanes852/Eclim-for-Neovim'
         "endif
-        " AU FINAL, J'AI TROUVÉ LA SOLUTION, APPERREMMENT sur Archlinux, LA VERSION COMPILÉE AVEC ECLIM2.5 NE FONCTIONNE PAS. J'AI UTILISÉ  YAOURT POUR ARCHLINUX, ET ÇA FONCTIONNE AU POILE !!!!
         " Voir aussi : https://github.com/ervandew/eclim/issues/385, et https://github.com/juanes852/Eclim-for-Neovim.
+
+        " https://github.com/dansomething/vim-eclim
+        "  Mirror of the VIM files from https://github.com/ervandew/eclim to support installation via various plugin managers. http://eclim.org
+        " PLEASE SEE https://github.com/dansomething/vim-eclim/issues/2
+        " AND https://github.com/Shougo/deoplete.nvim/issues/709
+        Plug 'dansomething/vim-eclim', { 'for': ['java', 'xml'] }
 
 
         " Interesting link to JS {{{2
@@ -2387,6 +2392,7 @@ let $FZF_DEFAULT_OPTS .= ' --no-height'
 
 let g:terminal_scrollback_buffer_size = 100000
 
+
 "GVIM {{{2
 "————
 "http://vim.wikia.com/wiki/Restore_missing_gvim_menu_bar_under_GNOME See also help 'guioptions'
@@ -2454,3 +2460,17 @@ let &colorcolumn="81,".join(range(81,999),",")
 highlight ColorColumn ctermbg=235 guibg=#2c2d27
 " highlight ColorColumn term=reverse ctermbg=1
 
+
+" Headers {{{2
+" https://www.tecmint.com/create-custom-header-template-for-shell-scripts-in-vim/
+au bufnewfile *.ts 0r ~/.vim/headers/typescript_headers.ts
+" https://www.thegeekstuff.com/2008/12/vi-and-vim-autocommand-3-steps-to-add-custom-header-to-your-file/
+" autocmd bufnewfile *.ts so ~/.vim/headers/typescript_headers.ts
+" autocmd bufnewfile *.ts exe "1," . 6 . "g/File Name :.*/s//File Name : " .expand("%")
+autocmd bufnewfile *.ts exe "1," . 6 . "g/AUTHOR.*/s//AUTHOR: JulioJu/"
+autocmd bufnewfile *.ts exe "1," . 6 . "g#GITHUB.*#s##GITHUB: https://github.com/JulioJu"
+" autocmd bufnewfile *.ts exe "1," . 6 . "g/CREATED:.*/s//CREATED: " .strftime("%d-%m-%Y")
+autocmd bufnewfile *.ts exe "1," . 6 . "g/CREATED:.*/s//CREATED: " .strftime("%c")
+autocmd Bufwritepre,filewritepre *.ts execute "normal ma"
+autocmd Bufwritepre,filewritepre *.ts exe "1," . 6 . "g/MODIFIED:.*/s/MODIFIED:.*/MODIFIED: " .strftime("%c")
+autocmd bufwritepost,filewritepost *.ts execute "normal `a"
