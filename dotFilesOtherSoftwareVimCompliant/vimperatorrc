@@ -2,7 +2,8 @@
 "set editor="gvim -f -u ~/.gvimrc"
 " set editor="terminator --fullscreen -p monospace12 -x vim -u ~/_vimrcl2ight.vim"
 " set editor="terminator --fullscreen -x nvim -u ~/_vimrcl2ight.vim"
-set editor="terminator -x nvim"
+" set editor="terminator -x nvim"
+set editor="urxvt -e nvim"
 set gui=nonavigation
 
 set complete="slS"

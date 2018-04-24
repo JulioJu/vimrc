@@ -146,11 +146,11 @@
         " Plug 'vim-scripts/restore_view.vim'
         " Bug in when launch several buffers from differents path : change path.
 
-        " Vim multiple cursors {{{2
-        " True Sublime Text style multiple selections for Vim
-        " https://github.com/terryma/vim-multiple-cursors
-        Plug 'terryma/vim-multiple-cursors'
-
+"        " Vim multiple cursors {{{2
+"        " True Sublime Text style multiple selections for Vim
+"        " https://github.com/terryma/vim-multiple-cursors
+"        Plug 'terryma/vim-multiple-cursors'
+"
         "" NerdCommenter {{{2
         "" BUG FOR JS (not) « /** */
         "" Vim plugin for intensely orgasmic commenting
@@ -171,6 +171,7 @@
         " fzf {{{2
         " A command-line fuzzy finder written in Go
         " https://github.com/junegunn/fzf
+        " https://github.com/junegunn/fzf.vim
         " Installé dans le système, vu que c'est un programme système on l'installe avec le système.
         Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
         Plug 'junegunn/fzf.vim'
@@ -182,7 +183,7 @@
 
         " Vim bclose (dependancy for ranger) {{{2
         " https://github.com/rbgrouleff/bclose.vim
-        " Ranger integration in vim and neovim
+        " The BClose Vim plugin for deleting a buffer without closing the window http://vim.wikia.com/wiki/Deleting_a_…
         Plug 'rbgrouleff/bclose.vim'
 
 
@@ -449,7 +450,7 @@
         " " Read Unix man pages faster than a speeding bullet! https://blog.jez.io/2014/12/20/vim-as-a-man-page-viewer/
         " Plug 'jez/vim-superman'
 
-        " Neoamn {{{2
+        " Neoman {{{2
         " A modern man page plugin for vim
         " https://github.com/nhooyr/neoman.vim
         Plug 'nhooyr/neoman.vim'
@@ -517,11 +518,15 @@
         " Vim syntax file for SPARQL http://www.vim.org/scripts/script.php…
         Plug 'rvesse/vim-sparql'
 
-        " Vim startify
+        " Vim startify {{{2
         " The fancy start screen for Vim.
         " https://github.com/mhinz/vim-startify
         Plug 'mhinz/vim-startify'
 
+        " vim-plugin-AnsiEs {{{2
+        " https://github.com/powerman/vim-plugin-AnsiEsc
+        " ansi escape sequences concealed, but highlighted as specified (conceal) http://www.vim.org/scripts/script.php…
+        Plug 'powerman/vim-plugin-AnsiEsc'
 
         " === Fin plugins non installés par Guillaume {{{2
 
@@ -1025,6 +1030,20 @@
         let g:indentLine_color_gui = '#09AA08'
         let g:indentLine_char = '│'
 
+        " fzf {{{2
+        " A command-line fuzzy finder written in Go
+        " https://github.com/junegunn/fzf
+        " https://github.com/junegunn/fzf.vim
+
+        " https://medium.com/@crashybang/supercharge-vim-with-fzf-and-ripgrep-d4661fc853d2
+        command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>), 1, <bang>0)
+
+        let $FZF_DEFAULT_COMMAND="fd --hidden --follow --exclude '.git' --exclude 'node_modules'"
+
+        " Problems with Ctrl-{R,T} in Neovim terminal
+        " https://github.com/junegunn/fzf/issues/809
+        let $FZF_DEFAULT_OPTS .= ' --no-height'
+
         " TComment {{{2
         " An extensible & universal comment vim-plugin that also handles embedded filetypes http://www.vim.org/scripts/script.php?script_id=1173
         " https://github.com/tomtom/tcomment_vim
@@ -1219,6 +1238,7 @@
         let g:magit_default_fold_level = 2
         let g:magit_discard_untracked_do_delete=1
         let g:magit_auto_foldopen = 1
+        let g:magit_warning_max_lines=500
 
         " === Fin  Plugin non installés par Guillaume {{{2
         " }}}
@@ -2219,8 +2239,8 @@ if has('nvim')
   tnoremap <A-k> <C-\><C-n><C-w>k
   tnoremap <A-l> <C-\><C-n><C-w>l
   " See https://github.com/neovim/neovim/issues/7678#issuecomment-349228286
-  autocmd TermOpen * startinsert
-  autocmd VimEnter,BufWinEnter,WinEnter term://* startinsert
+  " autocmd TermOpen * startinsert
+  " autocmd VimEnter,BufWinEnter,WinEnter term://* startinsert
   autocmd TermOpen * setlocal nornu nonu statusline=%{b:term_title}
   autocmd BufLeave term://* stopinsert
   tnoremap <Leader>q <C-\><C-n>:bw!<CR>
@@ -2235,14 +2255,14 @@ if has('nvim')
   tnoremap <Leader>7gt <C-\><C-n>7gt<CR>
   tnoremap <Leader>8gt <C-\><C-n>8gt<CR>
   tnoremap <Leader>9gt <C-\><C-n>9gt<CR>
-  tnoremap <leader>t <C-\><C-n>:tabnew<SPACE>
-  tnoremap <leader>v <C-\><C-n>:vs<SPACE><CR><C-\><C-n>:enew<CR>:
-  tnoremap <leader>s <C-\><C-n>:sp<SPACE><CR><C-\><C-n>:enew<CR>:
-  tnoremap <leader>b <C-\><C-n>:enew!<CR>:bw!#<CR>:b<SPACE>
-  tnoremap <leader>e <C-\><C-n>:enew!<CR>:bw!#<CR>:e<SPACE>
-  tnoremap <leader><leader>t <C-\><C-n>:tabnew<CR>:terminal<CR>
-  tnoremap <leader><leader>v <C-\><C-n>:vs<CR><C-\><C-n>:terminal<CR>
-  tnoremap <leader><leader>s <C-\><C-n>:sp<CR><C-\><C-n>:terminal<CR>
+  tnoremap <leader><leader>t <C-\><C-n>:tabnew<SPACE>
+  tnoremap <leader><leader>v <C-\><C-n>:vs<SPACE><CR><C-\><C-n>:enew<CR>:
+  tnoremap <leader><leader>s <C-\><C-n>:sp<SPACE><CR><C-\><C-n>:enew<CR>:
+  tnoremap <leader><leader>b <C-\><C-n>:enew!<CR>:bw!#<CR>:b<SPACE>
+  tnoremap <leader><leader>e <C-\><C-n>:enew!<CR>:bw!#<CR>:e<SPACE>
+  tnoremap <leader><leader><leader>t <C-\><C-n>:tabnew<CR>:terminal<CR>
+  tnoremap <leader><leader><leader>v <C-\><C-n>:vs<CR><C-\><C-n>:terminal<CR>
+  tnoremap <leader><leader><leader>s <C-\><C-n>:sp<CR><C-\><C-n>:terminal<CR>
   tnoremap \t <C-\><C-n>q:itabnew<SPACE>
   tnoremap \v <C-\><C-n>q:ivs<SPACE>
   tnoremap \e <C-\><C-n>:enew!<CR>:bw!#<CR>q:ie<SPACE>
@@ -2370,8 +2390,6 @@ cnoremap sv vert belowright sb<Space>
 
 autocmd BufWinEnter,WinEnter set fo-=t
 
-" https://medium.com/@crashybang/supercharge-vim-with-fzf-and-ripgrep-d4661fc853d2
-command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>), 1, <bang>0)
 
 " https://superuser.com/questions/604122/vim-file-name-completion-relative-to-current-file
 autocmd InsertEnter * let save_cwd = getcwd() | set autochdir
@@ -2386,13 +2404,11 @@ autocmd InsertLeave * set noautochdir | execute 'cd' fnameescape(save_cwd)
 " When on a buffer becomes hidden when it is |abandon|ed
 set hidden
 
-" Problems with Ctrl-{R,T} in Neovim terminal
-" https://github.com/junegunn/fzf/issues/809
-let $FZF_DEFAULT_OPTS .= ' --no-height'
-
 let g:terminal_scrollback_buffer_size = 100000
 
+set scrolloff=5
 
+noremap <leader>z :FZF<CR>
 "GVIM {{{2
 "————
 "http://vim.wikia.com/wiki/Restore_missing_gvim_menu_bar_under_GNOME See also help 'guioptions'
@@ -2471,6 +2487,9 @@ autocmd bufnewfile *.ts exe "1," . 6 . "g/AUTHOR.*/s//AUTHOR: JulioJu/"
 autocmd bufnewfile *.ts exe "1," . 6 . "g#GITHUB.*#s##GITHUB: https://github.com/JulioJu"
 " autocmd bufnewfile *.ts exe "1," . 6 . "g/CREATED:.*/s//CREATED: " .strftime("%d-%m-%Y")
 autocmd bufnewfile *.ts exe "1," . 6 . "g/CREATED:.*/s//CREATED: " .strftime("%c")
-autocmd Bufwritepre,filewritepre *.ts execute "normal ma"
-autocmd Bufwritepre,filewritepre *.ts exe "1," . 6 . "g/MODIFIED:.*/s/MODIFIED:.*/MODIFIED: " .strftime("%c")
-autocmd bufwritepost,filewritepost *.ts execute "normal `a"
+let total_lines =  getfsize(expand(@%))
+if ( total_lines >= 6 )
+    autocmd Bufwritepre,filewritepre *.ts execute "normal ma"
+    autocmd Bufwritepre,filewritepre *.ts exe "1," . 6 . "g/MODIFIED:.*/s/MODIFIED:.*/MODIFIED: " .strftime("%c")
+    autocmd bufwritepost,filewritepost *.ts execute "normal `a"
+endif

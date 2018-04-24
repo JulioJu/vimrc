@@ -1,6 +1,9 @@
-" Checkout to any commit
-" https://github.com/jonas/tig/issues/481
+# Checkout to any commit
+# https://github.com/jonas/tig/issues/481
 bind main c ?git checkout %(commit)
+
+# Copy commit ID to clipboard:
+bind generic 9 !@sh -c "echo -n %(commit) | xsel -ib"
 
 # See also https://github.com/jonas/tig/issues/428
 # From https://github.com/jonas/tig/issues/522
