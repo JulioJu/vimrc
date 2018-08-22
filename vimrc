@@ -307,7 +307,7 @@
         "  Mirror of the VIM files from https://github.com/ervandew/eclim to support installation via various plugin managers. http://eclim.org
         " PLEASE SEE https://github.com/dansomething/vim-eclim/issues/2
         " AND https://github.com/Shougo/deoplete.nvim/issues/709
-        Plug 'dansomething/vim-eclim', { 'for': ['java', 'xml'] }
+        Plug 'dansomething/vim-eclim', { 'for': ['java', 'xml'], 'do': './install.sh --eclipse=/usr/lib/eclipse --plugins=jdt' }
 
 
         " Interesting link to JS {{{2
