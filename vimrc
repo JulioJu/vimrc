@@ -121,6 +121,11 @@
            Plug 'Shougo/context_filetype.vim'
         endif
 
+        " Vim Autotag {{{2
+        " https://github.com/craigemery/vim-autotag
+        " Automatically discover and "properly" update ctags files on save
+        Plug 'craigemery/vim-autotag', {'for': ['sh', 'c', 'zsh', 'bash']}
+
         " ALE {{{2
         " Asynchronous Lint Engine
         " https://github.com/w0rp/ale
@@ -807,11 +812,11 @@
         "" https://github.com/nanotech/jellybeans.vim
         "Plug 'nanotech/jellybeans.vim'
         "
-        "" TagBar {{{2
-        "" Vim plugin that displays tags in a window, ordered by class etc.
-        "" https://github.com/majutsushi/tagbar
-        "Plug 'majutsushi/tagbar'
-        "
+        " TagBar {{{2
+        " Vim plugin that displays tags in a window, ordered by class etc.
+        " https://github.com/majutsushi/tagbar
+        Plug 'majutsushi/tagbar'
+
         "" guyzmo/notmuch {{{2
         "Plug 'guyzmo/notmuch-abook'
         "
@@ -953,7 +958,7 @@
         " BashSupport {{{2
         " BASH IDE -- Write and run BASH-scripts using menus and hotkeys.
         " https://github.com/vim-scripts/bash-support.vim
-        Plug 'vim-scripts/bash-support.vim', { 'for': 'sh' }
+        Plug 'vim-scripts/bash-support.vim', { 'for': ['sh', 'bash', 'zsh'] }
 
         "" Bundle samples {{{2
         "" non github repos{{{3
@@ -1087,6 +1092,23 @@
             " let g:context_filetype#same_filetypes = 1
         endif
 
+        " Tagbar {{{2
+        " https://github.com/majutsushi/tagbar
+        " Vim plugin that displays tags in a window, ordered by scope http://majutsushi.github.io/tagbar/
+        " Default definition are at
+        " https://github.com/majutsushi/tagbar/blob/master/autoload/tagbar/types/uctags.vim
+        " Below overwrite default definition.
+        let g:tagbar_type_sh = {
+                    \ 'ctagstype' : 'sh',
+                    \ 'kinds' : [
+                        \ 'f:functions',
+                        \ 'e:exportvars',
+                        \ 'V:varglobal',
+                        \ 'a:alisases' ,
+                        \ 's:script files'
+                    \ ],
+                    \ }
+
         " ALE {{{2
         " Asynchronous Lint Engine
         " https://github.com/w0rp/ale
@@ -1094,6 +1116,7 @@
         let g:ale_linters = {
         \   'java': [''],
         \}
+
         " Typescript
         " =======
         "  Set g:ale_lint_on_text_changed to never or normal. You won't get as
@@ -1500,19 +1523,19 @@
         " "                 \ ] }
         "
 
-        " Language Client Neovim {{{2
-        " https://github.com/autozimu/LanguageClient-neovim
-        " Language Server Protocol (LSP) support for vim and neovim.
-        let g:LanguageClient_serverCommands = {
-                    \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
-                    \ 'javascript': ['javascript-typescript-stdio'],
-                    \ 'typescript': ['javascript-typescript-stdio'],
-                    \ 'javascript.jsx': ['javascript-typescript-stdio'],
-                    \ }
-
-        nnoremap <silent> K :call LanguageClient_textDocument_hover()<CR>
-        nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
-        nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
+        " " Language Client Neovim {{{2
+        " " https://github.com/autozimu/LanguageClient-neovim
+        " " Language Server Protocol (LSP) support for vim and neovim.
+        " let g:LanguageClient_serverCommands = {
+        "             \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
+        "             \ 'javascript': ['javascript-typescript-stdio'],
+        "             \ 'typescript': ['javascript-typescript-stdio'],
+        "             \ 'javascript.jsx': ['javascript-typescript-stdio'],
+        "             \ }
+        "
+        " nnoremap <silent> K :call LanguageClient_textDocument_hover()<CR>
+        " nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
+        " nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
 
         " Vim-Airline {{{2
         if &term=~'linux'
