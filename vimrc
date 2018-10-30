@@ -181,6 +181,11 @@
         Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
         Plug 'junegunn/fzf.vim'
 
+        " Ripgrep {{{2
+        " Use RipGrep in Vim and display results in a quickfix list
+        " https://github.com/jremmen/vim-ripgrep
+        Plug 'jremmen/vim-ripgrep'
+
         " Vim ranger {{{2
         " Plug 'francoiscabrol/ranger.vim'
         " https://github.com/francoiscabrol/ranger.vim
@@ -314,6 +319,25 @@
         " AND https://github.com/Shougo/deoplete.nvim/issues/709
         Plug 'dansomething/vim-eclim', { 'for': ['java', 'xml'], 'do': './install.sh --eclipse=/usr/lib/eclipse --plugins=jdt' }
 
+        " OmniSharp {{{2
+        " https://github.com/OmniSharp/omnisharp-vim
+        " Vim omnicompletion (intellisense) and more for c# http://www.omnisharp.net
+        Plug 'OmniSharp/omnisharp-vim'
+
+        " Vim csharp {{{2
+        " https://github.com/oranget/vim-csharp
+        " Enhancement's to Vim's C-Sharp Functionality
+        Plug 'oranget/vim-csharp'
+
+        " SQL Server Syntax {{{2
+        " Syntax file for SQL Server 2005/2008
+        " https://github.com/vim-scripts/sqlserver.vim
+        Plug 'vim-scripts/sqlserver.vim'
+
+        " Vim Javacomplete 2 {{{2
+        " Updated javacomplete plugin for vim.
+        " https://github.com/artur-shaik/vim-javacomplete2
+        Plug 'artur-shaik/vim-javacomplete2'
 
         " Interesting link to JS {{{2
         " https://davidosomething.com/blog/vim-for-javascript/
@@ -1131,6 +1155,11 @@
         " Enable completion where available.
         let g:ale_completion_enabled = 1
         " let g:ale_typescript_tslint_config_path = '../tslint.yaml'
+
+        " https://github.com/OmniSharp/omnisharp-vim
+        let g:ale_linters = {
+                    \ 'cs': ['OmniSharp']
+                    \}
 
         " " YCM {{{2
         " " A code-completion engine for Vim
