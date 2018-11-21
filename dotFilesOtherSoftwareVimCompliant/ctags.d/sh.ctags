@@ -33,7 +33,7 @@
 # Note: `declare' without `-g' in a function declare a local variable.
 #     but I never use that (by convention). Useful for this regex pattern.
 --kinddef-sh=V,variableglob,variablesglob
---regex-sh=/^[ \t]*(declare)[ \t]*([A-Za-z0-9_-]+)=/\2/V,variableglob,variablesglob/
+--regex-sh=/^[ \t]*(declare)([ \t]+-[aAfFgilnrtuxp]+)*[ \t]+([A-Za-z0-9_-]+)=/\3/V,variableglob,variablesglob/
 
 # From https://vi.stackexchange.com/questions/5619/generate-ctags-for-bash-variables
 # --regex-sh=/^[ \t]*(local)?[ \t]*([A-Za-z0-9_-]+)=/\2/v,variable,variables/

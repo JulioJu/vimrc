@@ -249,8 +249,8 @@ xstat() {
 alias nvrd="nvr --remote-send ':bw!#<CR>'"
 alias nvrm="nvr --remote-tab jejioejijie --remote-send ':MagitOnly<CR>:bw jejioejijie<CR>'"
 alias nvrt="nvr --remote-tab"
-alias nvrv="nvr --remote-send ':vert belowright sb#<CR><C-\><C-n><C-w>h'"
-alias nvrsb="nvr --remote-send ':sb#<CR><C-\><C-n><C-w>k'"
+alias nvrv="nvr --remote-send ':vert belowright sb#<CR><C-\><C-n><C-w><<C-w>><C-w>h'"
+alias nvrs="nvr --remote-send ':aboveleft sb#<CR><C-\><C-n><C-w>-<C-w>+<C-w>j'"
 alias rgg="rg --follow --hidden --files -g"
 alias ncd='nvr -c ":cd $(pwd)"'
 unalias grv

@@ -489,7 +489,7 @@
     <keybind key="XF86Sleep">
       <action name="Execute">
         <!-- <command>lxsession&#45;default quit</command> -->
-        <command>systemctl suspend</command>
+        <command>systemctl hibernate</command>
         <!-- <command>poweroff</command> -->
       </action>
     </keybind>

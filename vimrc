@@ -1133,6 +1133,9 @@
                     \ ],
                     \ }
 
+        let g:tagbar_show_linenumbers=2
+        let g:tagbar_autofocus = 1
+
         " ALE {{{2
         " Asynchronous Lint Engine
         " https://github.com/w0rp/ale
@@ -2308,13 +2311,13 @@ if has('nvim')
   tnoremap <Leader>8gt <C-\><C-n>8gt<CR>
   tnoremap <Leader>9gt <C-\><C-n>9gt<CR>
   tnoremap <leader><leader>t <C-\><C-n>:tabnew<SPACE>
-  tnoremap <leader><leader>v <C-\><C-n>:vs<SPACE><CR><C-\><C-n>:enew<CR>:
-  tnoremap <leader><leader>s <C-\><C-n>:sp<SPACE><CR><C-\><C-n>:enew<CR>:
+  tnoremap <leader><leader>v <C-\><C-n>:vs<SPACE><CR><C-\><C-n><C-w><<C-w>>:enew<CR>:
+  tnoremap <leader><leader>s <C-\><C-n>:sp<SPACE><CR><C-\><C-n><C-w>-<C-w>+:enew<CR>:
   tnoremap <leader><leader>b <C-\><C-n>:enew!<CR>:bw!#<CR>:b<SPACE>
   tnoremap <leader><leader>e <C-\><C-n>:enew!<CR>:bw!#<CR>:e<SPACE>
   tnoremap <leader><leader><leader>t <C-\><C-n>:tabnew<CR>:terminal<CR>
-  tnoremap <leader><leader><leader>v <C-\><C-n>:vs<CR><C-\><C-n>:terminal<CR>
-  tnoremap <leader><leader><leader>s <C-\><C-n>:sp<CR><C-\><C-n>:terminal<CR>
+  tnoremap <leader><leader><leader>v <C-\><C-n>:vs<CR><C-\><C-n><C-w><<C-w>>:terminal<CR>
+  tnoremap <leader><leader><leader>s <C-\><C-n>:sp<CR><C-\><C-n><C-w>-<C-w>+:terminal<CR>
   tnoremap \t <C-\><C-n>q:itabnew<SPACE>
   tnoremap \v <C-\><C-n>q:ivs<SPACE>
   tnoremap \e <C-\><C-n>:enew!<CR>:bw!#<CR>q:ie<SPACE>
@@ -2461,6 +2464,9 @@ let g:terminal_scrollback_buffer_size = 100000
 set scrolloff=5
 
 noremap <leader>z :FZF<CR>
+
+"/\%81v.\+/
+
 "GVIM {{{2
 "————
 "http://vim.wikia.com/wiki/Restore_missing_gvim_menu_bar_under_GNOME See also help 'guioptions'
