@@ -319,25 +319,30 @@
         " AND https://github.com/Shougo/deoplete.nvim/issues/709
         Plug 'dansomething/vim-eclim', { 'for': ['java', 'xml'], 'do': './install.sh --eclipse=/usr/lib/eclipse --plugins=jdt' }
 
+        " Vim Javacomplete 2 {{{2
+        " Updated javacomplete plugin for vim.
+        " https://github.com/artur-shaik/vim-javacomplete2
+        Plug 'artur-shaik/vim-javacomplete2' , { 'for': ['java'] }
+
         " OmniSharp {{{2
         " https://github.com/OmniSharp/omnisharp-vim
         " Vim omnicompletion (intellisense) and more for c# http://www.omnisharp.net
-        Plug 'OmniSharp/omnisharp-vim'
+        Plug 'OmniSharp/omnisharp-vim', { 'for': ['cs'] }
+
+        " CSComment {{{2
+        " https://github.com/vim-scripts/cscomment.vim
+        " Automates creation of /// comments for C# methods
+        Plug 'vim-scripts/cscomment.vim', { 'for': ['cs'] }
 
         " Vim csharp {{{2
         " https://github.com/oranget/vim-csharp
         " Enhancement's to Vim's C-Sharp Functionality
-        Plug 'oranget/vim-csharp'
+        Plug 'oranget/vim-csharp', { 'for': ['cs'] }
 
         " SQL Server Syntax {{{2
         " Syntax file for SQL Server 2005/2008
         " https://github.com/vim-scripts/sqlserver.vim
         Plug 'vim-scripts/sqlserver.vim'
-
-        " Vim Javacomplete 2 {{{2
-        " Updated javacomplete plugin for vim.
-        " https://github.com/artur-shaik/vim-javacomplete2
-        Plug 'artur-shaik/vim-javacomplete2'
 
         " Interesting link to JS {{{2
         " https://davidosomething.com/blog/vim-for-javascript/
@@ -2545,6 +2550,7 @@ autocmd bufnewfile *.ts exe "1," . 6 . "g/AUTHOR.*/s//AUTHOR: JulioJu/"
 autocmd bufnewfile *.ts exe "1," . 6 . "g#GITHUB.*#s##GITHUB: https://github.com/JulioJu"
 " autocmd bufnewfile *.ts exe "1," . 6 . "g/CREATED:.*/s//CREATED: " .strftime("%d-%m-%Y")
 autocmd bufnewfile *.ts exe "1," . 6 . "g/CREATED:.*/s//CREATED: " .strftime("%c")
+autocmd Bufwritepre,filewritepre *.ts exe "1," . 6 . "g/MODIFIED:.*/s/MODIFIED:.*/MODIFIED: " .strftime("%c") | execute "normal \<C-O>"
 let total_lines =  getfsize(expand(@%))
 if ( total_lines >= 6 )
     autocmd Bufwritepre,filewritepre *.ts execute "normal ma"
