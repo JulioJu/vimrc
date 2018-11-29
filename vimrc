@@ -103,13 +103,13 @@
         " https://github.com/honza/vim-snippets
         Plug 'honza/vim-snippets'
 
-        " " Language Client Neovim {{{2
-        " " https://github.com/autozimu/LanguageClient-neovim
-        " " Language Server Protocol (LSP) support for vim and neovim.
-        " Plug 'autozimu/LanguageClient-neovim', {
-        "             \ 'branch': 'next',
-        "             \ 'do': 'bash install.sh',
-        "             \ }
+        " Language Client Neovim {{{2
+        " https://github.com/autozimu/LanguageClient-neovim
+        " Language Server Protocol (LSP) support for vim and neovim.
+        Plug 'autozimu/LanguageClient-neovim', {
+                    \ 'branch': 'next',
+                    \ 'do': 'bash install.sh',
+                    \ }
 
         " Deoplete {{{2
         " https://github.com/Shougo/deoplete.nvim
@@ -298,31 +298,35 @@
         " Plug 'lordm/vim-browser-reload-linux', { 'for': ['html', 'php', 'javascript', 'typescript']}
 
 
-        " Vim Eclim {{{2
-        " https://github.com/starcraftman/vim-eclim
-        " A repo to use with vim plugin managers.
-        " Plug 'starcraftman/vim-eclim'
-        " source /usr/share/vim/vimfiles/plugin/eclim.vim -- « Unable to determine eclim basedir.  Please report this issue on the eclim user mailing list. ».
-        " Plug '/usr/share/vim/vimfiles/pluginEclim' // Doesn't work
-        " NeoBundleLocal seems to be for an other thing https://github.com/Shougo/neobundle.vim/issues/171.
-        " Doesn't work
-        " NeoBundleLocal '~/.nvim/pluginEclim'
-        " Maybe, you can also simply use https://github.com/zowens/vim-eclim, with the current Eclim.
-        "if has('nvim')
-        "  Plug 'juanes852/Eclim-for-Neovim'
-        "endif
-        " Voir aussi : https://github.com/ervandew/eclim/issues/385, et https://github.com/juanes852/Eclim-for-Neovim.
-
-        " https://github.com/dansomething/vim-eclim
-        "  Mirror of the VIM files from https://github.com/ervandew/eclim to support installation via various plugin managers. http://eclim.org
-        " PLEASE SEE https://github.com/dansomething/vim-eclim/issues/2
-        " AND https://github.com/Shougo/deoplete.nvim/issues/709
-        Plug 'dansomething/vim-eclim', { 'for': ['java', 'xml'], 'do': './install.sh --eclipse=/usr/lib/eclipse --plugins=jdt' }
+        " " Vim Eclim {{{2
+        " " https://github.com/starcraftman/vim-eclim
+        " " A repo to use with vim plugin managers.
+        " " Plug 'starcraftman/vim-eclim'
+        " " source /usr/share/vim/vimfiles/plugin/eclim.vim -- « Unable to determine eclim basedir.  Please report this issue on the eclim user mailing list. ».
+        " " Plug '/usr/share/vim/vimfiles/pluginEclim' // Doesn't work
+        " " NeoBundleLocal seems to be for an other thing https://github.com/Shougo/neobundle.vim/issues/171.
+        " " Doesn't work
+        " " NeoBundleLocal '~/.nvim/pluginEclim'
+        " " Maybe, you can also simply use https://github.com/zowens/vim-eclim, with the current Eclim.
+        " "if has('nvim')
+        " "  Plug 'juanes852/Eclim-for-Neovim'
+        " "endif
+        " " Voir aussi : https://github.com/ervandew/eclim/issues/385, et https://github.com/juanes852/Eclim-for-Neovim.
+        "
+        " " https://github.com/dansomething/vim-eclim
+        " "  Mirror of the VIM files from https://github.com/ervandew/eclim to support installation via various plugin managers. http://eclim.org
+        " " PLEASE SEE https://github.com/dansomething/vim-eclim/issues/2
+        " " AND https://github.com/Shougo/deoplete.nvim/issues/709
+        " Plug 'dansomething/vim-eclim', { 'for': ['java', 'xml'], 'do': './install.sh --eclipse=/usr/lib/eclipse --plugins=jdt' }
 
         " Vim Javacomplete 2 {{{2
         " Updated javacomplete plugin for vim.
         " https://github.com/artur-shaik/vim-javacomplete2
         Plug 'artur-shaik/vim-javacomplete2' , { 'for': ['java'] }
+
+        " JAVA {{{2
+        " TODO
+        " See https://github.com/neoclide/coc.nvim
 
         " OmniSharp {{{2
         " https://github.com/OmniSharp/omnisharp-vim
@@ -332,7 +336,8 @@
         " CSComment {{{2
         " https://github.com/vim-scripts/cscomment.vim
         " Automates creation of /// comments for C# methods
-        Plug 'vim-scripts/cscomment.vim', { 'for': ['cs'] }
+        " CAUSE CONFLICTS WITH DELIMITEMATE
+        " Plug 'vim-scripts/cscomment.vim', { 'for': ['cs'] }
 
         " Vim csharp {{{2
         " https://github.com/oranget/vim-csharp
@@ -1093,10 +1098,10 @@
         " Dark powered asynchronous completion framework for neovim
 
         if has('nvim')
-            " Eclim support
-            " See https://www.reddit.com/r/vim/comments/5xspok/trouble_with_eclim_and_deoplete/
-            let g:deoplete#omni#input_patterns = {}
-            let g:deoplete#omni#input_patterns.java = '[^. *\t]\.\w*'
+            " " Eclim support
+            " " See https://www.reddit.com/r/vim/comments/5xspok/trouble_with_eclim_and_deoplete/
+            " let g:deoplete#omni#input_patterns = {}
+            " let g:deoplete#omni#input_patterns.java = '[^. *\t]\.\w*'
 
             " Autoclose preview windows
             " https://github.com/Shougo/deoplete.nvim/issues/115
@@ -1211,11 +1216,11 @@
         let g:formatters_xhtml = ['my_custom_php']
         let g:formatters_xsd = ['my_custom_php']
 
-        " Eclim {{{2
-        " http://eclim.org/
-        let g:EclimCompletionMethod = 'omnifunc'
-        let g:EclimJavascriptValidate = 0
-        let g:airline#extensions#eclim#enabled = 1
+        " " Eclim {{{2
+        " " http://eclim.org/
+        " let g:EclimCompletionMethod = 'omnifunc'
+        " let g:EclimJavascriptValidate = 0
+        " let g:airline#extensions#eclim#enabled = 1
 
         " VisIncr {{{2
         " https://github.com/vim-scripts/VisIncr
@@ -1560,19 +1565,28 @@
         " "                 \ ] }
         "
 
-        " " Language Client Neovim {{{2
-        " " https://github.com/autozimu/LanguageClient-neovim
-        " " Language Server Protocol (LSP) support for vim and neovim.
-        " let g:LanguageClient_serverCommands = {
-        "             \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
-        "             \ 'javascript': ['javascript-typescript-stdio'],
-        "             \ 'typescript': ['javascript-typescript-stdio'],
-        "             \ 'javascript.jsx': ['javascript-typescript-stdio'],
-        "             \ }
+        " Language Client Neovim {{{2
+        " https://github.com/autozimu/LanguageClient-neovim
+        " Language Server Protocol (LSP) support for vim and neovim.
+
+        " \ 'javascript': ['javascript-typescript-stdio'],
+        " \ 'typescript': ['javascript-typescript-stdio'],
+        " \ 'javascript.jsx': ['javascript-typescript-stdio'],
+        let g:LanguageClient_serverCommands = {
+                    \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
+                    \ 'sh': ['bash-language-server', 'start'],
+                    \ }
         "
-        " nnoremap <silent> K :call LanguageClient_textDocument_hover()<CR>
-        " nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
-        " nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
+
+        function! LoadShortcutServerCommand()
+            " nnoremap <buffer> <silent> K :call LanguageClient#textDocument_hover()<cr>
+            " nnoremap <buffer> <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
+            nnoremap <buffer> <silent> gd :call LanguageClient#textDocument_definition()<CR>
+            set completefunc=LanguageClient#complete
+            set formatexpr=LanguageClient#textDocument_rangeFormatting_sync()
+        endfunction
+
+        autocmd FileType sh call LoadShortcutServerCommand()
 
         " Vim-Airline {{{2
         if &term=~'linux'
