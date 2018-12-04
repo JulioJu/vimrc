@@ -785,6 +785,17 @@
         Plug 'plasticboy/vim-markdown', { 'for': ['markdown']}
         let g:vim_markdown_folding_disabled=1
 
+        " Vim Markdown TOC {{{2
+        " A vim 7.4+ plugin to generate table of contents for Markdown files.
+        " https://github.com/mzlogin/vim-markdown-toc
+        Plug 'mzlogin/vim-markdown-toc', { 'for': ['markdown']}
+
+        " Markdown 2 Ctags {{{2
+        " Generate ctags-compatible tags files for Markdown documents.
+        " https://github.com/jszakmeister/markdown2ctags
+        " Note: not a Vim Plugin
+        Plug 'jszakmeister/markdown2ctags', { 'for': ['markdown']}
+
         " " Pandoc {{{2
         " Plug 'vim-pandoc/vim-pandoc', { 'for': ['md']}
         "
@@ -1145,6 +1156,22 @@
 
         let g:tagbar_show_linenumbers=2
         let g:tagbar_autofocus = 1
+
+        " Add support for markdown files in tagbar.
+        let g:tagbar_type_markdown = {
+            \ 'ctagstype': 'markdown',
+            \ 'ctagsbin' : '~/.vim/plugged/markdown2ctags/markdown2ctags.py',
+            \ 'ctagsargs' : '-f - --sort=yes',
+            \ 'kinds' : [
+                \ 's:sections',
+                \ 'i:images'
+            \ ],
+            \ 'sro' : '|',
+            \ 'kind2scope' : {
+                \ 's' : 'section',
+            \ },
+            \ 'sort': 0,
+        \ }
 
         " ALE {{{2
         " Asynchronous Lint Engine
