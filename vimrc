@@ -324,14 +324,17 @@
         " https://github.com/artur-shaik/vim-javacomplete2
         Plug 'artur-shaik/vim-javacomplete2' , { 'for': ['java'] }
 
-        " JAVA {{{2
-        " TODO
+        " Java LSP COC {{{2
+        " Language Server Protocol (LSP) support for vim & neovim, featured as VSCode
         " See https://github.com/neoclide/coc.nvim
+        " Note: don't work well with Android Projects
+        " https://github.com/redhat-developer/vscode-java/issues/10#issuecomment-268834749
 
         " OmniSharp {{{2
         " https://github.com/OmniSharp/omnisharp-vim
         " Vim omnicompletion (intellisense) and more for c# http://www.omnisharp.net
-        Plug 'OmniSharp/omnisharp-vim', { 'for': ['cs'] }
+
+        Plug 'OmniSharp/omnisharp-vim', { 'for': ['cs', 'cshtml.html'] }
 
         " CSComment {{{2
         " https://github.com/vim-scripts/cscomment.vim
@@ -1176,10 +1179,11 @@
         " ALE {{{2
         " Asynchronous Lint Engine
         " https://github.com/w0rp/ale
+
         " Use only Eclim
-        let g:ale_linters = {
-        \   'java': [''],
-        \}
+        " let g:ale_linters = {
+        " \   'java': [''],
+        " \}
 
         " Typescript
         " =======
@@ -1196,10 +1200,31 @@
         let g:ale_completion_enabled = 1
         " let g:ale_typescript_tslint_config_path = '../tslint.yaml'
 
-        " https://github.com/OmniSharp/omnisharp-vim
         let g:ale_linters = {
-                    \ 'cs': ['OmniSharp']
+                    \ 'cs': ['OmniSharp'],
+                    \ 'cshtml.html': ['OmniSharp']
                     \}
+
+        " OmniSharp {{{2
+        " https://github.com/OmniSharp/omnisharp-vim
+        " Vim omnicompletion (intellisense) and more for c# http://www.omnisharp.net
+        " https://github.com/OmniSharp/omnisharp-vim
+
+        " See above
+        " let g:ale_linters = {
+        "             \ 'cs': ['OmniSharp']
+        "             \}
+
+        let g:OmniSharp_timeout = 5
+        let g:OmniSharp_proc_debug = 1
+        " see https://github.com/OmniSharp/omnisharp-vim/issues/427
+        " let g:OmniSharp_server_path = '/media/data/home/omnisharp-roslyn/bin/Debug/OmniSharp.Http.Driver/net461/OmniSharp.exe'
+        " let g:OmniSharp_server_path = '/media/data/home/omnisharp-roslyn/artifacts/publish/OmniSharp.Http.Driver/mono/OmniSharp.exe'
+        " let g:OmniSharp_server_path = '/media/data/home/omnisharpBin9b5e3ebb/OmniSharp.exe'
+        " let g:OmniSharp_server_use_mono = 1
+        let g:OmniSharp_loglevel = 'debug'
+
+"        let g:omnicomplete_fetch_full_documentation = 1
 
         " " YCM {{{2
         " " A code-completion engine for Vim
