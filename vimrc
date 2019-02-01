@@ -2607,19 +2607,28 @@ highlight ColorColumn ctermbg=235 guibg=#2c2d27
 
 
 " Headers {{{2
+
 " https://www.tecmint.com/create-custom-header-template-for-shell-scripts-in-vim/
-au bufnewfile *.ts 0r ~/.vim/headers/typescript_headers.ts
 " https://www.thegeekstuff.com/2008/12/vi-and-vim-autocommand-3-steps-to-add-custom-header-to-your-file/
-" autocmd bufnewfile *.ts so ~/.vim/headers/typescript_headers.ts
-" autocmd bufnewfile *.ts exe "1," . 6 . "g/File Name :.*/s//File Name : " .expand("%")
-autocmd bufnewfile *.ts exe "1," . 6 . "g/AUTHOR.*/s//AUTHOR: JulioJu/"
-autocmd bufnewfile *.ts exe "1," . 6 . "g#GITHUB.*#s##GITHUB: https://github.com/JulioJu"
-" autocmd bufnewfile *.ts exe "1," . 6 . "g/CREATED:.*/s//CREATED: " .strftime("%d-%m-%Y")
-autocmd bufnewfile *.ts exe "1," . 6 . "g/CREATED:.*/s//CREATED: " .strftime("%c")
-autocmd Bufwritepre,filewritepre *.ts exe "1," . 6 . "g/MODIFIED:.*/s/MODIFIED:.*/MODIFIED: " .strftime("%c") | execute "normal \<C-O>"
-let total_lines =  getfsize(expand(@%))
-if ( total_lines >= 6 )
-    autocmd Bufwritepre,filewritepre *.ts execute "normal ma"
-    autocmd Bufwritepre,filewritepre *.ts exe "1," . 6 . "g/MODIFIED:.*/s/MODIFIED:.*/MODIFIED: " .strftime("%c")
-    autocmd bufwritepost,filewritepost *.ts execute "normal `a"
-endif
+
+function! HeaderTypescript()
+    0r ~/.vim/headers/typescript_headers.ts
+    " so ~/.vim/headers/typescript_headers.ts
+    " exe "1," . 6 . "g/File Name :.*/s//File Name : " .expand("%")
+    exe "1," . 6 . "g/AUTHOR.*/s//AUTHOR: JulioJu/"
+    exe "1," . 6 . "g#GITHUB.*#s##GITHUB: https://github.com/JulioJu"
+    " exe "1," . 6 . "g/CREATED:.*/s//CREATED: " .strftime("%d-%m-%Y")
+    exe "1," . 6 . "g/CREATED:.*/s//CREATED: " .strftime("%c")
+endfunction
+autocmd bufnewfile *.ts silent call HeaderTypescript()
+
+function! UpdateModfiedDate()
+    " let total_lines =  getfsize(expand(@%))
+    let second_line = system("head -n 2 " . bufname("%") . " | tail -n 1")
+    echom second_line
+    if second_line =~ "AUTHOR: JulioJu"
+        " See `:help keepjumps' for better examples
+        keepjumps execute "1," . 6 . "g/MODIFIED:.*/s/MODIFIED:.*/MODIFIED: " .strftime("%c") | keepjumps execute "normal \<C-O>"
+    endif
+endfunction
+autocmd Bufwritepre,filewritepre *.ts silent call UpdateModfiedDate()

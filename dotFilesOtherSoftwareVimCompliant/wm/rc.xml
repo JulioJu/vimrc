@@ -279,8 +279,18 @@
        <command>sh -c "import -window root ~/Pictures/$(date '+%Y%m%d-%H%M%S').png"</command>
      </action>
    </keybind> -->
+
     <!-- Keybindings for window switching -->
-    <keybind key="A-Tab">
+    <!-- <keybind key="W&#45;j"> -->
+    <!--   <action name="NextWindow"> -->
+    <!--     <finalactions> -->
+    <!--       <action name="Focus"/> -->
+    <!--       <action name="Raise"/> -->
+    <!--       <action name="Unshade"/> -->
+    <!--     </finalactions> -->
+    <!--   </action> -->
+    <!-- </keybind> -->
+    <keybind key="W-j">
       <action name="NextWindow">
         <finalactions>
           <action name="Focus"/>
@@ -289,9 +299,29 @@
         </finalactions>
       </action>
     </keybind>
+    <!-- <keybind key="C&#45;A&#45;Tab"> -->
+    <!--   <action name="NextWindow"> -->
+    <!--     <panels>yes</panels> -->
+    <!--     <desktop>yes</desktop> -->
+    <!--     <finalactions> -->
+    <!--       <action name="Focus"/> -->
+    <!--       <action name="Raise"/> -->
+    <!--       <action name="Unshade"/> -->
+    <!--     </finalactions> -->
+    <!--   </action> -->
+    <!-- </keybind> -->
     <!-- Before, Task switcher as Windows, with the « <dialog>icons</dialog> » -->
     <!-- <keybind key="A-Tab"><action name="NextWindow"><dialog>icons</dialog><finalactions><action name="Focus"/><action name="Raise"/><action name="Unshade"/></finalactions></action></keybind> -->
-    <keybind key="A-S-Tab">
+    <!-- <keybind key="A&#45;S&#45;Tab"> -->
+    <!--   <action name="PreviousWindow"> -->
+    <!--     <finalactions> -->
+    <!--       <action name="Focus"/> -->
+    <!--       <action name="Raise"/> -->
+    <!--       <action name="Unshade"/> -->
+    <!--     </finalactions> -->
+    <!--   </action> -->
+    <!-- </keybind> -->
+    <keybind key="W-k">
       <action name="PreviousWindow">
         <finalactions>
           <action name="Focus"/>
@@ -300,17 +330,7 @@
         </finalactions>
       </action>
     </keybind>
-    <keybind key="C-A-Tab">
-      <action name="NextWindow">
-        <panels>yes</panels>
-        <desktop>yes</desktop>
-        <finalactions>
-          <action name="Focus"/>
-          <action name="Raise"/>
-          <action name="Unshade"/>
-        </finalactions>
-      </action>
-    </keybind>
+
     <!-- Keybindings for window switching with the arrow keys -->
     <keybind key="W-S-Right">
       <action name="DirectionalCycleWindows">
@@ -332,6 +352,7 @@
         <direction>down</direction>
       </action>
     </keybind>
+
     <!-- Keybindings for window tiling -->
     <keybind key="W-Left"> # HalfLeftScreen
             <action name="UnmaximizeFull"/>
@@ -349,6 +370,7 @@
             <action name="UnmaximizeFull"/>
             <action name="MoveResizeTo"><x>0</x><y>-0</y><width>100%</width><height>50%</height></action>
         </keybind>
+
     <!-- Keybindings for running applications on Home + E -->
     <keybind key="W-e">
       <action name="Execute">
