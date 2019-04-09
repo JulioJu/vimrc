@@ -111,15 +111,15 @@
                     \ 'do': 'bash install.sh',
                     \ }
 
-        " Deoplete {{{2
-        " https://github.com/Shougo/deoplete.nvim
-        " Dark powered asynchronous completion framework for neovim
-        if has('nvim')
-           Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-           " See https://github.com/Shougo/deoplete.nvim/issues/133
-           " https://github.com/Shougo/deoplete.nvim/issues/578
-           Plug 'Shougo/context_filetype.vim'
-        endif
+        " " Deoplete {{{2
+        " " https://github.com/Shougo/deoplete.nvim
+        " " Dark powered asynchronous completion framework for neovim
+        " if has('nvim')
+        "    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+        "    " See https://github.com/Shougo/deoplete.nvim/issues/133
+        "    " https://github.com/Shougo/deoplete.nvim/issues/578
+        "    Plug 'Shougo/context_filetype.vim'
+        " endif
 
         " Vim Autotag {{{2
         " https://github.com/craigemery/vim-autotag
@@ -129,7 +129,36 @@
         " ALE {{{2
         " Asynchronous Lint Engine
         " https://github.com/w0rp/ale
-        Plug 'w0rp/ale'
+        Plug 'w0rp/ale', { 'for': [] }
+        " https://github.com/junegunn/vim-plug/issues/63
+        augroup plug_xtype
+            autocmd FileType *
+                        \ if (
+                                \ expand('<amatch>') != 'typescript'
+                                \ && expand('<amatch>') != 'javascript'
+                                \ && expand('<amatch>') != 'json'
+                                \ && expand('<amatch>') != 'css'
+                                \ && expand('<amatch>') != 'java'
+                            \ )
+                        \ | call plug#load('ale')
+                        \ | execute 'autocmd! plug_xtype'
+                        \ | endif
+        augroup END
+
+        " Coc.nvim {{{2
+        " Intellisense engine for vim8 & neovim, full language server protocol support as VSCode
+        Plug 'neoclide/coc.nvim', {
+                    \ 'do': { -> coc#util#install()},
+                    \ 'for': [
+                        \ 'typescript',
+                        \'javascript',
+                        \'json',
+                        \'css',
+                        \'java'
+                    \ ]
+                    \ }
+
+        command! -nargs=0 CocDetail :call CocAction('diagnosticInfo')
 
         " " nvim - typescript {{{2
         " " Typescript tooling for Neovim
@@ -167,11 +196,17 @@
         " https://github.com/tomtom/tcomment_vim
         Plug 'tomtom/tcomment_vim'
 
-        " Vim Autoformat {{{2
-        " https://github.com/Chiel92/vim-autoformat
-        " Provide easy code formatting in Vim by integrating existing code formatters.
-        " USE COMMAND « :Autoformat »
-        Plug 'Chiel92/vim-autoformat'
+        " " Vim Autoformat {{{2
+        " " https://github.com/Chiel92/vim-autoformat
+        " " Provide easy code formatting in Vim by integrating existing code formatters.
+        " " USE COMMAND « :Autoformat »
+        " " Removed because less updated than Neoformat. We could also use ALE
+        " Plug 'Chiel92/vim-autoformat'
+
+        " Neoformat {{{2
+        " https://github.com/sbdchd/neoformat
+        "  A (Neo)vim plugin for formatting code.
+        Plug 'sbdchd/neoformat'
 
         " fzf {{{2
         " A command-line fuzzy finder written in Go
@@ -436,7 +471,7 @@
         " Vim-jsdoc {{{2
         " Generate JSDoc to your JavaScript code.
         " https://github.com/heavenshell/vim-jsdoc
-        Plug 'heavenshell/vim-jsdoc', { 'for': ['javascript', 'php', 'html']}
+        Plug 'heavenshell/vim-jsdoc', { 'for': ['javascript', 'php', 'html', 'typescript']}
 
         " Tern for vim {{{2
         " Tern plugin for Vim
@@ -787,6 +822,9 @@
         " Markdown Vim Mode http://plasticboy.com/markdown-vim-mode/
         Plug 'plasticboy/vim-markdown', { 'for': ['markdown']}
         let g:vim_markdown_folding_disabled=1
+        let g:vim_markdown_conceal = 0
+        let g:vim_markdown_follow_anchor = 1
+        let g:vim_markdown_frontmatter = 1
 
         " Vim Markdown TOC {{{2
         " A vim 7.4+ plugin to generate table of contents for Markdown files.
@@ -800,9 +838,11 @@
         Plug 'jszakmeister/markdown2ctags', { 'for': ['markdown']}
 
         " " Pandoc {{{2
-        " Plug 'vim-pandoc/vim-pandoc', { 'for': ['md']}
-        "
-        " Plug 'vim-pandoc/vim-pandoc-syntax', { 'for': ['md']}
+        " " No updated, I use markdown-vim-mode
+        " " Plug 'vim-pandoc/vim-pandoc', { 'for': ['md']}
+
+        " " Not very usefull
+        " " Plug 'vim-pandoc/vim-pandoc-syntax', { 'for': ['md']}
 
         " Vim instant markdown {{{2
         " https://github.com/suan/vim-instant-markdown
@@ -1095,7 +1135,37 @@
 
         " Problems with Ctrl-{R,T} in Neovim terminal
         " https://github.com/junegunn/fzf/issues/809
-        let $FZF_DEFAULT_OPTS .= ' --no-height'
+        " Fixed
+        " let $FZF_DEFAULT_OPTS .= ' --no-height'
+
+        " Floating Windows Support From Neovim
+        " Use nvim 0.4 +
+        " https://github.com/junegunn/fzf.vim/issues/664
+        " https://www.reddit.com/r/neovim/comments/ars2ad/want_to_try_with_neovims_floating_window/
+        " `:echo exists('##CompleteChanged')` ==> 0 in nvim of april
+        if has('nvim') && exists('##CompleteChanged')
+            let $FZF_DEFAULT_OPTS='--layout=reverse'
+            let g:fzf_layout = { 'window': 'call FloatingFZF()' }
+
+            function! FloatingFZF()
+            let buf = nvim_create_buf(v:false, v:true)
+            call setbufvar(buf, '&signcolumn', 'no')
+
+            let height = &lines - 3
+            let width = float2nr(&columns - (&columns * 2 / 10))
+            let col = float2nr((&columns - width) / 2)
+
+            let opts = {
+                    \ 'relative': 'editor',
+                    \ 'row': 1,
+                    \ 'col': col,
+                    \ 'width': width,
+                    \ 'height': height
+                    \ }
+
+            call nvim_open_win(buf, v:true, opts)
+            endfunction
+        endif
 
         " TComment {{{2
         " An extensible & universal comment vim-plugin that also handles embedded filetypes http://www.vim.org/scripts/script.php?script_id=1173
@@ -1107,38 +1177,38 @@
         " https://github.com/francoiscabrol/ranger.vim
         let g:ranger_map_keys = 0
 
-        " Deoplete {{{2
-        " https://github.com/Shougo/deoplete.nvim
-        " Dark powered asynchronous completion framework for neovim
-
-        if has('nvim')
-            " " Eclim support
-            " " See https://www.reddit.com/r/vim/comments/5xspok/trouble_with_eclim_and_deoplete/
-            " let g:deoplete#omni#input_patterns = {}
-            " let g:deoplete#omni#input_patterns.java = '[^. *\t]\.\w*'
-
-            " Autoclose preview windows
-            " https://github.com/Shougo/deoplete.nvim/issues/115
-            autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
-
-            " https://github.com/Shougo/deoplete.nvim/issues/100
-            " use tab to forward cycle
-            inoremap <silent><expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
-            " use tab to backward cycle
-            inoremap <silent><expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
-
-            " Lazy load Deoplete to reduce statuptime
-            " See manpage
-            " Enable deoplete when InsertEnter.
-            let g:deoplete#enable_at_startup = 0
-            autocmd InsertEnter * call deoplete#enable()
-
-            " Context filetype
-            " https://github.com/Shougo/deoplete.nvim/issues/133
-            " See :help g:context_filetype#same_filetypes
-            " And https://github.com/Shougo/deoplete.nvim/issues/578#issuecomment-344122258
-            " let g:context_filetype#same_filetypes = 1
-        endif
+        " " Deoplete {{{2
+        " " https://github.com/Shougo/deoplete.nvim
+        " " Dark powered asynchronous completion framework for neovim
+        "
+        " if has('nvim')
+        "     " " Eclim support
+        "     " " See https://www.reddit.com/r/vim/comments/5xspok/trouble_with_eclim_and_deoplete/
+        "     " let g:deoplete#omni#input_patterns = {}
+        "     " let g:deoplete#omni#input_patterns.java = '[^. *\t]\.\w*'
+        "
+        "     " Autoclose preview windows
+        "     " https://github.com/Shougo/deoplete.nvim/issues/115
+        "     autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
+        "
+        "     " https://github.com/Shougo/deoplete.nvim/issues/100
+        "     " use tab to forward cycle
+        "     inoremap <silent><expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+        "     " use tab to backward cycle
+        "     inoremap <silent><expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
+        "
+        "     " Lazy load Deoplete to reduce statuptime
+        "     " See manpage
+        "     " Enable deoplete when InsertEnter.
+        "     let g:deoplete#enable_at_startup = 0
+        "     autocmd InsertEnter * call deoplete#enable()
+        "
+        "     " Context filetype
+        "     " https://github.com/Shougo/deoplete.nvim/issues/133
+        "     " See :help g:context_filetype#same_filetypes
+        "     " And https://github.com/Shougo/deoplete.nvim/issues/578#issuecomment-344122258
+        "     " let g:context_filetype#same_filetypes = 1
+        " endif
 
         " Tagbar {{{2
         " https://github.com/majutsushi/tagbar
@@ -1202,8 +1272,10 @@
 
         let g:ale_linters = {
                     \ 'cs': ['OmniSharp'],
-                    \ 'cshtml.html': ['OmniSharp']
+                    \ 'cshtml.html': ['OmniSharp'],
                     \}
+                    " \ 'javascript': ['eslint', 'tslint', 'tsserver'],
+                    " \ 'css': ['csslint']
 
         " OmniSharp {{{2
         " https://github.com/OmniSharp/omnisharp-vim
@@ -2537,6 +2609,11 @@ set scrolloff=5
 noremap <leader>z :FZF<CR>
 
 "/\%81v.\+/
+
+autocmd FileChangedShell * execute
+
+" https://github.com/neoclide/coc.nvim/wiki/Using-configuration-file
+autocmd FileType json syntax match Comment +\/\/.\+$+
 
 "GVIM {{{2
 "————

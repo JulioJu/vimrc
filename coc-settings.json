@@ -1,0 +1,8 @@
+{
+  // https://github.com/neoclide/coc.nvim/wiki/Using-coc-extensions
+  // To disable automatic update, change settings: coc.preferences.extensionUpdateCheck to "never".
+  "coc.preferences.extensionUpdateCheck": "never",
+
+  // https://github.com/neoclide/coc.nvim/issues/666#issuecomment-481112885
+  "diagnostic.messageTarget": "echo"
+}
