@@ -267,3 +267,9 @@ export GIT_TERMINAL_PROMPT=1
 
 # added by travis gem
 [ -f /home/julioprayer/.travis/travis.sh ] && source /home/julioprayer/.travis/travis.sh
+
+
+# Fix backspace problem with vim {{{ 1
+# https://vim.fandom.com/wiki/Backspace_and_delete_problems
+# Just for vim, not neovim
+stty erase '^?'

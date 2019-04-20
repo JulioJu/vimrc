@@ -38,10 +38,10 @@
             autocmd VimEnter * PlugInstall
         endif
 
-        " Load Python for
-        if has('nvim')
-        runtime! plugin/python_setup.vim
-        endif
+        " " Load Python for
+        " if has('nvim')
+        " runtime! plugin/python_setup.vim
+        " endif
 
         " VimPlug
         call plug#begin('~/.vim/plugged')
@@ -132,13 +132,15 @@
         Plug 'w0rp/ale', { 'for': [] }
         " https://github.com/junegunn/vim-plug/issues/63
         augroup plug_xtype
+            " TODO
+            " Follow https://github.com/w0rp/ale/pull/2121
+            " Fix 1996 - Add eclipse LSP support.
             autocmd FileType *
                         \ if (
                                 \ expand('<amatch>') != 'typescript'
                                 \ && expand('<amatch>') != 'javascript'
                                 \ && expand('<amatch>') != 'json'
                                 \ && expand('<amatch>') != 'css'
-                                \ && expand('<amatch>') != 'java'
                             \ )
                         \ | call plug#load('ale')
                         \ | execute 'autocmd! plug_xtype'
@@ -158,7 +160,31 @@
                     \ ]
                     \ }
 
-        command! -nargs=0 CocDetail :call CocAction('diagnosticInfo')
+        function! CocNvimHighlight()
+            highlight CocErrorHighlight ctermfg=Red  guifg=#ff0000
+            highlight CocWarningHighlight ctermfg=Red  guifg=#ff0000
+            highlight CocInfoHighlight ctermfg=Red  guifg=#ff0000
+            highlight CocHintHighlight ctermfg=Red  guifg=#ff0000
+            highlight CocErrorLine ctermbg=lightblue  guibg=lightblue
+            highlight CocWarningLine ctermbg=lightblue  guibg=lightblue
+            highlight CocInfoLine ctermbg=lightblue  guibg=lightblue
+            highlight CocHintLine ctermbg=lightblue  guibg=lightblue
+            highlight CocHighlightText  guibg=#111111 ctermbg=223
+        endfunction
+
+        function! CocNvimCustomization()
+            command! -nargs=0 CocDetail :call CocAction('diagnosticInfo')
+            let g:airline_section_error = '%{airline#util#wrap(airline#extensions#coc#get_error(),0)}'
+            let g:airline_section_warning = '%{airline#util#wrap(airline#extensions#coc#get_warning(),0)}'
+
+            " https://github.com/neoclide/coc.nvim/issues/236
+            nmap <silent> ]c <Plug>(coc-diagnostic-next)
+
+            " https://github.com/neoclide/coc-highlight/issues/8
+            call CocNvimHighlight()
+        endfunction
+
+        autocmd! user coc.nvim call CocNvimCustomization()
 
         " " nvim - typescript {{{2
         " " Typescript tooling for Neovim
@@ -252,6 +278,11 @@
         " https://github.com/fweep/vim-tabber
         Plug 'fweep/vim-tabber'
 
+        " Undotree
+        " The undo history visualizer for VIM
+        " https://github.com/mbbill/undotree
+        Plug 'mbbill/undotree'
+
         " " Coloresque {{{2
         " " css/less/sass/html color preview for vim
         " " https://github.com/gorodinskiy/vim-coloresque
@@ -307,6 +338,11 @@
         " Have Vim automatically reload a file that has changed externally
         Plug 'djoshea/vim-autoread'
 
+        " Roast {{{2
+        " https://github.com/sharat87/roast.vim
+        " An HTTP client for ViM, that can also be used as a REST client.
+        Plug 'sharat87/roast.vim'
+
         " html5-vim {{{2
         " http://vimawesome.com/plugin/html5-vim
         " HTML5 omnicomplete and syntax
@@ -322,10 +358,10 @@
         "  http://mattn.github.io/emmet-vim
         Plug 'mattn/emmet-vim', { 'for' : ['html', 'php', 'jsp', 'xml', 'dtd', 'xsd', 'xsl', 'xhtml']}
 
-        " Neomake {{{2
-        " A plugin for asynchronous :make using Neovim's job-control functionality
-        " https://github.com/benekastah/neomake
-        Plug 'benekastah/neomake', { 'for' : ['c']}
+        " " Neomake {{{2
+        " " A plugin for asynchronous :make using Neovim's job-control functionality
+        " " https://github.com/benekastah/neomake
+        " Plug 'benekastah/neomake', { 'for' : ['c']}
 
         " " Vim browser reload plugin {{{2
         " " vim plugin to reload your browser, Linux version
@@ -357,7 +393,13 @@
         " Vim Javacomplete 2 {{{2
         " Updated javacomplete plugin for vim.
         " https://github.com/artur-shaik/vim-javacomplete2
+        " So cool to generate getter / setter, etc.
         Plug 'artur-shaik/vim-javacomplete2' , { 'for': ['java'] }
+
+        " " Vim refactor {{{2
+        " " Generic Refactoring Plugin for Vim
+        " " https://github.com/luchermitte/vim-refactor
+        " " So cool plugin: TODO, test it
 
         " Java LSP COC {{{2
         " Language Server Protocol (LSP) support for vim & neovim, featured as VSCode
@@ -598,6 +640,9 @@
         " Vim startify {{{2
         " The fancy start screen for Vim.
         " https://github.com/mhinz/vim-startify
+        let g:startify_change_to_dir = 0
+        " let g:startify_change_to_vcs_root = 1
+
         Plug 'mhinz/vim-startify'
 
         " vim-plugin-AnsiEs {{{2
@@ -1143,7 +1188,7 @@
         " https://github.com/junegunn/fzf.vim/issues/664
         " https://www.reddit.com/r/neovim/comments/ars2ad/want_to_try_with_neovims_floating_window/
         " `:echo exists('##CompleteChanged')` ==> 0 in nvim of april
-        if has('nvim') && exists('##CompleteChanged')
+        if exists('##CompleteChanged')
             let $FZF_DEFAULT_OPTS='--layout=reverse'
             let g:fzf_layout = { 'window': 'call FloatingFZF()' }
 
@@ -1273,6 +1318,7 @@
         let g:ale_linters = {
                     \ 'cs': ['OmniSharp'],
                     \ 'cshtml.html': ['OmniSharp'],
+                    \ 'java': ['checkstyle', 'google-java-format', 'pmd'],
                     \}
                     " \ 'javascript': ['eslint', 'tslint', 'tsserver'],
                     " \ 'css': ['csslint']
@@ -2428,10 +2474,10 @@ match NbSp /\%xa0/
 
 nnoremap <leader><leader>q :bd<CR>
 nnoremap <leader><leader>b :bd#<CR>
-if has('nvim')
-  nnoremap <leader><leader>t :tabnew<CR>:terminal<CR>
-  nnoremap <leader><leader>v :vs!<CR>:terminal<CR>
+  nnoremap <leader><leader>t :tabnew<CR>:Terminal<CR>
+  nnoremap <leader><leader>v :vs!<CR>:Terminal<CR>
   tnoremap <F5> <C-\><C-n>
+if has('nvim')
   tnoremap <A-h> <C-\><C-n><C-w>h
   tnoremap <A-j> <C-\><C-n><C-w>j
   tnoremap <A-k> <C-\><C-n><C-w>k
@@ -2458,17 +2504,46 @@ if has('nvim')
   tnoremap <leader><leader>s <C-\><C-n>:sp<SPACE><CR><C-\><C-n><C-w>-<C-w>+:enew<CR>:
   tnoremap <leader><leader>b <C-\><C-n>:enew!<CR>:bw!#<CR>:b<SPACE>
   tnoremap <leader><leader>e <C-\><C-n>:enew!<CR>:bw!#<CR>:e<SPACE>
-  tnoremap <leader><leader><leader>t <C-\><C-n>:tabnew<CR>:terminal<CR>
-  tnoremap <leader><leader><leader>v <C-\><C-n>:vs<CR><C-\><C-n><C-w><<C-w>>:terminal<CR>
-  tnoremap <leader><leader><leader>s <C-\><C-n>:sp<CR><C-\><C-n><C-w>-<C-w>+:terminal<CR>
+  tnoremap <leader><leader><leader>t <C-\><C-n>:tabnew<CR>:Terminal<CR>
+  tnoremap <leader><leader><leader>v <C-\><C-n>:vs<CR><C-\><C-n><C-w><<C-w>>:Terminal<CR>
+  tnoremap <leader><leader><leader>s <C-\><C-n>:sp<CR><C-\><C-n><C-w>-<C-w>+:Terminal<CR>
   tnoremap \t <C-\><C-n>q:itabnew<SPACE>
   tnoremap \v <C-\><C-n>q:ivs<SPACE>
   tnoremap \e <C-\><C-n>:enew!<CR>:bw!#<CR>q:ie<SPACE>
   set inccommand=split
+else
+  tnoremap <A-h> <C-w>h
+  tnoremap <A-j> <C-w>j
+  tnoremap <A-k> <C-w>k
+  tnoremap <A-l> <C-w>l
+  tnoremap <Leader>q <C-w>:bw!<CR>
+  tnoremap <Leader>gt <C-w>gt<CR>
+  tnoremap <Leader>gT <C-w>gT<CR>
+  tnoremap <Leader>1gt <C-w>1gt<CR>
+  tnoremap <Leader>2gt <C-w>2gt<CR>
+  tnoremap <Leader>3gt <C-w>3gt<CR>
+  tnoremap <Leader>4gt <C-w>4gt<CR>
+  tnoremap <Leader>5gt <C-w>5gt<CR>
+  tnoremap <Leader>6gt <C-w>6gt<CR>
+  tnoremap <Leader>7gt <C-w>7gt<CR>
+  tnoremap <Leader>8gt <C-w>8gt<CR>
+  tnoremap <Leader>9gt <C-w>9gt<CR>
+  tnoremap <leader><leader>t <C-w>:tabnew<SPACE>
+  tnoremap <leader><leader>v <C-w>:vs<SPACE><CR><C-w><<C-w>>:enew<CR>:
+  tnoremap <leader><leader>s <C-w>:sp<SPACE><CR><C-w>-<C-w>+:enew<CR>:
+  tnoremap <leader><leader>b <C-w>:enew!<CR>:bw!#<CR>:b<SPACE>
+  tnoremap <leader><leader>e <C-w>:enew!<CR>:bw!#<CR>:e<SPACE>
+  tnoremap <leader><leader><leader>t <C-w>:tabnew<CR>:Terminal<CR>
+  tnoremap <leader><leader><leader>v <C-w>:vs<CR><C-w><<C-w>>:Terminal<CR>
+  tnoremap <leader><leader><leader>s <C-w>:sp<CR><C-w>-<C-w>+:Terminal<CR>
+  tnoremap \t <C-w>q:itabnew<SPACE>
+  tnoremap \v <C-w>q:ivs<SPACE>
+  tnoremap \e <C-w>:enew!<CR>:bw!#<CR>q:ie<SPACE>
+endif
   nnoremap <leader>wwww :w<CR>:b#<CR><C-\><C-n>:bw#<CR>i
   " With Neovim 0.2.1 and 0.2.2 there is a bug with Terminal:
   " See https://github.com/neovim/neovim/issues/7677#issuecomment-348876942
-endif
+" endif
 nnoremap <leader>lll :mksession! /tmp/session.vim<CR>:!sed -i -e 's/urxvt-colours-solarized-dark/urxvt-colours-solarized-light/' ~/.vim/dotFilesOtherSoftwareVimCompliant/Xressources<CR>:!xrdb ~/.vim/dotFilesOtherSoftwareVimCompliant/Xressources<CR>:!sed -i -e 's/urxvt-colours-solarized-light/urxvt-colours-solarized-dark/' ~/.Xressources<CR>:qa<CR>
 nnoremap <leader>uuu :source /tmp/session.vim<CR>:set highlight bg=light<CR><CR>
 nnoremap <A-h> <C-w>h
@@ -2709,3 +2784,31 @@ function! UpdateModfiedDate()
     endif
 endfunction
 autocmd Bufwritepre,filewritepre *.ts silent call UpdateModfiedDate()
+
+" Vim correct alt input and Terminal behaviour {{{2
+" https://stackoverflow.com/questions/6778961/alt-key-shortcuts-not-working-on-gnome-terminal-with-vim
+
+if ! has('nvim')
+    let c='a'
+    while c <= 'z'
+    exec "set <A-".c.">=\e".c
+    exec "imap \e".c." <A-".c.">"
+    let c = nr2char(1+char2nr(c))
+    endw
+
+    set timeout ttimeoutlen=50
+endif
+
+
+if has('nvim')
+    command! -nargs=0 Terminal :terminal
+else
+    " https://unix.stackexchange.com/questions/444682/opening-a-vertical-terminal-in-vim-8-1
+    command! -nargs=0 Terminal :terminal ++curwin
+
+
+    " https://vimrcfu.com/snippet/223
+    " Use :ww instead of :WriteWithSudo
+    cnoreabbrev terminal Terminal
+    cnoreabbrev term Terminal
+endif
