@@ -182,6 +182,9 @@
 
             " https://github.com/neoclide/coc-highlight/issues/8
             call CocNvimHighlight()
+
+            nmap <leader>qf  <Plug>(coc-fix-current)
+            nmap <leader>rn <Plug>(coc-rename)
         endfunction
 
         autocmd! user coc.nvim call CocNvimCustomization()
@@ -1186,9 +1189,9 @@
         " Floating Windows Support From Neovim
         " Use nvim 0.4 +
         " https://github.com/junegunn/fzf.vim/issues/664
-        " https://www.reddit.com/r/neovim/comments/ars2ad/want_to_try_with_neovims_floating_window/
+        " https://github.com/neoclide/coc.nvim/wiki/F.A.Q#how-to-make-preview-window-shown-aside-with-pum
         " `:echo exists('##CompleteChanged')` ==> 0 in nvim of april
-        if exists('##CompleteChanged')
+        if has('nvim') && exists('##CompleteChanged')
             let $FZF_DEFAULT_OPTS='--layout=reverse'
             let g:fzf_layout = { 'window': 'call FloatingFZF()' }
 
@@ -2344,32 +2347,32 @@
   "no <left>   :tabprevious<CR>
   "no <right>  :tabnext<CR>
   "
-  " Remap netrw arrow {{{2
-  " From:
-  " http://unix.stackexchange.com/questions/31575/remapping-keys-in-vims-directory-view
-  augroup netrw_dvorak_fix
-      autocmd!
-      autocmd filetype netrw call Fix_netrw_maps_for_dvorak()
-  augroup END
-
-  function! Fix_netrw_maps_for_dvorak()
-      " {cr} = « gauche / droite »
-      " @TODO: Remap to more vinegar related feature, like:
-      " - c : Go back
-      " - t : Preview (ranger inspired)
-      noremap <buffer> c h
-      noremap <buffer> r l
-      " {ts} = « haut / bas »
-      noremap <buffer> t j
-      noremap <buffer> s k
-      " noremap <buffer> d h
-      " noremap <buffer> h gj
-      " noremap <buffer> t gk
-      " noremap <buffer> n l
-      " noremap <buffer> e d
-      " noremap <buffer> l n
-      " and any others...
-  endfunction
+  " " Remap netrw arrow {{{2
+  " " From:
+  " " http://unix.stackexchange.com/questions/31575/remapping-keys-in-vims-directory-view
+  " augroup netrw_dvorak_fix
+  "     autocmd!
+  "     autocmd filetype netrw call Fix_netrw_maps_for_dvorak()
+  " augroup END
+  "
+  " function! Fix_netrw_maps_for_dvorak()
+  "     " {cr} = « gauche / droite »
+  "     " @TODO: Remap to more vinegar related feature, like:
+  "     " - c : Go back
+  "     " - t : Preview (ranger inspired)
+  "     noremap <buffer> c h
+  "     noremap <buffer> r l
+  "     " {ts} = « haut / bas »
+  "     noremap <buffer> t j
+  "     noremap <buffer> s k
+  "     " noremap <buffer> d h
+  "     " noremap <buffer> h gj
+  "     " noremap <buffer> t gk
+  "     " noremap <buffer> n l
+  "     " noremap <buffer> e d
+  "     " noremap <buffer> l n
+  "     " and any others...
+  " endfunction
 
   " Change default leader key {{{2
   let mapleader = ","
@@ -2458,10 +2461,10 @@
     autocmd filetype p* nnoremap <buffer> <Leader>à i#!/usr/sbin/python3.4<CR># -*-coding:Utf-8 -*<CR><CR><ESC>
   augroup end
 
-  nnoremap <leader>t :tabnew<SPACE><CR>:
-  nnoremap <leader>v :vs<SPACE>
-  nnoremap <leader>e :e<SPACE>
-  nnoremap <leader>b :b<SPACE>
+  nnoremap <leader><leader>t :tabnew<SPACE><CR>:
+  nnoremap <leader><leader>v :vs<SPACE>
+  nnoremap <leader><leader>e :e<SPACE>
+  nnoremap <leader><leader>b :b<SPACE>
   nnoremap \t q:itabnew<SPACE>
   nnoremap \v q:ivs<SPACE>
   nnoremap \e q:ie<SPACE>
@@ -2473,10 +2476,12 @@ highlight NbSp ctermbg=015
 match NbSp /\%xa0/
 
 nnoremap <leader><leader>q :bd<CR>
-nnoremap <leader><leader>b :bd#<CR>
-  nnoremap <leader><leader>t :tabnew<CR>:Terminal<CR>
-  nnoremap <leader><leader>v :vs!<CR>:Terminal<CR>
+nnoremap <leader><leader>d :bd#<CR>
+  nnoremap <leader><leader><leader>t :tabnew<CR>:Terminal<CR>a
+  nnoremap <leader><leader><leader>v :vs!<CR>:Terminal<CR><C-w><<C-w>>a
+  nnoremap <leader><leader><leader>p :sp!<CR>:Terminal<CR><C-w>-<C-w>+a
   tnoremap <F5> <C-\><C-n>
+  tnoremap <F4> <C-\><C-n><C-w>-<C-w>+<C-w><<C-w>>a
 if has('nvim')
   tnoremap <A-h> <C-\><C-n><C-w>h
   tnoremap <A-j> <C-\><C-n><C-w>j
@@ -2501,12 +2506,12 @@ if has('nvim')
   tnoremap <Leader>9gt <C-\><C-n>9gt<CR>
   tnoremap <leader><leader>t <C-\><C-n>:tabnew<SPACE>
   tnoremap <leader><leader>v <C-\><C-n>:vs<SPACE><CR><C-\><C-n><C-w><<C-w>>:enew<CR>:
-  tnoremap <leader><leader>s <C-\><C-n>:sp<SPACE><CR><C-\><C-n><C-w>-<C-w>+:enew<CR>:
+  tnoremap <leader><leader>p <C-\><C-n>:sp<SPACE><CR><C-\><C-n><C-w>-<C-w>+:enew<CR>:
   tnoremap <leader><leader>b <C-\><C-n>:enew!<CR>:bw!#<CR>:b<SPACE>
   tnoremap <leader><leader>e <C-\><C-n>:enew!<CR>:bw!#<CR>:e<SPACE>
-  tnoremap <leader><leader><leader>t <C-\><C-n>:tabnew<CR>:Terminal<CR>
-  tnoremap <leader><leader><leader>v <C-\><C-n>:vs<CR><C-\><C-n><C-w><<C-w>>:Terminal<CR>
-  tnoremap <leader><leader><leader>s <C-\><C-n>:sp<CR><C-\><C-n><C-w>-<C-w>+:Terminal<CR>
+  tnoremap <leader><leader><leader>t <C-\><C-n>:tabnew<CR>:Terminal<CR>a
+  tnoremap <leader><leader><leader>v <C-\><C-n>:vs<CR><C-\><C-n><C-w><<C-w>>:Terminal<CR><C-w><<C-w>>a
+  tnoremap <leader><leader><leader>p <C-\><C-n>:sp<CR><C-\><C-n><C-w>-<C-w>+:Terminal<CR><C-w>-<C-w>+a
   tnoremap \t <C-\><C-n>q:itabnew<SPACE>
   tnoremap \v <C-\><C-n>q:ivs<SPACE>
   tnoremap \e <C-\><C-n>:enew!<CR>:bw!#<CR>q:ie<SPACE>
@@ -2533,9 +2538,9 @@ else
   tnoremap <leader><leader>s <C-w>:sp<SPACE><CR><C-w>-<C-w>+:enew<CR>:
   tnoremap <leader><leader>b <C-w>:enew!<CR>:bw!#<CR>:b<SPACE>
   tnoremap <leader><leader>e <C-w>:enew!<CR>:bw!#<CR>:e<SPACE>
-  tnoremap <leader><leader><leader>t <C-w>:tabnew<CR>:Terminal<CR>
-  tnoremap <leader><leader><leader>v <C-w>:vs<CR><C-w><<C-w>>:Terminal<CR>
-  tnoremap <leader><leader><leader>s <C-w>:sp<CR><C-w>-<C-w>+:Terminal<CR>
+  tnoremap <leader><leader><leader>t <C-w>:tabnew<CR>:Terminal<CR>a
+  tnoremap <leader><leader><leader>v <C-w>:vs<CR><C-w><<C-w>>:Terminal<CR>a
+  tnoremap <leader><leader><leader>s <C-w>:sp<CR><C-w>-<C-w>+:Terminal<CR>a
   tnoremap \t <C-w>q:itabnew<SPACE>
   tnoremap \v <C-w>q:ivs<SPACE>
   tnoremap \e <C-w>:enew!<CR>:bw!#<CR>q:ie<SPACE>

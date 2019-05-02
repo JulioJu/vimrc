@@ -12,4 +12,5 @@
 
   // command used for jump to other buffer
   "coc.preferences.jumpCommand": "split"
+
 }

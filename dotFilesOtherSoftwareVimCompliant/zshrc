@@ -1,4 +1,32 @@
-export EDITOR='nvr --remote-wait-silent'
+if [[ -n "${NVIM_LISTEN_ADDRESS+x}" ]]
+then
+
+    # TODO update when vim will be updated
+    # https://github.com/neovim/neovim/issues/9960#issuecomment-488262473
+    export VIMRUNTIME=/usr/share/vim/vim81
+
+    alias vim="vim -u '${HOME}/.vim/vimrclight.vim'"
+
+    export EDITOR='nvr --remote-wait-silent'
+elif [[ -n "${VIM_TERMINAL+x}" ]]
+then
+    unalias vim 2> /dev/null || :
+
+    # WARNING could take lot of resources (50 % CPU on i5 7200U
+    # Contrary to `nvr`, it starts a new vim process
+    # Sometimes `nvr` works into vim, sometimes not.
+    # Sometimes, when Vim is opened into neovim, `nvr` works into vim.
+    # Behaviour is not consistant
+    # If there are several vim opened in different terminal emulator
+    # VIM_SERVERNAME will have value VIM1, then VIM2, etc.
+    export EDITOR="vim --servername '${VIM_SERVERNAME}' --remote-wait"
+else
+    # https://vim-jp.org/vimdoc-en/remote.html
+    # On Archlinux, `gvim` package not compiled with `--autoservername`
+    alias vim='vim --servername vim'
+    export EDITOR='nvim'
+fi
+
 # export TERM=xterm-256color
 # export PAGER="less -M"
 # alias nvim="nvim -u ~/.nvimrc"
@@ -243,7 +271,7 @@ xstat() {
 # JHipster {{{1
 # tabtab source for jhipster package
 # uninstall by removing these lines or running `tabtab uninstall jhipster`
-# [[ -f /home/julioprayer/.config/yarn/global/node_modules/tabtab/.completions/jhipster.zsh ]] && . /home/julioprayer/.config/yarn/global/node_modules/tabtab/.completions/jhipster.zsh
+# [[ -f "$HOME/.config/yarn/global/node_modules/tabtab/.completions/jhipster.zsh" ]] && . "$HOME/.config/yarn/global/node_modules/tabtab/.completions/jhipster.zsh"
 
 # Alias {{{1
 alias nvrd="nvr --remote-send ':bw!#<CR>'"
@@ -266,7 +294,7 @@ export GIT_TERMINAL_PROMPT=1
  # vim: ft=zsh
 
 # added by travis gem
-[ -f /home/julioprayer/.travis/travis.sh ] && source /home/julioprayer/.travis/travis.sh
+[ -f "$HOME/.travis/travis.sh" ] && source "$HOME/.travis/travis.sh"
 
 
 # Fix backspace problem with vim {{{ 1
