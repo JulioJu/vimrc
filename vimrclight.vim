@@ -28,6 +28,10 @@ call plug#begin('~/.vim/plugged')
   " Vim motions on speed!
   " https://github.com/Lokaltog/vim-easymotion
   Plug 'Lokaltog/vim-easymotion'
+
+  Plug 'majutsushi/tagbar'
+  Plug 'sheerun/vim-polyglot', { 'for': ['markdown']}
+
    map <Leader> <Plug>(easymotion-prefix)
    nmap ,s <Plug>(easymotion-F)
    nmap ,f <Plug>(easymotion-f)

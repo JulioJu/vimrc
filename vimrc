@@ -58,6 +58,20 @@
         " Vim plugin, provides insert mode auto-completion for quotes, parens, brackets, etc.
         " if has('nvim')
             Plug ('Raimondi/delimitMate')
+            autocmd BufReadPost markdown DelimtMateOff
+
+            augroup delimitMateGroup
+                " TODO
+                " Follow https://github.com/w0rp/ale/pull/2121
+                " Fix 1996 - Add eclipse LSP support.
+                autocmd FileType *
+                            \ if (
+                            \ expand('<amatch>') != 'markdown'
+                            \ )
+                            \ | call plug#load('delimitMate')
+                            \ | execute 'autocmd! delimitMateGroup'
+                            \ | endif
+            augroup END
         " endif
 
         " " SuperTab {{{2
@@ -131,7 +145,7 @@
         " https://github.com/w0rp/ale
         Plug 'w0rp/ale', { 'for': [] }
         " https://github.com/junegunn/vim-plug/issues/63
-        augroup plug_xtype
+        augroup aleGroup
             " TODO
             " Follow https://github.com/w0rp/ale/pull/2121
             " Fix 1996 - Add eclipse LSP support.
@@ -143,7 +157,7 @@
                                 \ && expand('<amatch>') != 'css'
                             \ )
                         \ | call plug#load('ale')
-                        \ | execute 'autocmd! plug_xtype'
+                        \ | execute 'autocmd! aleGroup'
                         \ | endif
         augroup END
 
@@ -185,6 +199,12 @@
 
             nmap <leader>qf  <Plug>(coc-fix-current)
             nmap <leader>rn <Plug>(coc-rename)
+
+
+            nmap <silent> gd <Plug>(coc-definition)
+            nmap <silent> gy <Plug>(coc-type-definition)
+            nmap <silent> gi <Plug>(coc-implementation)
+            nmap <silent> gr <Plug>(coc-references)
         endfunction
 
         autocmd! user coc.nvim call CocNvimCustomization()
@@ -616,6 +636,9 @@
         " Vim polyglot (distro) {{{2
         " https://github.com/sheerun/vim-polyglot
         " A solid language pack for Vim.
+        Plug 'sheerun/vim-polyglot', { 'for': ['markdown']}
+        " Form markdown, use https://github.com/gabrielelana/vim-markdown/issues/60
+        " under the hood
 
         "" spaceneovim (distro) {{{2
         "" https://github.com/Tehnix/spaceneovim
@@ -868,11 +891,20 @@
         " Mardwown {{{2
         " https://github.com/plasticboy/vim-markdown
         " Markdown Vim Mode http://plasticboy.com/markdown-vim-mode/
-        Plug 'plasticboy/vim-markdown', { 'for': ['markdown']}
-        let g:vim_markdown_folding_disabled=1
-        let g:vim_markdown_conceal = 0
-        let g:vim_markdown_follow_anchor = 1
-        let g:vim_markdown_frontmatter = 1
+        " Plug 'plasticboy/vim-markdown', { 'for': ['markdown']}
+        " COMPLELTY BUGGY ON LONG DOCUMENT!!
+        " USE IT IN CONTEXT ON VIM POLYGLOT
+
+        " " Mardown {{{2
+        " " https://github.com/gabrielelana/vim-markdown
+        " "  Markdown for Vim: a complete environment to create Markdown files
+        " "  with a syntax highlight that doesn't suck!
+        " " https://github.com/gabrielelana/vim-markdown/issues/60
+        " TOO SLOW, USE VIM POLYGLOT INSTEAD
+        " " https://github.com/gabrielelana/vim-markdown/issues/60
+        " Plug 'gabrielelana/vim-markdown', { 'for': ['markdown'] }
+        " let g:markdown_enable_conceal = 0
+        " let g:markdown_mapping_switch_status = ''
 
         " Vim Markdown TOC {{{2
         " A vim 7.4+ plugin to generate table of contents for Markdown files.
@@ -1792,6 +1824,32 @@
         "let g:session_autoload = 'yes'
         "let g:session_autosave = 'yes'
         ""let g:session_autosave_periodic = 1
+
+        " Mardwown {{{2
+        " https://github.com/plasticboy/vim-markdown
+        " Markdown Vim Mode http://plasticboy.com/markdown-vim-mode/
+        " Plug 'plasticboy/vim-markdown', { 'for': ['markdown']}
+        " COMPLELTY BUGGY ON LONG DOCUMENT!!
+        " USE IT IN CONTEXT ON VIM POLYGLOT
+        let g:vim_markdown_folding_disabled=1
+        let g:vim_markdown_follow_anchor = 1
+        let g:vim_markdown_frontmatter = 1
+        let g:vim_markdown_conceal = 0
+        function! MarkdownHookInner(timer)
+            normal h
+        endfunction
+        function! MarkdownHook(timer)
+            " Delay otherwise `conceallevel' is setted by the plugin
+            set conceallevel=0
+            " Delay otherwise Tagbar is not loaded correctly
+            Tagbar
+            " call feedkeys("<C-w>h")
+            call timer_start(200, 'MarkdownHookInner',
+                        \ {'repeat': 1})
+
+        endfunc
+        autocmd BufAdd *.md call timer_start(1000, 'MarkdownHook',
+                    \ {'repeat': 1})
 
         " PHP.vim {{{2
         " HighLight sql
