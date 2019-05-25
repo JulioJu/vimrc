@@ -361,10 +361,20 @@
         " Have Vim automatically reload a file that has changed externally
         Plug 'djoshea/vim-autoread'
 
-        " Roast {{{2
+        " REST VIM {{{2
+
+        " See my comments at https://github.com/JulioJu/scholarProjectWebSemantic
+
+        " Roast (on Python)
         " https://github.com/sharat87/roast.vim
         " An HTTP client for ViM, that can also be used as a REST client.
         Plug 'sharat87/roast.vim'
+
+        " vim-rest-console (on CURL)
+        " https://github.com/diepm/vim-rest-console
+        " A REST console for Vim.
+        Plug 'diepm/vim-rest-console'
+        let g:vrc_include_response_header = 1
 
         " html5-vim {{{2
         " http://vimawesome.com/plugin/html5-vim

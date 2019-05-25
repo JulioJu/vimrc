@@ -38,6 +38,24 @@ call plug#begin('~/.vim/plugged')
    nmap ,g <Plug>(easymotion-overwin-f2)
    let g:EasyMotion_keys = 'asdfghjklqwertyuiopzxcvbnm'
    let g:Easymotion_do_mapping=0
+
+   " A command-line fuzzy finder written in Go
+   " https://github.com/junegunn/fzf
+   " https://github.com/junegunn/fzf.vim
+   " Installé dans le système, vu que c'est un programme système on l'installe avec le système.
+   Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+   Plug 'junegunn/fzf.vim'
+   " https://medium.com/@crashybang/supercharge-vim-with-fzf-and-ripgrep-d4661fc853d2
+   command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>), 1, <bang>0)
+
+   let $FZF_DEFAULT_COMMAND="fd --hidden --follow --exclude '.git' --exclude 'node_modules'"
+
+    " Recover.vim
+    " chrisbra/Recover.vim
+    " A Plugin to show a diff, whenever recovering a buffer
+    " http://www.vim.org/scripts/script.php?script_id=3068
+    Plug 'chrisbra/Recover.vim'
+
 call plug#end()
 
 " Display
@@ -197,7 +215,10 @@ endif
 " Others map
 " ——————————
 
-noremap \ ,
+" IF VIM IS LAUNCHED INSIDE NEOVIM, <LEADER> TOUCH SHOULD NOT
+" BE THE SAME OF THE UNDERLAYER NEOVIM OTHERWISE ALL LEADER PRESS
+" ARE CATCH BY THE UNDERLAYER NEOVIM
+" noremap \ ,
 noremap <Leader>w :w<CR>
 noremap <Leader>W :w !sudo tee % > /dev/null
 
@@ -210,6 +231,7 @@ noremap <Space> <C-d>zz
 " http://stackoverflow.com/questions/23189568/control-space-vim-key-binding-in-normal-mode-does-not-work
 noremap <NUL> <C-u>zz
 
+noremap <leader>3 *N
 " Others Autocmd
 " ——————————————
 
