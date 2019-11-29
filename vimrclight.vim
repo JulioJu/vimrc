@@ -56,6 +56,12 @@ call plug#begin('~/.vim/plugged')
     " http://www.vim.org/scripts/script.php?script_id=3068
     Plug 'chrisbra/Recover.vim'
 
+    " TComment
+    " An extensible & universal comment vim-plugin that also handles embedded filetypes http://www.vim.org/scripts/script.php?script_id=1173
+    " https://github.com/tomtom/tcomment_vim
+    Plug 'tomtom/tcomment_vim'
+    vnoremap <leader>c :call tcomment#SetOption("count", 2)<CR>gv:TCommentBlock<CR>
+    nnoremap <leader>c :TComment<CR>
 call plug#end()
 
 " Display

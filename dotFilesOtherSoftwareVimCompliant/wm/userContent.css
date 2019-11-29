@@ -26,10 +26,20 @@ input, textarea, select {
     /** Sometimes, background in some website, userContent background rule
      * doesn't work. For example, alt localhost:4200 for my
      * medicalCenter project. Works for bing.
+     * Does not work for all textarea on firefox 56 (waterfox), but works on firefox 69
      */
-    background: white;
+    background-color: rgba(255, 255, 255, 1) !important;
     /* red because black on grey is difficult to seen when rule background
      * in userContent.css doesn't work.
      */
-    color: red;
+    color: red !important;
+    /* color: black; */
+}
+
+fieldset {
+    border: 2px groove white;
+}
+
+textarea {
+    border: 2px inset white;
 }

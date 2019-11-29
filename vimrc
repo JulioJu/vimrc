@@ -164,7 +164,7 @@
         " Coc.nvim {{{2
         " Intellisense engine for vim8 & neovim, full language server protocol support as VSCode
         Plug 'neoclide/coc.nvim', {
-                    \ 'do': { -> coc#util#install()},
+                    \ 'branch': 'release',
                     \ 'for': [
                         \ 'typescript',
                         \'javascript',
@@ -538,10 +538,11 @@
         " Not needed with ALE. Cause problems with ALE.
         " Plug 'clausreinke/typescript-tools.vim', { 'for': ['typescript']}
 
-        " vim-js-pretty-template {{{2
-        " highlights JavaScript's Template Strings in other FileType syntax rule http://www.vim.org/scripts/script.php…
-        " https://github.com/Quramy/vim-js-pretty-template
-        Plug 'Quramy/vim-js-pretty-template'
+        " " vim-js-pretty-template {{{2
+        " " highlights JavaScript's Template Strings in other FileType syntax rule http://www.vim.org/scripts/script.php…
+        " " https://github.com/Quramy/vim-js-pretty-template
+        " " Cause troubles with neovim-remote . `nvr --remote-tab ./index.js` does not open the tab
+        " Plug 'Quramy/vim-js-pretty-template'
 
         " Vim-jsdoc {{{2
         " Generate JSDoc to your JavaScript code.
@@ -1450,13 +1451,17 @@
         let g:pdv_template_dir = $HOME ."/.vim/plugged/pdv/templates_snip"
         nnoremap <buffer> <C-p> :call pdv#DocumentWithSnip()<CR>
 
-        " vim-js-pretty-template {{{2
-        " highlights JavaScript's Template Strings in other FileType syntax rule http://www.vim.org/scripts/script.php…
-        " https://github.com/Quramy/vim-js-pretty-template
-        autocmd FileType javascript JsPreTmpl html
-        " Cause some crashes.
-        " autocmd FileType typescript JsPreTmpl html
-        autocmd FileType typescript syn clear foldBraces " For leafgarland/typescript-vim users only. Please see #1 for details.
+        " " vim-js-pretty-template {{{2
+        " " highlights JavaScript's Template Strings in other FileType syntax rule http://www.vim.org/scripts/script.php…
+        " " https://github.com/Quramy/vim-js-pretty-template
+
+        " " Cause troubles with neovim-remote . `nvr --remote-tab ./index.js` does not open the tab
+        " autocmd FileType javascript JsPreTmpl html
+
+        " " Cause some crashes.
+        " " autocmd FileType typescript JsPreTmpl html
+
+        " autocmd FileType typescript syn clear foldBraces " For leafgarland/typescript-vim users only. Please see #1 for details.
 
         " Vim-jsdoc {{{2
         " Generate JSDoc to your JavaScript code.

@@ -279,7 +279,6 @@
        <command>sh -c "import -window root ~/Pictures/$(date '+%Y%m%d-%H%M%S').png"</command>
      </action>
    </keybind> -->
-
     <!-- Keybindings for window switching -->
     <!-- <keybind key="W&#45;j"> -->
     <!--   <action name="NextWindow"> -->
@@ -330,7 +329,6 @@
         </finalactions>
       </action>
     </keybind>
-
     <!-- Keybindings for window switching with the arrow keys -->
     <keybind key="W-S-Right">
       <action name="DirectionalCycleWindows">
@@ -352,7 +350,6 @@
         <direction>down</direction>
       </action>
     </keybind>
-
     <!-- Keybindings for window tiling -->
     <keybind key="W-Left"> # HalfLeftScreen
             <action name="UnmaximizeFull"/>
@@ -370,7 +367,6 @@
             <action name="UnmaximizeFull"/>
             <action name="MoveResizeTo"><x>0</x><y>-0</y><width>100%</width><height>50%</height></action>
         </keybind>
-
     <!-- Keybindings for running applications on Home + E -->
     <keybind key="W-e">
       <action name="Execute">
