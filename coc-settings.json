@@ -11,6 +11,13 @@
   "coc.preferences.diagnostic.signOffset": 9999999,
 
   // command used for jump to other buffer
-  "coc.preferences.jumpCommand": "split"
+  "coc.preferences.jumpCommand": "split",
+
+  "diagnostic-languageserver.filetypes": {
+      // lint `sh` (includes `bash`) files
+      "sh": "shellcheck"
+  },
+
+  "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": true
 
 }

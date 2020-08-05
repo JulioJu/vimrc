@@ -69,7 +69,7 @@ zplug "zsh-users/zsh-syntax-highlighting", defer:2
 
 # Can manage local plugins
 # Load theme file
-zplug "~/.oh-my-zsh/custom/themes", from:local, use:"tjkirch_Ju.zsh-theme", as:theme, from:local
+zplug "~/.vim/dotFilesOtherSoftwareVimCompliant/zsh-themes/", from:local, use:"tjkirch_Ju.zsh-theme", as:theme, from:local
 
 # Then, source plugins and add commands to $PATH
 zplug load

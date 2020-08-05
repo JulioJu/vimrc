@@ -1,27 +1,13 @@
-/* See https://github.com/tridactyl/tridactyl/issues/210  */
+/* https://www.reddit.com/r/FirefoxCSS/comments/encagv/move_url_bar_to_bottom_in_ff72/ */
 
-/* NOT THAT STARTING OF FIREFOX 69, USERCHROME.CSS AND USERCONTENT.CSS ARE */
-/* DISABLED BY DEFAULT. SHOULD BE ENABLED. SEE */
-/* https://www.ghacks.net/2019/05/24/firefox-69-userchrome-css-and-usercontent-css-disabled-by-default/ */
-
-/* To have access to vimium shortcut, use a custome homepage */
-
-/* See also https://support.mozilla.org/el/questions/1248366?&mobile=0 */
-
-/* Thanks this rule, tab bar and omnibar are ate the bottom of the screen */
-#navigator-toolbox {
-  -moz-box-ordinal-group: 2;
+/* Bring the browser window to the top */
+#browser {
+  -moz-box-ordinal-group: 0;
 }
 
-/*
- * Following is to have the Adress bar autocomplete that appears on the top
- * of the bars
- * Learn more about adress bar autocomplete:
- * https://support.mozilla.org/en-US/kb/address-bar-autocomplete-firefox
- */
-#urlbar-results {
-  margin-top: calc(-32em - 20px) !important;
-  /* background-image: none !important; */
-  background-color: black !important;
-  color: white !important;
+/* Open the popup on top of tabar */
+#urlbar-container .urlbarView {
+  bottom: 497px;
+  background-color: black;
 }
+

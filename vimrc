@@ -140,26 +140,26 @@
         " Automatically discover and "properly" update ctags files on save
         Plug 'craigemery/vim-autotag', {'for': ['sh', 'c', 'zsh', 'bash']}
 
-        " ALE {{{2
-        " Asynchronous Lint Engine
-        " https://github.com/w0rp/ale
-        Plug 'w0rp/ale', { 'for': [] }
-        " https://github.com/junegunn/vim-plug/issues/63
-        augroup aleGroup
-            " TODO
-            " Follow https://github.com/w0rp/ale/pull/2121
-            " Fix 1996 - Add eclipse LSP support.
-            autocmd FileType *
-                        \ if (
-                                \ expand('<amatch>') != 'typescript'
-                                \ && expand('<amatch>') != 'javascript'
-                                \ && expand('<amatch>') != 'json'
-                                \ && expand('<amatch>') != 'css'
-                            \ )
-                        \ | call plug#load('ale')
-                        \ | execute 'autocmd! aleGroup'
-                        \ | endif
-        augroup END
+        " " ALE {{{2
+        " " Asynchronous Lint Engine
+        " " https://github.com/w0rp/ale
+        " Plug 'w0rp/ale', { 'for': [] }
+        " " https://github.com/junegunn/vim-plug/issues/63
+        " augroup aleGroup
+        "     " TODO
+        "     " Follow https://github.com/w0rp/ale/pull/2121
+        "     " Fix 1996 - Add eclipse LSP support.
+        "     autocmd FileType *
+        "                 \ if (
+        "                         \ expand('<amatch>') != 'typescript'
+        "                         \ && expand('<amatch>') != 'javascript'
+        "                         \ && expand('<amatch>') != 'json'
+        "                         \ && expand('<amatch>') != 'css'
+        "                     \ )
+        "                 \ | call plug#load('ale')
+        "                 \ | execute 'autocmd! aleGroup'
+        "                 \ | endif
+        " augroup END
 
         " Coc.nvim {{{2
         " Intellisense engine for vim8 & neovim, full language server protocol support as VSCode
@@ -170,7 +170,9 @@
                         \'javascript',
                         \'json',
                         \'css',
-                        \'java'
+                        \'java',
+                        \'sh',
+                        \'ps1'
                     \ ]
                     \ }
 
@@ -205,9 +207,16 @@
             nmap <silent> gy <Plug>(coc-type-definition)
             nmap <silent> gi <Plug>(coc-implementation)
             nmap <silent> gr <Plug>(coc-references)
+
+            command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
         endfunction
 
         autocmd! user coc.nvim call CocNvimCustomization()
+
+        " nvim - typescript {{{2
+        " Typescript tooling for Neovim
+        " https://github.com/mhartington/nvim-typescript
+        Plug 'liuchengxu/vista.vim'
 
         " " nvim - typescript {{{2
         " " Typescript tooling for Neovim
@@ -216,6 +225,17 @@
         " if has('nvim')
         "    Plug 'mhartington/nvim-typescript', {'for': 'typescript'} " Doesn't work
         " endif
+
+        " Vim coverage with Jest {{{2
+        " https://github.com/ruanyl/coverage.vim
+        Plug 'ruanyl/coverage.vim'
+        " Specify the path to `coverage.json` file relative to your current working directory.
+        let g:coverage_json_report_path = '~/valkyrie/coverage/coverage-final.json'
+        " Define the symbol display for covered lines
+        let g:coverage_sign_covered = 'O'
+
+        " Define the interval time of updating the coverage lines
+        let g:coverage_interval = 5000
 
         "  Indent object {{{2
         " https://github.com/michaeljsmith/vim-indent-object
@@ -264,6 +284,29 @@
         " Installé dans le système, vu que c'est un programme système on l'installe avec le système.
         Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
         Plug 'junegunn/fzf.vim'
+
+        " Floating FZF window (requires Neovim 0.4+)
+        " https://github.com/junegunn/fzf.vim/issues/664
+        let g:fzf_layout = { 'window': 'call FloatingWindow()' }
+        function! FloatingWindow(...)
+        let ignoreSplits = a:0 >= 1 ? a:1 : v:false
+        " window size and position
+        let rel     = ignoreSplits ? 'editor' : 'win'
+        let columns = ignoreSplits ? &columns : winwidth(0)
+        let lines   = ignoreSplits ? &lines   : winheight(0)
+        let width = float2nr(columns * 0.8)
+        let height = lines - 5
+        " display flowting window
+        let buf = nvim_create_buf(v:false, v:true)
+        call setbufvar(buf, '&signcolumn', 'no')
+        call nvim_open_win(buf, v:true, {
+                \ 'relative': rel,
+                \ 'width': width,
+                \ 'height': height,
+                \ 'col': float2nr((columns - width) / 2),
+                \ 'row': float2nr((lines - height) / 2)
+                \ })
+        endfunction
 
         " Ripgrep {{{2
         " Use RipGrep in Vim and display results in a quickfix list
@@ -681,6 +724,12 @@
         " let g:startify_change_to_vcs_root = 1
 
         Plug 'mhinz/vim-startify'
+
+        " PowerShell syntax {{{2
+        " A Vim plugin for Windows PowerShell support
+        " https://github.com/PProvost/vim-ps1
+        Plug 'PProvost/vim-ps1'
+
 
         " vim-plugin-AnsiEs {{{2
         " https://github.com/powerman/vim-plugin-AnsiEsc
@@ -2674,6 +2723,9 @@ nnoremap <leader>c :TComment<CR>
 " let g:neomake_c_enabled_makers = ['gcc']
 
 noremap <leader>3 *N
+" Planck Keyboard
+noremap <leader>e *N
+
 nmap cp :let @" = expand("%<")<CR>p
 
 noremap <Space> <C-d>zz
@@ -2718,6 +2770,7 @@ autocmd VimLeave * call system("xsel -ib", getreg('+'))
 " Doesn't work if we add « set isk-=. » at te end of .vim/plugged/vim-colorsesque/after/syntax/html.vim. Likewise if we add  it ~/.vim/syntax, not resolves it.
 " Change ~/.vim/plugged/vim-coloresque/after/syntax/css/vim-coloresque.vim
 autocmd FileType html,javascript,jsp set iskeyword-=.
+set isk+=-
 
 " http://vim.wikia.com/wiki/Remove_unwanted_spaces
 " However, this is a very dangerous autocmd to have as it will always strip trailing whitespace from every file a user saves. Sometimes, trailing whitespace is desired, or even essential in a file so be careful when implementing this autocmd.
@@ -2890,3 +2943,4 @@ else
     cnoreabbrev terminal Terminal
     cnoreabbrev term Terminal
 endif
+
