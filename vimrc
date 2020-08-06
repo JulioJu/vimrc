@@ -107,15 +107,18 @@
         "" Produce increasing/decreasing columns of numbers, dates, or daynames
         "Plug 'vim-scripts/VisIncr'
 
-        " Ulti-Snip {{{2
-        " UltiSnips - The ultimate snippet solution for Vim. Send pull requests to SirVer/ultisnips!
-        " https://github.com/SirVer/ultisnips
-        Plug 'SirVer/ultisnips'
-
-        " Vim-snippets {{{2
-        " vim-snipmate default snippets (Previously snipmate-snippets)
-        " https://github.com/honza/vim-snippets
-        Plug 'honza/vim-snippets'
+        " " Ulti-Snip {{{2
+        " " UltiSnips - The ultimate snippet solution for Vim. Send pull requests to SirVer/ultisnips!
+        " " https://github.com/SirVer/ultisnips
+        " BUGGY see:
+        " > [bug] neovim : press F6, F7 or F8 .etc in insert mode, neovim will be stuck
+        " > https://github.com/SirVer/ultisnips/issues/1245
+        " Plug 'SirVer/ultisnips'
+        "
+        " " Vim-snippets {{{2
+        " " vim-snipmate default snippets (Previously snipmate-snippets)
+        " " https://github.com/honza/vim-snippets
+        " Plug 'honza/vim-snippets'
 
         " Language Client Neovim {{{2
         " https://github.com/autozimu/LanguageClient-neovim
