@@ -18,6 +18,11 @@
       "sh": "shellcheck"
   },
 
-  "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": true
+  "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": true,
 
+
+  // https://github.com/vuejs/vetur/issues/1834
+  // Getting Property 'x' does not exist on type .... .Vetur(2339)
+  "vetur.validation.script": false
 }
+
