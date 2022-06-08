@@ -103,7 +103,9 @@
                         \'less',
                         \'java',
                         \'sh',
-                        \'ps1'
+                        \'ps1',
+                        \'php',
+                        \'go'
                     \ ]
                     \ }
 
@@ -573,7 +575,13 @@
         " nvim - typescript {{{2
         " Typescript tooling for Neovim
         " https://github.com/mhartington/nvim-typescript
-        Plug 'liuchengxu/vista.vim', {'for': ['typescript', 'vue']}
+        Plug 'liuchengxu/vista.vim', {'for': ['typescript', 'vue', 'php']}
+
+        " PHP Getter Setter {{{2
+        " Typescript tooling for Neovim
+        " a vim plugin to generate php getters and setters from class properties
+        " https://github.com/docteurklein/php-getter-setter.vim
+        Plug 'docteurklein/php-getter-setter.vim', {'for': ['php']}
 
         " Vim Typscript support  {{{2
         " Typescript syntax files for Vim
@@ -1729,4 +1737,3 @@ else
     cnoreabbrev terminal Terminal
     cnoreabbrev term Terminal
 endif
-

@@ -90,4 +90,7 @@ bind generic ca !?@git commit --amend --no-edit
 bind generic K view-help
 bind generic <C-w><C-w> view-next
 
+set vertical-split = horizontal
+set wrap-lines = yes
+
 # vim: ft=vim

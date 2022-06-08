@@ -23,6 +23,12 @@
 
   // https://github.com/vuejs/vetur/issues/1834
   // Getting Property 'x' does not exist on type .... .Vetur(2339)
-  "vetur.validation.script": false
+  "vetur.validation.script": false,
+
+  "java.trace.server": "verbose",
+  "java.format.enabled": true,
+  "java.import.maven.enabled": true,
+  "java.maven.downloadSources": true,
+  "intelephense.environment.shortOpenTag": true,
 }
 
