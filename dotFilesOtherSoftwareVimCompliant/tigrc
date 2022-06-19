@@ -4,6 +4,7 @@ bind main c ?git checkout %(commit)
 
 # Copy commit ID to clipboard:
 bind generic 9 !@sh -c "echo -n %(commit) | xsel -ib"
+bind main R !git rebase -i %(commit)^
 
 # See also https://github.com/jonas/tig/issues/428
 # From https://github.com/jonas/tig/issues/522
@@ -92,5 +93,6 @@ bind generic <C-w><C-w> view-next
 
 set vertical-split = horizontal
 set wrap-lines = yes
+set ignore-case = smart-case
 
 # vim: ft=vim

@@ -373,14 +373,55 @@
         " Ease your git workflow within Vim
         Plug 'jreybert/vimagit'
 
-        " Vim Gutter {{{2
-        " https://github.com/airblade/vim-gitgutter
-        " A Vim plugin which shows a git diff in the gutter (sign column) and stages/undoes hunks.
-        Plug 'airblade/vim-gitgutter'
+        " " Vim Gutter {{{2
+        " " https://github.com/airblade/vim-gitgutter
+        " " A Vim plugin which shows a git diff in the gutter (sign column) and stages/undoes hunks.
+        " Plug 'airblade/vim-gitgutter'
 
-        " Vim sparql {{{2
-        " Vim syntax file for SPARQL http://www.vim.org/scripts/script.php…
-        Plug 'rvesse/vim-sparql'
+        " plenary.nvim {{{2
+        " https://github.com/nvim-lua/plenary.nvim
+        " plenary: full; complete; entire; absolute; unqualified. All the lua functions I don't want to write twice.
+        Plug 'nvim-lua/plenary.nvim'
+
+        " " Trouble {{{2
+        " https://github.com/folke/trouble.nvim/
+        " " A pretty diagnostics, references, telescope results, quickfix and location list to help you solve all the trouble your code is causing.
+        " Plug 'folke/trouble.nvim'
+
+        " Neogit {{{2
+        " https://github.com/TimUntersberger/neogit
+        " magit for neovim
+        Plug 'TimUntersberger/neogit'
+
+        " Telescope {{{2
+        " https://github.com/nvim-telescope/telescope.nvim
+        " Find, Filter, Preview, Pick. All lua, all the time.
+        Plug 'nvim-telescope/telescope.nvim'
+
+        " diffchar.vim {{{2
+        " https://github.com/rickhowe/diffchar.vim
+        " Highlight the exact differences, based on characters and words
+        " See also https://github.com/neovim/neovim/pull/14537
+        Plug 'rickhowe/diffchar.vim'
+
+        " Diffview.nvim {{{2
+        " https://github.com/sindrets/diffview.nvim
+        " Single tabpage interface for easily cycling through diffs for all modified files for any git rev.
+        Plug 'sindrets/diffview.nvim'
+
+        " gitsigns.nvim {{{2
+        " https://github.com/lewis6991/gitsigns.nvim
+        " Git integration for buffers
+        Plug 'lewis6991/gitsigns.nvim'
+
+        " LSP Colors {{{2
+        " https://github.com/folke/lsp-colors.nvim
+        " Plugin that creates missing LSP diagnostics highlight groups for color schemes that don't yet support the Neovim 0.5 builtin LSP client.
+        Plug 'folke/lsp-colors.nvim'
+
+        " " Vim sparql {{{2
+        " " Vim syntax file for SPARQL http://www.vim.org/scripts/script.php…
+        " Plug 'rvesse/vim-sparql'
 
         " Vim startify {{{2
         " The fancy start screen for Vim.
@@ -412,7 +453,14 @@
         " fugitive.vim: a Git wrapper so awesome, it should be illegal
         " https://github.com/tpope/vim-fugitive
         Plug 'tpope/vim-fugitive'
-        "
+        nnoremap <silent> <Leader><Leader>cm :call magit#jump_to()<ENTER><C-w>T:Gdiffsplit! ++novertical<ENTER>
+        nnoremap <silent> <Leader><Leader>c12 "ayiW:tabnew <C-R>a<ENTER>:Gedit :1<ENTER>:vs<ENTER>:Gedit :2<ENTER>:windo diffthis<ENTER>
+        nnoremap <silent> <Leader><Leader>c13 "ayiW:tabnew <C-R>a<ENTER>:Gedit :1<ENTER>:vs<ENTER>:Gedit :3<ENTER>:windo diffthis<ENTER>
+        nnoremap <silent> <Leader><Leader>c23 "ayiW:tabnew <C-R>a<ENTER>:Gedit :2<ENTER>:vs<ENTER>:Gedit :3<ENTER>:windo diffthis<ENTER>
+        nnoremap <silent> <Leader><Leader>c203 "ayiW:tabnew <C-R>a<ENTER>:Gdiffsplit! ++novertical<ENTER>
+        cmap dtt diffthis<ENTER>
+        cmap doo diffoff<ENTER>
+
         " Repeat {{{2
         " repeat.vim: enable repeating supported plugin maps with "."
         " http://www.vim.org/scripts/script.php?script_id=2136
@@ -534,24 +582,37 @@
         " adds font icons (glyphs ★♨☢) to programming languages, libraries, and web
         " developer filetypes for: NERDTree, powerline, vim-airline, ctrlp, unite,
         " lightline.vim, vimfiler, and flagship
-        Plug 'ryanoasis/vim-devicons'
-        "
-        " vim-colors-solarized {{{2
-        " precision colorscheme for the vim text editor
-        " http://ethanschoonover.com/solarized
-        " https://github.com/altercation/vim-colors-solarized
-        Plug 'altercation/vim-colors-solarized'
+        " Plug 'ryanoasis/vim-devicons'
+
+        " https://github.com/kyazdani42/nvim-web-devicons
+        " https://github.com/kyazdani42/nvim-web-devicons
+        " lua `fork` of vim-web-devicons for neovim
+        Plug 'kyazdani42/nvim-web-devicons'
+
+        " " vim-colors-solarized {{{2
+        " " precision colorscheme for the vim text editor
+        " " http://ethanschoonover.com/solarized
+        " " https://github.com/altercation/vim-colors-solarized
+        " Plug 'altercation/vim-colors-solarized'
 
         " " neovim-colors-solarized-truecolor-only {{{2
         " " https://github.com/frankier/neovim-colors-solarized-truecolor-only
         " " precision colorscheme for the vim text editor http://ethanschoonover.com/solarized
         " Plug 'frankier/neovim-colors-solarized-truecolor-only'
 
-        " neovim-colors-solarized-truecolor-only {{{2
-        " https://github.com/JulioJu/neovim-qt-colors-solarized-truecolor-only
-        " precision colorscheme for the vim text editor http://ethanschoonover.com/solarized
-        " precision colorscheme for the neovim qt text editor http://ethanschoonover.com/solarized
-        Plug 'JulioJu/neovim-qt-colors-solarized-truecolor-only'
+        " " neovim-colors-solarized-truecolor-only {{{2
+        " " https://github.com/JulioJu/neovim-qt-colors-solarized-truecolor-only
+        " " precision colorscheme for the vim text editor http://ethanschoonover.com/solarized
+        " " precision colorscheme for the neovim qt text editor http://ethanschoonover.com/solarized
+        " Plug 'JulioJu/neovim-qt-colors-solarized-truecolor-only'
+
+        " Treesitter {{{2
+        if has('nvim')
+            " nvim-treesitter {{{3
+            " Nvim Treesitter configurations and abstraction layer
+            " https://github.com/nvim-treesitter/nvim-treesitter
+                Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+        endif
 
         " TagBar {{{2
         " Vim plugin that displays tags in a window, ordered by class etc.
@@ -993,12 +1054,12 @@
   " set the background light or dark
   " set background=light
   set background=dark
-  let g:solarized_termtrans = 1
-  colorscheme solarized
-  " Change le colorsheme en mode diff
-  if &diff
-      colorscheme solarized
-  endif
+  " let g:solarized_termtrans = 1
+  colorscheme monokai
+  " " Change le colorsheme en mode diff
+  " if &diff
+  "     colorscheme solarized
+  " endif
 
   " STATUS {{{2
   " Show editing mode
@@ -1219,7 +1280,6 @@
   " EasyMotion {{{2
   " Vim motions on speed!
   " https://github.com/Lokaltog/vim-easymotion
-   map <Leader> <Plug>(easymotion-prefix)
    nmap ,s <Plug>(easymotion-F)
    nmap ,f <Plug>(easymotion-f)
    nmap ,g <Plug>(easymotion-overwin-f2)
@@ -1465,7 +1525,7 @@ endif
   " With Neovim 0.2.1 and 0.2.2 there is a bug with Terminal:
   " See https://github.com/neovim/neovim/issues/7677#issuecomment-348876942
 " endif
-nnoremap <leader>lll :mksession! /tmp/session.vim<CR>:!sed -i -e 's/urxvt-colours-solarized-dark/urxvt-colours-solarized-light/' ~/.vim/dotFilesOtherSoftwareVimCompliant/Xressources<CR>:!xrdb ~/.vim/dotFilesOtherSoftwareVimCompliant/Xressources<CR>:!sed -i -e 's/urxvt-colours-solarized-light/urxvt-colours-solarized-dark/' ~/.Xressources<CR>:qa<CR>
+" nnoremap <leader>lll :mksession! /tmp/session.vim<CR>:!sed -i -e 's/urxvt-colours-solarized-dark/urxvt-colours-solarized-light/' ~/.vim/dotFilesOtherSoftwareVimCompliant/Xressources<CR>:!xrdb ~/.vim/dotFilesOtherSoftwareVimCompliant/Xressources<CR>:!sed -i -e 's/urxvt-colours-solarized-light/urxvt-colours-solarized-dark/' ~/.Xressources<CR>:qa<CR>
 nnoremap <leader>uuu :source /tmp/session.vim<CR>:set highlight bg=light<CR><CR>
 nnoremap <A-h> <C-w>h
 nnoremap <A-j> <C-w>j
@@ -1737,3 +1797,9 @@ else
     cnoreabbrev terminal Terminal
     cnoreabbrev term Terminal
 endif
+
+" lua {{{1
+
+lua << EOF
+require('gitsigns').setup()
+EOF
