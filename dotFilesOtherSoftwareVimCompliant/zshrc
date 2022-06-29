@@ -1,4 +1,4 @@
-if [[ -n "${NVIM_LISTEN_ADDRESS+x}" ]]
+if [[ -n "${NVIM+x}" ]]
 then
 
     # TODO update when vim will be updated
