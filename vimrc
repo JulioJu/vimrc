@@ -589,11 +589,11 @@
         " lua `fork` of vim-web-devicons for neovim
         Plug 'kyazdani42/nvim-web-devicons'
 
-        " " vim-colors-solarized {{{2
-        " " precision colorscheme for the vim text editor
-        " " http://ethanschoonover.com/solarized
-        " " https://github.com/altercation/vim-colors-solarized
-        " Plug 'altercation/vim-colors-solarized'
+        " vim-colors-solarized {{{2
+        " precision colorscheme for the vim text editor
+        " http://ethanschoonover.com/solarized
+        " https://github.com/altercation/vim-colors-solarized
+        Plug 'altercation/vim-colors-solarized'
 
         " " neovim-colors-solarized-truecolor-only {{{2
         " " https://github.com/frankier/neovim-colors-solarized-truecolor-only
@@ -1055,7 +1055,8 @@
   " set background=light
   set background=dark
   " let g:solarized_termtrans = 1
-  colorscheme monokai
+  " colorscheme monokai
+  colorscheme solarized
   " " Change le colorsheme en mode diff
   " if &diff
   "     colorscheme solarized
