@@ -461,6 +461,16 @@
         cmap dtt diffthis<ENTER>
         cmap doo diffoff<ENTER>
 
+        " Fugitive gitlinker {{{2
+        " A lua neovim plugin to generate shareable file permalinks (with line ranges) for several git web frontend hosts. Inspired by tpope/vim-fugitive's :GBrowse
+        " https://github.com/ruifm/gitlinker.nvim
+        Plug 'ruifm/gitlinker.nvim'
+
+        " Fugitive GBrowse {{{2
+        " rhubarb.vim: GitHub extension for fugitive.vim
+        " https://github.com/tpope/vim-rhubarb
+        Plug 'tpope/vim-rhubarb'
+
         " Repeat {{{2
         " repeat.vim: enable repeating supported plugin maps with "."
         " http://www.vim.org/scripts/script.php?script_id=2136
@@ -589,11 +599,11 @@
         " lua `fork` of vim-web-devicons for neovim
         Plug 'kyazdani42/nvim-web-devicons'
 
-        " vim-colors-solarized {{{2
-        " precision colorscheme for the vim text editor
-        " http://ethanschoonover.com/solarized
-        " https://github.com/altercation/vim-colors-solarized
-        Plug 'altercation/vim-colors-solarized'
+        " " vim-colors-solarized {{{2
+        " " precision colorscheme for the vim text editor
+        " " http://ethanschoonover.com/solarized
+        " " https://github.com/altercation/vim-colors-solarized
+        " Plug 'altercation/vim-colors-solarized'
 
         " " neovim-colors-solarized-truecolor-only {{{2
         " " https://github.com/frankier/neovim-colors-solarized-truecolor-only
@@ -605,6 +615,11 @@
         " " precision colorscheme for the vim text editor http://ethanschoonover.com/solarized
         " " precision colorscheme for the neovim qt text editor http://ethanschoonover.com/solarized
         " Plug 'JulioJu/neovim-qt-colors-solarized-truecolor-only'
+
+        " kalahari.vim {{{2
+        " https://github.com/fabi1cazenave/kalahari.vim
+        " A color scheme for Vim and Neovim. High-contrast yet easy in the eye.
+        Plug 'fabi1cazenave/kalahari.vim'
 
         " Treesitter {{{2
         if has('nvim')
@@ -1053,14 +1068,17 @@
   " COLORSHEME {{{2
   " set the background light or dark
   " set background=light
-  set background=dark
-  " let g:solarized_termtrans = 1
-  " colorscheme monokai
-  colorscheme solarized
+  " " let g:solarized_termtrans = 1
+  " " colorscheme monokai
+  " colorscheme solarized
   " " Change le colorsheme en mode diff
   " if &diff
   "     colorscheme solarized
   " endif
+
+  colorscheme kalahari
+  set background=dark
+  let g:kalahari_italic=1
 
   " STATUS {{{2
   " Show editing mode
@@ -1625,7 +1643,10 @@ autocmd VimLeave * call system("xsel -ib", getreg('+'))
 " Doesn't work if we add « set isk-=. » at te end of .vim/plugged/vim-colorsesque/after/syntax/html.vim. Likewise if we add  it ~/.vim/syntax, not resolves it.
 " Change ~/.vim/plugged/vim-coloresque/after/syntax/css/vim-coloresque.vim
 autocmd FileType html,javascript,jsp set iskeyword-=.
-set isk+=-
+
+" for php
+" ======
+" set isk+=-
 
 " http://vim.wikia.com/wiki/Remove_unwanted_spaces
 " However, this is a very dangerous autocmd to have as it will always strip trailing whitespace from every file a user saves. Sometimes, trailing whitespace is desired, or even essential in a file so be careful when implementing this autocmd.
@@ -1803,4 +1824,21 @@ endif
 
 lua << EOF
 require('gitsigns').setup()
+
+require"gitlinker".setup({
+  opts = {
+    remote = nil, -- force the use of a specific remote
+    -- adds current line nr in the url for normal mode
+    add_current_line_on_normal_mode = true,
+    -- callback for what to do with the url
+    action_callback = require"gitlinker.actions".copy_to_clipboard,
+    -- print the url after performing the action
+    print_url = true,
+  },
+  callbacks = {
+        ["github.com"] = require"gitlinker.hosts".get_github_type_url,
+  },
+-- default mapping to call url generation with action_callback
+  mappings = "<leader>gy"
+})
 EOF

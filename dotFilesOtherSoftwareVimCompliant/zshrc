@@ -36,6 +36,11 @@ fi
 export ENHANCD_FILTER="fzf"
 # export ENHANCD_COMMAND=cdd
 # export ENHANCD_HYPHEN_ARG=="--"
+#
+# # zsh-autosuggestions {{{1
+# source '/usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh'
+# ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#ff00ff,bg=cyan,bold,underline"
+# ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 
 #zplug {{{1
 #**************************

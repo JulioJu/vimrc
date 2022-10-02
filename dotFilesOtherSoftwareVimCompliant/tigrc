@@ -4,7 +4,7 @@ bind main c ?git checkout %(commit)
 
 # Copy commit ID to clipboard:
 bind generic 9 !@sh -c "echo -n %(commit) | xsel -ib"
-bind main R !git rebase -i %(commit)^
+bind main R !git rebase -r -i %(commit)^
 
 # See also https://github.com/jonas/tig/issues/428
 # From https://github.com/jonas/tig/issues/522
