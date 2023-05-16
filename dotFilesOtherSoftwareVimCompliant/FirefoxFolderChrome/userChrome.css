@@ -1,13 +1,26 @@
 /* https://www.reddit.com/r/FirefoxCSS/comments/encagv/move_url_bar_to_bottom_in_ff72/ */
 
 /* Bring the browser window to the top */
+/* #urlbar { */
+/*   order: 3; */
+/* } */
+
+/* https://github.com/mozilla/gecko-dev/blob/f60cf6bfa8bd096efd9bb3a445364f5a0f32897a/browser/base/content/browser.xhtml#L157 */
+
+/* https://github.com/mozilla/gecko-dev/blob/f60cf6bfa8bd096efd9bb3a445364f5a0f32897a/browser/base/content/browser-box.inc.xhtml */
 #browser {
-  -moz-box-ordinal-group: 0;
+    /* order: 0 !important; */
 }
+
+/* https://github.com/mozilla/gecko-dev/blob/f60cf6bfa8bd096efd9bb3a445364f5a0f32897a/browser/base/content/navigator-toolbox.inc.xhtml */
+#navigator-toolbox-background {
+    /* `order: 1` was `-moz-box-ordinal-group` (see also https://www.reddit.com/r/FirefoxCSS/comments/13ckx1r/firefox_113_tabs_under_address_bar_how_to_do_this/) */
+    order: 1 !important;
+}
+
 
 /* Open the popup on top of tabar */
 #urlbar-container .urlbarView {
   bottom: 497px;
   background-color: black;
 }
-
