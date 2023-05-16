@@ -105,21 +105,22 @@
                         \'sh',
                         \'ps1',
                         \'php',
-                        \'go'
+                        \'go',
+                        \'typescriptreact',
                     \ ]
                     \ }
 
-        function! CocNvimHighlight()
-            highlight CocErrorHighlight ctermfg=Red  guifg=#ff0000
-            highlight CocWarningHighlight ctermfg=Red  guifg=#ff0000
-            highlight CocInfoHighlight ctermfg=Red  guifg=#ff0000
-            highlight CocHintHighlight ctermfg=Red  guifg=#ff0000
-            highlight CocErrorLine ctermbg=lightblue  guibg=lightblue
-            highlight CocWarningLine ctermbg=lightblue  guibg=lightblue
-            highlight CocInfoLine ctermbg=lightblue  guibg=lightblue
-            highlight CocHintLine ctermbg=lightblue  guibg=lightblue
-            highlight CocHighlightText  guibg=#111111 ctermbg=223
-        endfunction
+        " function! CocNvimHighlight()
+        "     highlight CocErrorHighlight ctermfg=Red  guifg=#ff0000
+        "     highlight CocWarningHighlight ctermfg=Red  guifg=#ff0000
+        "     highlight CocInfoHighlight ctermfg=Red  guifg=#ff0000
+        "     highlight CocHintHighlight ctermfg=Red  guifg=#ff0000
+        "     highlight CocErrorLine ctermbg=lightblue  guibg=lightblue
+        "     highlight CocWarningLine ctermbg=lightblue  guibg=lightblue
+        "     highlight CocInfoLine ctermbg=lightblue  guibg=lightblue
+        "     highlight CocHintLine ctermbg=lightblue  guibg=lightblue
+        "     highlight CocHighlightText  guibg=#111111 ctermbg=223
+        " endfunction
 
         function! CocNvimCustomization()
             command! -nargs=0 CocDetail :call CocAction('diagnosticInfo')
@@ -129,8 +130,8 @@
             " https://github.com/neoclide/coc.nvim/issues/236
             nmap <silent> ]c <Plug>(coc-diagnostic-next)
 
-            " https://github.com/neoclide/coc-highlight/issues/8
-            call CocNvimHighlight()
+            " " https://github.com/neoclide/coc-highlight/issues/8
+            " call CocNvimHighlight()
 
             nmap <leader>qf  <Plug>(coc-fix-current)
             nmap <leader>rn <Plug>(coc-rename)
@@ -398,6 +399,12 @@
         " Find, Filter, Preview, Pick. All lua, all the time.
         Plug 'nvim-telescope/telescope.nvim'
 
+        " " Find files using Telescope command-line sugar.
+        " nnoremap <leader>ff <cmd>Telescope find_files<cr>
+        " nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+        " nnoremap <leader>fb <cmd>Telescope buffers<cr>
+        " nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+
         " diffchar.vim {{{2
         " https://github.com/rickhowe/diffchar.vim
         " Highlight the exact differences, based on characters and words
@@ -435,6 +442,11 @@
         " A Vim plugin for Windows PowerShell support
         " https://github.com/PProvost/vim-ps1
         Plug 'PProvost/vim-ps1'
+
+        " kotlin-vim {{{2
+        " Kotlin plugin for Vim. Featuring: syntax highlighting, basic indentation, Syntastic support
+        " https://github.com/udalov/kotlin-vim
+        Plug 'udalov/kotlin-vim'
 
 
         " vim-plugin-AnsiEs {{{2
@@ -522,10 +534,11 @@
         Plug 'Lokaltog/vim-easymotion'
         "
 
-        " Incsearch {{{2
-        " Improved incremental searching for Vim
-        " https://github.com/haya14busa/incsearch.vim
-        Plug 'haya14busa/incsearch.vim'
+        " " Incsearch {{{2
+        " " Improved incremental searching for Vim
+        " " https://github.com/haya14busa/incsearch.vim
+        " " Deprecated
+        " Plug 'haya14busa/incsearch.vim'
 
         " Tabularize ! {{{2
         " https://github.com/godlygeek/tabular
@@ -682,8 +695,24 @@
         " Vim syntax highlighting for Vue components.
         Plug 'posva/vim-vue'
 
-        " NeoBundle end() {{{2
-        call plug#end()
+" Plug LSP and nvim-cmp {{{1
+" https://github.com/hrsh7th/nvim-cmp
+Plug 'neovim/nvim-lspconfig'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-path'
+Plug 'hrsh7th/cmp-cmdline'
+Plug 'hrsh7th/nvim-cmp'
+
+" https://github.com/dmitmel/cmp-cmdline-history
+Plug 'dmitmel/cmp-cmdline-history'
+
+call plug#end()
+
+" lua require('plugins')
+
+" Plubin config {{{1
+
         " Required
         filetype plugin indent on
         " If there are uninstalled bundles found on startup,
@@ -1305,20 +1334,6 @@
    let g:EasyMotion_keys = 'asdfghjklqwertyuiopzxcvbnm'
    let g:Easymotion_do_mapping=0
 
-  " Incsearch {{{2
-  " Improved incremental searching for Vim
-  " https://github.com/haya14busa/incsearch.vim
-  map /  <Plug>(incsearch-forward)
-  map ?  <Plug>(incsearch-backward)
-  map g/ <Plug>(incsearch-stay)
-  set hlsearch
-  let g:incsearch#auto_nohlsearch = 0
-  map n  <Plug>(incsearch-nohl-n)
-  map N  <Plug>(incsearch-nohl-N)
-  map *  <Plug>(incsearch-nohl-*)
-  map #  <Plug>(incsearch-nohl-#)
-  map g* <Plug>(incsearch-nohl-g*)
-  map g# <Plug>(incsearch-nohl-g#)
 
 
   "" Disable Arrow in insert mode {{{2
@@ -1644,9 +1659,7 @@ autocmd VimLeave * call system("xsel -ib", getreg('+'))
 " Change ~/.vim/plugged/vim-coloresque/after/syntax/css/vim-coloresque.vim
 autocmd FileType html,javascript,jsp set iskeyword-=.
 
-" for php
-" ======
-" set isk+=-
+set isk+=-
 
 " http://vim.wikia.com/wiki/Remove_unwanted_spaces
 " However, this is a very dangerous autocmd to have as it will always strip trailing whitespace from every file a user saves. Sometimes, trailing whitespace is desired, or even essential in a file so be careful when implementing this autocmd.
@@ -1820,6 +1833,7 @@ else
     cnoreabbrev term Terminal
 endif
 
+
 " lua {{{1
 
 lua << EOF
@@ -1841,4 +1855,5 @@ require"gitlinker".setup({
 -- default mapping to call url generation with action_callback
   mappings = "<leader>gy"
 })
+
 EOF
