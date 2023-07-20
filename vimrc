@@ -137,15 +137,20 @@
             nmap <leader>rn <Plug>(coc-rename)
 
 
-            nmap <silent> gd <Plug>(coc-definition)
-            nmap <silent> gy <Plug>(coc-type-definition)
-            nmap <silent> gi <Plug>(coc-implementation)
-            nmap <silent> gr <Plug>(coc-references)
+            nmap <silent> gd :Telescope coc definitions<CR>
+            nmap <silent> gy :Telescope coc type_definitions<CR>
+            nmap <silent> gi :Telescope coc implementations<CR>
+            nmap <silent> gr :Telescope coc references<CR>
 
             command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+
+            " https://github.com/neoclide/coc.nvim/issues/869
+            nmap <silent> K :call CocAction('doHover')<CR>
         endfunction
 
         autocmd! user coc.nvim call CocNvimCustomization()
+
+        Plug 'fannheyward/telescope-coc.nvim'
 
 
         ""  Indent object {{{2
@@ -173,29 +178,6 @@
         Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
         Plug 'junegunn/fzf.vim'
 
-        " Floating FZF window (requires Neovim 0.4+)
-        " https://github.com/junegunn/fzf.vim/issues/664
-        let g:fzf_layout = { 'window': 'call FloatingWindow()' }
-        function! FloatingWindow(...)
-        let ignoreSplits = a:0 >= 1 ? a:1 : v:false
-        " window size and position
-        let rel     = ignoreSplits ? 'editor' : 'win'
-        let columns = ignoreSplits ? &columns : winwidth(0)
-        let lines   = ignoreSplits ? &lines   : winheight(0)
-        let width = float2nr(columns * 0.8)
-        let height = lines - 5
-        " display flowting window
-        let buf = nvim_create_buf(v:false, v:true)
-        call setbufvar(buf, '&signcolumn', 'no')
-        call nvim_open_win(buf, v:true, {
-                \ 'relative': rel,
-                \ 'width': width,
-                \ 'height': height,
-                \ 'col': float2nr((columns - width) / 2),
-                \ 'row': float2nr((lines - height) / 2)
-                \ })
-        endfunction
-
         " Ripgrep {{{2
         " Use RipGrep in Vim and display results in a quickfix list
         " https://github.com/jremmen/vim-ripgrep
@@ -222,10 +204,10 @@
         " https://github.com/Xuyuanp/nerdtree-git-plugin
         Plug 'Xuyuanp/nerdtree-git-plugin'
 
-        " Vim buffergator {{2
-        " Vim plugin to list, select and switch between buffers.
-        " https://github.com/jeetsukumaran/vim-buffergator
-        Plug 'jeetsukumaran/vim-buffergator'
+        " " Vim buffergator {{2
+        " " Vim plugin to list, select and switch between buffers.
+        " " https://github.com/jeetsukumaran/vim-buffergator
+        " Plug 'jeetsukumaran/vim-buffergator'
 
         " Vim tabber {{{2
         " A Vim plugin for labeling tabs, styled after Powerline, with additional tab management utilities.
@@ -308,10 +290,10 @@
         " CAUSE CONFLICTS WITH DELIMITEMATE
         " Plug 'vim-scripts/cscomment.vim', { 'for': ['cs'] }
 
-        " Vim csharp {{{2
-        " https://github.com/oranget/vim-csharp
-        " Enhancement's to Vim's C-Sharp Functionality
-        Plug 'oranget/vim-csharp', { 'for': ['cs'] }
+        " " Vim csharp {{{2
+        " " https://github.com/oranget/vim-csharp
+        " " Enhancement's to Vim's C-Sharp Functionality
+        " Plug 'oranget/vim-csharp', { 'for': ['cs'] }
 
         "" Vim-perl {{{2
         "" Support for Perl 5 and Perl 6 in Vim
@@ -324,16 +306,16 @@
         " https://github.com/nhooyr/neoman.vim
         Plug 'nhooyr/neoman.vim'
 
-        " Zeal Vim {{{ 2
-        " Zeal for Vim
-        " https://github.com/KabbAmine/zeavim.vim
-        Plug 'KabbAmine/zeavim.vim', {'on': [
-                    \   'Zeavim', 'Docset',
-                    \   '<Plug>Zeavim',
-                    \   '<Plug>ZVVisSelection',
-                    \   '<Plug>ZVKeyDocset',
-                    \   '<Plug>ZVMotion'
-                    \ ]}
+        " " Zeal Vim {{{ 2
+        " " Zeal for Vim
+        " " https://github.com/KabbAmine/zeavim.vim
+        " Plug 'KabbAmine/zeavim.vim', {'on': [
+        "             \   'Zeavim', 'Docset',
+        "             \   '<Plug>Zeavim',
+        "             \   '<Plug>ZVVisSelection',
+        "             \   '<Plug>ZVKeyDocset',
+        "             \   '<Plug>ZVMotion'
+        "             \ ]}
 
         " vim-ipmotion {{{2
         " Improved paragraph motion http://www.vim.org/scripts/script.php?script_id=3952
@@ -341,6 +323,7 @@
         Plug 'justinmk/vim-ipmotion'
 
         " vim-abolish {{{2
+        " abolish.vim: Work with several variants of a word at once
         " https://github.com/tpope/vim-abolish
         Plug 'tpope/vim-abolish'
 
@@ -540,6 +523,11 @@
         " " Deprecated
         " Plug 'haya14busa/incsearch.vim'
 
+        " " vim-slash {{{2
+        " " Enhancing in-buffer search experience
+        " " https://github.com/junegunn/vim-slash
+        " Plug 'junegunn/vim-slash'
+
         " Tabularize ! {{{2
         " https://github.com/godlygeek/tabular
         " Vim script for text filtering and alignment
@@ -618,6 +606,26 @@
         " " https://github.com/altercation/vim-colors-solarized
         " Plug 'altercation/vim-colors-solarized'
 
+        "" tokyonight.nvim {{{2
+        "" A clean, dark Neovim theme written in Lua, with support for lsp, treesitter and lots of plugins. Includes additional themes for Kitty, Alacritty, iTerm and Fish.
+        "" https://github.com/folke/tokyonight.nvim
+        "Plug 'folke/tokyonight.nvim'
+
+        " kanagawa.nvim {{{2
+        " NeoVim dark colorscheme inspired by the colors of the famous painting by Katsushika Hokusai.
+        " https://github.com/rebelot/kanagawa.nvim
+        Plug 'rebelot/kanagawa.nvim'
+
+        " iceberg.vim {{{2
+        " antarctica Bluish color scheme for Vim and Neovim
+        " https://github.com/cocopon/iceberg.vim
+        Plug 'cocopon/iceberg.vim'
+
+        " catppuccin {{{2
+        " Soothing pastel theme for (Neo)vim
+        " https://github.com/catppuccin/nvim
+        Plug 'catppuccin/nvim'
+
         " " neovim-colors-solarized-truecolor-only {{{2
         " " https://github.com/frankier/neovim-colors-solarized-truecolor-only
         " " precision colorscheme for the vim text editor http://ethanschoonover.com/solarized
@@ -629,10 +637,10 @@
         " " precision colorscheme for the neovim qt text editor http://ethanschoonover.com/solarized
         " Plug 'JulioJu/neovim-qt-colors-solarized-truecolor-only'
 
-        " kalahari.vim {{{2
-        " https://github.com/fabi1cazenave/kalahari.vim
-        " A color scheme for Vim and Neovim. High-contrast yet easy in the eye.
-        Plug 'fabi1cazenave/kalahari.vim'
+        " " kalahari.vim {{{2
+        " " https://github.com/fabi1cazenave/kalahari.vim
+        " " A color scheme for Vim and Neovim. High-contrast yet easy in the eye.
+        " Plug 'fabi1cazenave/kalahari.vim'
 
         " Treesitter {{{2
         if has('nvim')
@@ -1095,19 +1103,9 @@ call plug#end()
   set showcmd
 
   " COLORSHEME {{{2
-  " set the background light or dark
-  " set background=light
-  " " let g:solarized_termtrans = 1
-  " " colorscheme monokai
-  " colorscheme solarized
-  " " Change le colorsheme en mode diff
-  " if &diff
-  "     colorscheme solarized
-  " endif
 
-  colorscheme kalahari
   set background=dark
-  let g:kalahari_italic=1
+  colorscheme kanagawa
 
   " STATUS {{{2
   " Show editing mode
@@ -1152,8 +1150,8 @@ call plug#end()
   "SHOW CURRENT COLUMN :
   set cursorcolumn
   " SHOW CURSOR
-  highlight Cursor  guifg=white guibg=black
-  highlight iCursor guifg=white guibg=steelblue
+  " highlight Cursor  guifg=white guibg=black
+  " highlight iCursor guifg=white guibg=steelblue
   set guicursor=n-v-c:block-Cursor
   set guicursor+=i:ver100-iCursor
   set guicursor+=n-v-c:blinkon0
@@ -1856,4 +1854,57 @@ require"gitlinker".setup({
   mappings = "<leader>gy"
 })
 
+-- https://github.com/fannheyward/telescope-coc.nvim
+require("telescope").setup({
+    extensions = {
+    coc = {
+        theme = 'ivy',
+        prefer_locations = true, -- always use Telescope locations to preview definitions/declarations/implementations etc
+    }
+    },
+})
+require('telescope').load_extension('coc')
+
+-- https://github.com/nvim-treesitter/nvim-treesitter
+require'nvim-treesitter.configs'.setup {
+  -- A list of parser names, or "all" (the five listed parsers should always be installed)
+  ensure_installed = { "javascript", "typescript", "lua", "vim", "vimdoc", "query" },
+
+  -- Install parsers synchronously (only applied to `ensure_installed`)
+  sync_install = false,
+
+  -- Automatically install missing parsers when entering buffer
+  -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
+  auto_install = false,
+
+  -- -- List of parsers to ignore installing (for "all")
+  -- ignore_install = { "javascript" },
+
+  ---- If you need to change the installation directory of the parsers (see -> Advanced Setup)
+  -- parser_install_dir = "/some/path/to/store/parsers", -- Remember to run vim.opt.runtimepath:append("/some/path/to/store/parsers")!
+
+  highlight = {
+    enable = true,
+
+    -- -- NOTE: these are the names of the parsers and not the filetype. (for example if you want to
+    -- -- disable highlighting for the `tex` filetype, you need to include `latex` in this list as this is
+    -- -- the name of the parser)
+    -- -- list of language that will be disabled
+    -- disable = { "c", "rust" },
+    -- Or use a function for more flexibility, e.g. to disable slow treesitter highlight for large files
+    disable = function(lang, buf)
+        local max_filesize = 100 * 1024 -- 100 KB
+        local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
+        if ok and stats and stats.size > max_filesize then
+            return true
+        end
+    end,
+
+    -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
+    -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
+    -- Using this option may slow down your editor, and you may see some duplicate highlights.
+    -- Instead of true it can also be a list of languages
+    additional_vim_regex_highlighting = false,
+  },
+}
 EOF
