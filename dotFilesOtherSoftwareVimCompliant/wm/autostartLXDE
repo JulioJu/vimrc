@@ -6,7 +6,6 @@
 @urxvt -e nvim +term
 @redshift-gtk
 @xfce4-volumed
-xkbcomp -w9 /opt/lafayette_linux_v0.6.xkb $DISPLAY
 # « Shuffle » key on TypeMatrix
 xmodmap -e "keycode 102 = Shift_L"
 # « Dsktp » key on TypeMatrix

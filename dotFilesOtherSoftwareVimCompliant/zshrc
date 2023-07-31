@@ -63,7 +63,7 @@ zplug "lib/termsupport", from:oh-my-zsh # Set terminal window and tab/icon title
 zplug "lib/theme-and-appearance", from:oh-my-zsh
 
 
-zplug "b4b4r07/enhancd", use:init.sh
+# zplug "b4b4r07/enhancd", use:init.sh
 zplug "trapd00r/LS_COLORS", use:''
 
 # Set the priority when loading
