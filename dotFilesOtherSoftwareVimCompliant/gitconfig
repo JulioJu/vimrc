@@ -1,0 +1,83 @@
+[user]
+	email = 11527844+JulioJu@users.noreply.github.com
+	name = JulioJu
+[core]
+	autocrlf = false
+	pager = less -i
+[color]
+	ui = auto
+[cola]
+	spellcheck = false
+[mergetool "gitblade"]
+	cmd = \"/usr/lib/gitblade/gitblade\" -c \"\"
+	trustExitCode = true
+[init]
+	defaultBranch = main
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+
+# From Romain https://pad.gresille.org/p/tuppervim-grenoble-2022-05-31
+# [diff]
+#     tool = difft
+#     colorMoved = default
+#     external = difft
+#
+# [difftool]
+#     prompt = false
+#
+# [difftool "meld"]
+#     cmd = meld "$LOCAL" "$REMOTE"
+#
+# [difftool "difft"]
+#     cmd = difft "$LOCAL" "$REMOTE"
+#
+# [difftool "delta"]
+#     cmd = echo delta "$LOCAL" "$REMOTE"
+#
+# [merge]
+#     tool = vimdiff
+#     conflictstyle = diff3
+#
+# [mergetool]
+#     prompt = false
+#
+# [core]
+#     pager = delta
+#     #pager = less -R
+#
+# [pager]
+#     difftool = true
+#
+# [interactive]
+#     diffFilter = delta --color-only
+#
+# [delta]
+#     features = side-by-side line-numbers
+#     syntax-theme = Dracula
+#     hunk-header-style = omit
+#     whitespace-error-style = blue purple
+
+
+###############
+# [core]
+#     pager = delta
+#
+# [interactive]
+#     diffFilter = delta --color-only
+#
+# [merge]
+#     conflictstyle = diff3
+#
+# [diff]
+#     colorMoved = default
+#
+# [delta]
+#     navigate = true  # use n and N to move between diff sections
+#     light = false    # set to true if you're in a terminal w/ a light background color (e.g. the default macOS terminal)
+#     features = side-by-side line-numbers
+#     syntax-theme = Dracula
+#     hunk-header-style = omit
+#     whitespace-error-style = blue purple
