@@ -184,7 +184,7 @@
         Plug 'jremmen/vim-ripgrep'
 
         " Vim ranger {{{2
-        " Plug 'francoiscabrol/ranger.vim'
+        " Ranger integration in vim and neovim
         " https://github.com/francoiscabrol/ranger.vim
         Plug 'francoiscabrol/ranger.vim'
 
@@ -1860,10 +1860,25 @@ require("telescope").setup({
     coc = {
         theme = 'ivy',
         prefer_locations = true, -- always use Telescope locations to preview definitions/declarations/implementations etc
-    }
+        }
     },
+    -- https://github.com/nvim-telescope/telescope.nvim/pull/828
+    pickers = {
+        buffers = {
+        show_all_buffers = true,
+        sort_lastused = true,
+        theme = "dropdown",
+        previewer = false,
+        mappings = {
+            i = {
+                    ["<c-d>"] = "delete_buffer",
+                }
+            }
+        }
+    }
 })
 require('telescope').load_extension('coc')
+
 
 -- https://github.com/nvim-treesitter/nvim-treesitter
 require'nvim-treesitter.configs'.setup {
