@@ -56,18 +56,19 @@
             Plug ('Raimondi/delimitMate')
             autocmd BufReadPost markdown DelimtMateOff
 
-            augroup delimitMateGroup
-                " TODO
-                " Follow https://github.com/w0rp/ale/pull/2121
-                " Fix 1996 - Add eclipse LSP support.
-                autocmd FileType *
-                            \ if (
-                            \ expand('<amatch>') != 'markdown'
-                            \ )
-                            \ | call plug#load('delimitMate')
-                            \ | execute 'autocmd! delimitMateGroup'
-                            \ | endif
-            augroup END
+            " let delimitMate_expand_cr = 1
+            " augroup delimitMateGroup
+            "     " TODO
+            "     " Follow https://github.com/w0rp/ale/pull/2121
+            "     " Fix 1996 - Add eclipse LSP support.
+            "     autocmd FileType *
+            "                 \ if (
+            "                 \ expand('<amatch>') != 'markdown'
+            "                 \ )
+            "                 \ | call plug#load('delimitMate')
+            "                 \ | execute 'autocmd! delimitMateGroup'
+            "                 \ | endif
+            " augroup END
         " endif
 
 
@@ -75,17 +76,25 @@
         " A vim plugin to display the indention levels with thin vertical lines A vim plugin to display the indention levels with thin vertical lines u
         " https://github.com/Yggdroot/indentLine
         Plug 'Yggdroot/indentLine'
+        let g:indentLine_color_term = 239
+        let g:indentLine_color_gui = '#09AA08'
+        let g:indentLine_char = '│'
 
         " Rainbow_parentheses.vim {{{2
         " https://github.com/kien/rainbow_parentheses.vim
         " Better Rainbow Parentheses
         Plug 'junegunn/rainbow_parentheses.vim'
+        let g:rainbow#pairs = [['(', ')'], ['[', ']'], ['{', '}']]
+        au BufEnter * RainbowParentheses
+        " au Syntax * RainbowParenthesesLoadRound
+        " au Syntax * RainbowParenthesesLoadSquare
+        " au Syntax * RainbowParenthesesLoadBraces
 
 
-        " Vim Autotag {{{2
-        " https://github.com/craigemery/vim-autotag
-        " Automatically discover and "properly" update ctags files on save
-        Plug 'craigemery/vim-autotag', {'for': ['sh', 'c', 'zsh', 'bash']}
+        "" Vim Autotag {{{2
+        "" https://github.com/craigemery/vim-autotag
+        "" Automatically discover and "properly" update ctags files on save
+        "Plug 'craigemery/vim-autotag', {'for': ['sh', 'c', 'zsh', 'bash']}
 
 
         " Coc.nvim {{{2
@@ -163,6 +172,9 @@
         " An extensible & universal comment vim-plugin that also handles embedded filetypes http://www.vim.org/scripts/script.php?script_id=1173
         " https://github.com/tomtom/tcomment_vim
         Plug 'tomtom/tcomment_vim'
+            " Si on rement le remapage plus haut de TCOmment, à plante. Pourquoi ? @FIXME. J'ai essayé d'autres combinaisons, notamment de mettre des remapages vers <c-_>2<c-_>b, mais ça ne ça marche pas.
+        vnoremap <leader>c :call tcomment#SetOption("count", 2)<CR>gv:TCommentBlock<CR>
+        nnoremap <leader>c :TComment<CR>
 
 
         " Neoformat {{{2
@@ -178,6 +190,48 @@
         Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
         Plug 'junegunn/fzf.vim'
 
+        " https://medium.com/@crashybang/supercharge-vim-with-fzf-and-ripgrep-d4661fc853d2
+        command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>), 1, <bang>0)
+
+        let $FZF_DEFAULT_COMMAND="fd --hidden --follow --exclude '.git' --exclude 'node_modules'"
+
+        " Problems with Ctrl-{R,T} in Neovim terminal
+        " https://github.com/junegunn/fzf/issues/809
+        " Fixed
+        " let $FZF_DEFAULT_OPTS .= ' --no-height'
+
+        " Floating Windows Support From Neovim
+        " Use nvim 0.4 +
+        " https://github.com/junegunn/fzf.vim/issues/664
+        " https://github.com/neoclide/coc.nvim/wiki/F.A.Q#how-to-make-preview-window-shown-aside-with-pum
+        " `:echo exists('##CompleteChanged')` ==> 0 in nvim of april
+        if has('nvim') && exists('##CompleteChanged')
+            let $FZF_DEFAULT_OPTS='--layout=reverse'
+            let g:fzf_layout = { 'window': 'call FloatingFZF()' }
+
+            function! FloatingFZF()
+            let buf = nvim_create_buf(v:false, v:true)
+            call setbufvar(buf, '&signcolumn', 'no')
+
+            let height = &lines - 3
+            let width = float2nr(&columns - (&columns * 2 / 10))
+            let col = float2nr((&columns - width) / 2)
+
+            let opts = {
+                    \ 'relative': 'editor',
+                    \ 'row': 1,
+                    \ 'col': col,
+                    \ 'width': width,
+                    \ 'height': height
+                    \ }
+
+            call nvim_open_win(buf, v:true, opts)
+            endfunction
+        endif
+
+        noremap <leader>z :FZF<CR>
+
+
         " Ripgrep {{{2
         " Use RipGrep in Vim and display results in a quickfix list
         " https://github.com/jremmen/vim-ripgrep
@@ -187,17 +241,18 @@
         " Ranger integration in vim and neovim
         " https://github.com/francoiscabrol/ranger.vim
         Plug 'francoiscabrol/ranger.vim'
+        let g:ranger_map_keys = 0
 
-        " Vim bclose (dependancy for ranger) {{{2
-        " https://github.com/rbgrouleff/bclose.vim
-        " The BClose Vim plugin for deleting a buffer without closing the window http://vim.wikia.com/wiki/Deleting_a_…
-        Plug 'rbgrouleff/bclose.vim'
+        "" Vim bclose (dependancy for ranger) {{{2
+        "" https://github.com/rbgrouleff/bclose.vim
+        "" The BClose Vim plugin for deleting a buffer without closing the window http://vim.wikia.com/wiki/Deleting_a_…
+        "Plug 'rbgrouleff/bclose.vim'
 
 
-        " NERDTree {{{2
-        " A tree explorer plugin for vim.
-        " https://github.com/scrooloose/nerdtree
-        Plug 'scrooloose/nerdtree'
+        "" NERDTree {{{2
+        "" A tree explorer plugin for vim.
+        "" https://github.com/scrooloose/nerdtree
+        "Plug 'scrooloose/nerdtree'
 
         " nerdtree-git-plugin {{{2
         " A plugin of NERDTree showing git status
@@ -208,11 +263,13 @@
         " " Vim plugin to list, select and switch between buffers.
         " " https://github.com/jeetsukumaran/vim-buffergator
         " Plug 'jeetsukumaran/vim-buffergator'
+        " let g:buffergator_suppress_keymaps = 1
 
         " Vim tabber {{{2
         " A Vim plugin for labeling tabs, styled after Powerline, with additional tab management utilities.
         " https://github.com/fweep/vim-tabber
         Plug 'fweep/vim-tabber'
+        set tabline=%!tabber#TabLine()
 
         " Undotree
         " The undo history visualizer for VIM
@@ -251,10 +308,15 @@
         " A Vim plugin that always highlights the enclosing html/xml tags
         Plug 'Valloric/MatchTagAlways', {'for ' : ['html', 'php', 'jsp', 'xml', 'xsd', 'dtd', 'xsl']}
 
-        " Emmet {{{2
-        "  emmet for vim: http://emmet.io/
-        "  http://mattn.github.io/emmet-vim
-        Plug 'mattn/emmet-vim', { 'for' : ['html', 'php', 'jsp', 'xml', 'dtd', 'xsd', 'xsl', 'xhtml', 'vue']}
+        "" Emmet {{{2
+        ""  emmet for vim: http://emmet.io/
+        ""  http://mattn.github.io/emmet-vim
+        "Plug 'mattn/emmet-vim', { 'for' : ['html', 'php', 'jsp', 'xml', 'dtd', 'xsd', 'xsl', 'xhtml', 'vue']}
+        "let g:user_emmet_settings = {
+        "\    'html': {
+        "\        'empty_element_suffix': ' />',
+        "\    },
+        "\}
 
         " " Neomake {{{2
         " " A plugin for asynchronous :make using Neovim's job-control functionality
@@ -283,11 +345,25 @@
         "" Vim omnicompletion (intellisense) and more for c# http://www.omnisharp.net
 
         "Plug 'OmniSharp/omnisharp-vim', { 'for': ['cs', 'cshtml.html'] }
+        "" let g:ale_linters = {
+        ""             \ 'cs': ['OmniSharp']
+        ""             \}
 
-        " CSComment {{{2
-        " https://github.com/vim-scripts/cscomment.vim
-        " Automates creation of /// comments for C# methods
-        " CAUSE CONFLICTS WITH DELIMITEMATE
+        "let g:OmniSharp_timeout = 5
+        "let g:OmniSharp_proc_debug = 1
+        "" see https://github.com/OmniSharp/omnisharp-vim/issues/427
+        "" let g:OmniSharp_server_path = '/media/data/home/omnisharp-roslyn/bin/Debug/OmniSharp.Http.Driver/net461/OmniSharp.exe'
+        "" let g:OmniSharp_server_path = '/media/data/home/omnisharp-roslyn/artifacts/publish/OmniSharp.Http.Driver/mono/OmniSharp.exe'
+        "" let g:OmniSharp_server_path = '/media/data/home/omnisharpBin9b5e3ebb/OmniSharp.exe'
+        "" let g:OmniSharp_server_use_mono = 1
+        "let g:OmniSharp_loglevel = 'debug'
+
+"       " let g:omnicomplete_fetch_full_documentation = 1
+
+        "" CSComment {{{2
+        "" https://github.com/vim-scripts/cscomment.vim
+        "" Automates creation of /// comments for C# methods
+        "" CAUSE CONFLICTS WITH DELIMITEMATE
         " Plug 'vim-scripts/cscomment.vim', { 'for': ['cs'] }
 
         " " Vim csharp {{{2
@@ -301,10 +377,10 @@
         "Plug 'vim-perl/vim-perl', { 'for': 'perl', 'do': 'make clean carp dancer highlight-all-pragmas moose test-more try-tiny' }
 
 
-        " Neoman {{{2
-        " A modern man page plugin for vim
-        " https://github.com/nhooyr/neoman.vim
-        Plug 'nhooyr/neoman.vim'
+        "" Neoman {{{2
+        "" A modern man page plugin for vim
+        "" https://github.com/nhooyr/neoman.vim
+        "Plug 'nhooyr/neoman.vim'
 
         " " Zeal Vim {{{ 2
         " " Zeal for Vim
@@ -327,21 +403,20 @@
         " https://github.com/tpope/vim-abolish
         Plug 'tpope/vim-abolish'
 
-        " Vim Pager {{{2
-        " Use Vim as PAGER http://www.vim.org/scripts/script.php…
-        " https://github.com/rkitover/vimpager
-        Plug 'rkitover/vimpager'
+        "" Vim Pager {{{2
+        "" Use Vim as PAGER http://www.vim.org/scripts/script.php…
+        "" https://github.com/rkitover/vimpager
+        "Plug 'rkitover/vimpager'
 
-
-        " Vim ipmotion {{{2
-        " https://github.com/terryma/vim-expand-region
-        " Vim plugin that allows you to visually select increasingly larger regions of text using the same key combination.
+        "" Vim ipmotion {{{2
+        "" https://github.com/terryma/vim-expand-region
+        "" Vim plugin that allows you to visually select increasingly larger regions of text using the same key combination.
         " Plug 'justinmk/vim-ipmotion'
 
-        " Vim Grammalecte {{{2
-        " https://github.com/dpelle/vim-Grammalecte
-        " A vim plugin for the Grammalecte French grammar checker
-        Plug 'dpelle/vim-Grammalecte'
+        "" Vim Grammalecte {{{2
+        "" https://github.com/dpelle/vim-Grammalecte
+        "" A vim plugin for the Grammalecte French grammar checker
+        "Plug 'dpelle/vim-Grammalecte'
 
         "" spaceneovim (distro) {{{2
         "" https://github.com/Tehnix/spaceneovim
@@ -356,6 +431,10 @@
         " https://github.com/jreybert/vimagit
         " Ease your git workflow within Vim
         Plug 'jreybert/vimagit'
+        let g:magit_default_fold_level = 2
+        let g:magit_discard_untracked_do_delete=1
+        let g:magit_auto_foldopen = 1
+        let g:magit_warning_max_lines=500
 
         " " Vim Gutter {{{2
         " " https://github.com/airblade/vim-gitgutter
@@ -413,18 +492,18 @@
         " " Vim syntax file for SPARQL http://www.vim.org/scripts/script.php…
         " Plug 'rvesse/vim-sparql'
 
-        " Vim startify {{{2
-        " The fancy start screen for Vim.
-        " https://github.com/mhinz/vim-startify
-        let g:startify_change_to_dir = 0
-        " let g:startify_change_to_vcs_root = 1
+        "" Vim startify {{{2
+        "" The fancy start screen for Vim.
+        "" https://github.com/mhinz/vim-startify
+        "let g:startify_change_to_dir = 0
+        "" let g:startify_change_to_vcs_root = 1
 
-        Plug 'mhinz/vim-startify'
+        "Plug 'mhinz/vim-startify'
 
-        " PowerShell syntax {{{2
-        " A Vim plugin for Windows PowerShell support
-        " https://github.com/PProvost/vim-ps1
-        Plug 'PProvost/vim-ps1'
+        "" PowerShell syntax {{{2
+        "" A Vim plugin for Windows PowerShell support
+        "" https://github.com/PProvost/vim-ps1
+        "Plug 'PProvost/vim-ps1'
 
         " kotlin-vim {{{2
         " Kotlin plugin for Vim. Featuring: syntax highlighting, basic indentation, Syntastic support
@@ -432,16 +511,16 @@
         Plug 'udalov/kotlin-vim'
 
 
-        " vim-plugin-AnsiEs {{{2
-        " https://github.com/powerman/vim-plugin-AnsiEsc
-        " ansi escape sequences concealed, but highlighted as specified (conceal) http://www.vim.org/scripts/script.php…
-        Plug 'powerman/vim-plugin-AnsiEsc'
+        "" vim-plugin-AnsiEs {{{2
+        "" https://github.com/powerman/vim-plugin-AnsiEsc
+        "" ansi escape sequences concealed, but highlighted as specified (conceal) http://www.vim.org/scripts/script.php…
+        "Plug 'powerman/vim-plugin-AnsiEsc'
 
 
 
         " Sensible {{{2
         " sensible.vim: Defaults everyone can agree on
-        " http://www.vim.org/scripts/script.php?script_id=4391
+        " https://github.com/tpope/vim-sensible
         Plug 'tpope/vim-sensible'
 
         " Fugitive {{{2
@@ -461,10 +540,10 @@
         " https://github.com/ruifm/gitlinker.nvim
         Plug 'ruifm/gitlinker.nvim'
 
-        " Fugitive GBrowse {{{2
-        " rhubarb.vim: GitHub extension for fugitive.vim
-        " https://github.com/tpope/vim-rhubarb
-        Plug 'tpope/vim-rhubarb'
+        "" Fugitive GBrowse {{{2
+        "" rhubarb.vim: GitHub extension for fugitive.vim
+        "" https://github.com/tpope/vim-rhubarb
+        "Plug 'tpope/vim-rhubarb'
 
         " Repeat {{{2
         " repeat.vim: enable repeating supported plugin maps with "."
@@ -495,27 +574,41 @@
         " http://www.vim.org/scripts/script.php?script_id=3068
         Plug 'chrisbra/Recover.vim'
 
-        " Surround {{{2
-        " surround.vim: quoting/parenthesizing made simple
-        " https://github.com/tpope/vim-surround
-        Plug 'tpope/vim-surround'
+        "" Surround {{{2
+        "" surround.vim: quoting/parenthesizing made simple
+        "" https://github.com/tpope/vim-surround
+        "Plug 'tpope/vim-surround'
 
         " VimAirline {{{2
         " lean & mean status/tabline for vim that's light as air
         " https://github.com/bling/vim-airline
         Plug 'bling/vim-airline'
+        if &term=~'linux'
+            let g:airline#extensions#tabline#enabled = 1
+        elseif &term=~'screen'
+            let g:airline#extensions#tabline#enabled = 1
+            let g:airline_powerline_fonts = 1
+        endif
+        " See https://github.com/ryanoasis/vim-devicons
+        let g:airline_powerline_fonts = 1
+        let g:airline#extensions#tabline#fnametruncate = 0
 
 
         " Vim Quickscokp {{{2
         " Lightning fast left-right movement in Vim
         " https://github.com/unblevable/quick-scope
         Plug 'unblevable/quick-scope'
+        let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 
         " EasyMotion {{{2
         " Vim motions on speed!
         " https://github.com/Lokaltog/vim-easymotion
         Plug 'Lokaltog/vim-easymotion'
-        "
+        nmap ,s <Plug>(easymotion-F)
+        nmap ,f <Plug>(easymotion-f)
+        nmap ,g <Plug>(easymotion-overwin-f2)
+        let g:EasyMotion_keys = 'asdfghjklqwertyuiopzxcvbnm'
+        let g:Easymotion_do_mapping=0
 
         " " Incsearch {{{2
         " " Improved incremental searching for Vim
@@ -542,8 +635,25 @@
         " https://github.com/plasticboy/vim-markdown
         " Markdown Vim Mode http://plasticboy.com/markdown-vim-mode/
         Plug 'plasticboy/vim-markdown', { 'for': ['markdown']}
-        " COMPLELTY BUGGY ON LONG DOCUMENT!!
-        " USE IT IN CONTEXT ON VIM POLYGLOT
+        let g:vim_markdown_folding_disabled=1
+        let g:vim_markdown_follow_anchor = 1
+        let g:vim_markdown_frontmatter = 1
+        let g:vim_markdown_conceal = 0
+        function! MarkdownHookInner(timer)
+            normal h
+        endfunction
+        function! MarkdownHook(timer)
+            " Delay otherwise `conceallevel' is setted by the plugin
+            set conceallevel=0
+            " Delay otherwise Tagbar is not loaded correctly
+            Tagbar
+            " call feedkeys("<C-w>h")
+            call timer_start(200, 'MarkdownHookInner',
+                        \ {'repeat': 1})
+
+        endfunc
+        autocmd BufAdd *.md call timer_start(1000, 'MarkdownHook',
+                    \ {'repeat': 1})
 
         " " Mardown {{{2
         " " https://github.com/gabrielelana/vim-markdown
@@ -561,11 +671,11 @@
         " https://github.com/mzlogin/vim-markdown-toc
         Plug 'mzlogin/vim-markdown-toc', { 'for': ['markdown']}
 
-        " Markdown 2 Ctags {{{2
-        " Generate ctags-compatible tags files for Markdown documents.
-        " https://github.com/jszakmeister/markdown2ctags
-        " Note: not a Vim Plugin
-        Plug 'jszakmeister/markdown2ctags', { 'for': ['markdown']}
+        "" Markdown 2 Ctags {{{2
+        "" Generate ctags-compatible tags files for Markdown documents.
+        "" https://github.com/jszakmeister/markdown2ctags
+        "" Note: not a Vim Plugin
+        "Plug 'jszakmeister/markdown2ctags', { 'for': ['markdown']}
 
         " " Pandoc {{{2
         " " No updated, I use markdown-vim-mode
@@ -574,12 +684,12 @@
         " " Not very usefull
         " " Plug 'vim-pandoc/vim-pandoc-syntax', { 'for': ['md']}
 
-        " Vim instant markdown {{{2
-        " https://github.com/suan/vim-instant-markdown
-        " Instant Markdown previews from VIm!
-        Plug 'suan/vim-instant-markdown', { 'for': ['markdown']}
-        let g:instant_markdown_slow = 1
-        let g:instant_markdown_autostart = 0
+        "" Vim instant markdown {{{2
+        "" https://github.com/suan/vim-instant-markdown
+        "" Instant Markdown previews from VIm!
+        "Plug 'suan/vim-instant-markdown', { 'for': ['markdown']}
+        "let g:instant_markdown_slow = 1
+        "let g:instant_markdown_autostart = 0
 
         "" Characterize {{{2
         "" tpope/vim-characterize
@@ -616,15 +726,15 @@
         " https://github.com/rebelot/kanagawa.nvim
         Plug 'rebelot/kanagawa.nvim'
 
-        " iceberg.vim {{{2
-        " antarctica Bluish color scheme for Vim and Neovim
-        " https://github.com/cocopon/iceberg.vim
-        Plug 'cocopon/iceberg.vim'
+        "" iceberg.vim {{{2
+        "" antarctica Bluish color scheme for Vim and Neovim
+        "" https://github.com/cocopon/iceberg.vim
+        "Plug 'cocopon/iceberg.vim'
 
-        " catppuccin {{{2
-        " Soothing pastel theme for (Neo)vim
-        " https://github.com/catppuccin/nvim
-        Plug 'catppuccin/nvim'
+        "" catppuccin {{{2
+        "" Soothing pastel theme for (Neo)vim
+        "" https://github.com/catppuccin/nvim
+        "Plug 'catppuccin/nvim'
 
         " " neovim-colors-solarized-truecolor-only {{{2
         " " https://github.com/frankier/neovim-colors-solarized-truecolor-only
@@ -650,35 +760,70 @@
                 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
         endif
 
-        " TagBar {{{2
-        " Vim plugin that displays tags in a window, ordered by class etc.
-        " https://github.com/majutsushi/tagbar
-        Plug 'majutsushi/tagbar'
+        "" TagBar {{{2
+        "" Vim plugin that displays tags in a window, ordered by class etc.
+        "" https://github.com/majutsushi/tagbar
+        "Plug 'majutsushi/tagbar'
+        "" Default definition are at
+        "" https://github.com/majutsushi/tagbar/blob/master/autoload/tagbar/types/uctags.vim
+        "" Below overwrite default definition.
+        "let g:tagbar_type_sh = {
+        "            \ 'ctagstype' : 'sh',
+        "            \ 'kinds' : [
+        "                \ 'f:functions',
+        "                \ 'e:exportvars',
+        "                \ 'V:varglobal',
+        "                \ 'a:alisases' ,
+        "                \ 's:script files'
+        "            \ ],
+        "            \ }
+
+        "let g:tagbar_show_linenumbers=2
+        "let g:tagbar_autofocus = 1
+
+        "" Add support for markdown files in tagbar.
+        "let g:tagbar_type_markdown = {
+        "    \ 'ctagstype': 'markdown',
+        "    \ 'ctagsbin' : '~/.vim/plugged/markdown2ctags/markdown2ctags.py',
+        "    \ 'ctagsargs' : '-f - --sort=yes',
+        "    \ 'kinds' : [
+        "        \ 's:sections',
+        "        \ 'i:images'
+        "    \ ],
+        "    \ 'sro' : '|',
+        "    \ 'kind2scope' : {
+        "        \ 's' : 'section',
+        "    \ },
+        "    \ 'sort': 0,
+        "\ }
 
         " Lazy specific plugins and others bundles {{{1
 
-        " yaml {{{2
-        Plug 'avakhov/vim-yaml', { 'for': ['python', 'yaml'] }
+        "" vim syntax yaml {{{2
+        "" https://github.com/avakhov/vim-yaml
+        "Plug 'avakhov/vim-yaml', { 'for': ['python', 'yaml'] }
 
         " vim-systemd-syntax {{{2
+        " https://codeberg.org/Dokana/vim-systemd-syntax
         Plug 'Matt-Deacalion/vim-systemd-syntax', { 'for': 'systemd' }
 
 
-        " BashSupport {{{2
-        " BASH IDE -- Write and run BASH-scripts using menus and hotkeys.
-        " https://github.com/vim-scripts/bash-support.vim
-        Plug 'vim-scripts/bash-support.vim', { 'for': ['sh', 'bash', 'zsh'] }
+        "" BashSupport {{{2
+        "" BASH IDE -- Write and run BASH-scripts using menus and hotkeys.
+        "" https://github.com/vim-scripts/bash-support.vim
+        "Plug 'vim-scripts/bash-support.vim', { 'for': ['sh', 'bash', 'zsh'] }
 
-        " nvim - typescript {{{2
-        " Typescript tooling for Neovim
-        " https://github.com/mhartington/nvim-typescript
-        Plug 'liuchengxu/vista.vim', {'for': ['typescript', 'vue', 'php']}
+        "" nvim - typescript {{{2
+        "" Typescript tooling for Neovim
+        "" https://github.com/mhartington/nvim-typescript
+        "" Depracted
+        "Plug 'liuchengxu/vista.vim', {'for': ['typescript', 'vue', 'php']}
 
-        " PHP Getter Setter {{{2
-        " Typescript tooling for Neovim
-        " a vim plugin to generate php getters and setters from class properties
-        " https://github.com/docteurklein/php-getter-setter.vim
-        Plug 'docteurklein/php-getter-setter.vim', {'for': ['php']}
+        "" PHP Getter Setter {{{2
+        "" Typescript tooling for Neovim
+        "" a vim plugin to generate php getters and setters from class properties
+        "" https://github.com/docteurklein/php-getter-setter.vim
+        "Plug 'docteurklein/php-getter-setter.vim', {'for': ['php']}
 
         " Vim Typscript support  {{{2
         " Typescript syntax files for Vim
@@ -687,10 +832,12 @@
         " one word is writing, and not only on « :wq » as with Syntastic. Doesn't
         " work with Deoplete.
 
-        " Syntax
-        " Both are useful
-        Plug 'leafgarland/typescript-vim', { 'for': ['typescript', 'vue']}
-        Plug 'HerringtonDarkholme/yats.vim', { 'for': ['typescript', 'vue']}
+        "" Syntax
+        "" Both are useful
+        "" https://github.com/leafgarland/typescript-vim
+        "" https://github.com/HerringtonDarkholme/yats.vim
+        "Plug 'leafgarland/typescript-vim', { 'for': ['typescript', 'vue']}
+        "Plug 'HerringtonDarkholme/yats.vim', { 'for': ['typescript', 'vue']}
 
         "" vim-vue-plugin {{{2
         "" Vim syntax and indent plugin for .vue files. Mainly inspired by mxw/vim-jsx.
@@ -698,10 +845,10 @@
         " Does not work very well with TypeScript and with `lang="ts"`
         " Plug 'leafOfTree/vim-vue-plugin', {'for': 'vue'
 
-        " 'posva/vim-vue' {{{2
-        " https://github.com/darthmall/vim-vue
-        " Vim syntax highlighting for Vue components.
-        Plug 'posva/vim-vue'
+        "" 'posva/vim-vue' {{{2
+        "" https://github.com/darthmall/vim-vue
+        "" Vim syntax highlighting for Vue components.
+        "Plug 'posva/vim-vue'
 
 " Plug LSP and nvim-cmp {{{1
 " https://github.com/hrsh7th/nvim-cmp
@@ -712,227 +859,14 @@ Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/nvim-cmp'
 
-" https://github.com/dmitmel/cmp-cmdline-history
-Plug 'dmitmel/cmp-cmdline-history'
+"" cmp-cmdline-history {{{1
+"" https://github.com/dmitmel/cmp-cmdline-history
+"" Source for nvim-cmp which reads results from command-line or search histories
+"Plug 'dmitmel/cmp-cmdline-history'
 
 call plug#end()
 
-" lua require('plugins')
-
-" Plubin config {{{1
-
-        " Required
-        filetype plugin indent on
-        " If there are uninstalled bundles found on startup,
-        " this will conveniently prompt you to install them.
-        " Tweaking Plugins {{{1
-
-        " Vim buffergator {{2
-        " Vim plugin to list, select and switch between buffers.
-        " https://github.com/jeetsukumaran/vim-buffergator
-        let g:buffergator_suppress_keymaps = 1
-
-        " Vim Quickscokp {{{2
-        " Lightning fast left-right movement in Vim
-        " https://github.com/unblevable/quick-scope
-        let g:qs_highlight_on_keys = ['f', 'F']
-
-        " Vim tabber {{{2
-        " A Vim plugin for labeling tabs, styled after Powerline, with additional tab management utilities.
-        " https://github.com/fweep/vim-tabber
-        set tabline=%!tabber#TabLine()
-
-        " DelimitMate {{{2
-        " https://github.com/Raimondi/delimitMate
-        " Vim plugin, provides insert mode auto-completion for quotes, parens, brackets, etc.
-        " if has('nvim')
-            let delimitMate_expand_cr = 1
-        " endif
-
-        " IndentLine {{{2
-        " A vim plugin to display the indention levels with thin vertical lines A vim plugin to display the indention levels with thin vertical lines u
-        " https://github.com/Yggdroot/indentLine
-        " vertical line indentation (see config http://www.lucianofiandesio.com/vim-configuration-for-happy-java-coding)
-        let g:indentLine_color_term = 239
-        let g:indentLine_color_gui = '#09AA08'
-        let g:indentLine_char = '│'
-
-        " fzf {{{2
-        " A command-line fuzzy finder written in Go
-        " https://github.com/junegunn/fzf
-        " https://github.com/junegunn/fzf.vim
-
-        " https://medium.com/@crashybang/supercharge-vim-with-fzf-and-ripgrep-d4661fc853d2
-        command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>), 1, <bang>0)
-
-        let $FZF_DEFAULT_COMMAND="fd --hidden --follow --exclude '.git' --exclude 'node_modules'"
-
-        " Problems with Ctrl-{R,T} in Neovim terminal
-        " https://github.com/junegunn/fzf/issues/809
-        " Fixed
-        " let $FZF_DEFAULT_OPTS .= ' --no-height'
-
-        " Floating Windows Support From Neovim
-        " Use nvim 0.4 +
-        " https://github.com/junegunn/fzf.vim/issues/664
-        " https://github.com/neoclide/coc.nvim/wiki/F.A.Q#how-to-make-preview-window-shown-aside-with-pum
-        " `:echo exists('##CompleteChanged')` ==> 0 in nvim of april
-        if has('nvim') && exists('##CompleteChanged')
-            let $FZF_DEFAULT_OPTS='--layout=reverse'
-            let g:fzf_layout = { 'window': 'call FloatingFZF()' }
-
-            function! FloatingFZF()
-            let buf = nvim_create_buf(v:false, v:true)
-            call setbufvar(buf, '&signcolumn', 'no')
-
-            let height = &lines - 3
-            let width = float2nr(&columns - (&columns * 2 / 10))
-            let col = float2nr((&columns - width) / 2)
-
-            let opts = {
-                    \ 'relative': 'editor',
-                    \ 'row': 1,
-                    \ 'col': col,
-                    \ 'width': width,
-                    \ 'height': height
-                    \ }
-
-            call nvim_open_win(buf, v:true, opts)
-            endfunction
-        endif
-
-        " TComment {{{2
-        " An extensible & universal comment vim-plugin that also handles embedded filetypes http://www.vim.org/scripts/script.php?script_id=1173
-        " https://github.com/tomtom/tcomment_vim
-        " Si on remet le remapage ici, ça plante. Du coup je l'ai mis plus bas @FIXME.
-
-        " Vim ranger {{{2
-        " Plug 'francoiscabrol/ranger.vim'
-        " https://github.com/francoiscabrol/ranger.vim
-        let g:ranger_map_keys = 0
-
-
-        " Tagbar {{{2
-        " https://github.com/majutsushi/tagbar
-        " Vim plugin that displays tags in a window, ordered by scope http://majutsushi.github.io/tagbar/
-        " Default definition are at
-        " https://github.com/majutsushi/tagbar/blob/master/autoload/tagbar/types/uctags.vim
-        " Below overwrite default definition.
-        let g:tagbar_type_sh = {
-                    \ 'ctagstype' : 'sh',
-                    \ 'kinds' : [
-                        \ 'f:functions',
-                        \ 'e:exportvars',
-                        \ 'V:varglobal',
-                        \ 'a:alisases' ,
-                        \ 's:script files'
-                    \ ],
-                    \ }
-
-        let g:tagbar_show_linenumbers=2
-        let g:tagbar_autofocus = 1
-
-        " Add support for markdown files in tagbar.
-        let g:tagbar_type_markdown = {
-            \ 'ctagstype': 'markdown',
-            \ 'ctagsbin' : '~/.vim/plugged/markdown2ctags/markdown2ctags.py',
-            \ 'ctagsargs' : '-f - --sort=yes',
-            \ 'kinds' : [
-                \ 's:sections',
-                \ 'i:images'
-            \ ],
-            \ 'sro' : '|',
-            \ 'kind2scope' : {
-                \ 's' : 'section',
-            \ },
-            \ 'sort': 0,
-        \ }
-
-
-        " OmniSharp {{{2
-        " https://github.com/OmniSharp/omnisharp-vim
-        " Vim omnicompletion (intellisense) and more for c# http://www.omnisharp.net
-        " https://github.com/OmniSharp/omnisharp-vim
-
-        " See above
-        " let g:ale_linters = {
-        "             \ 'cs': ['OmniSharp']
-        "             \}
-
-        let g:OmniSharp_timeout = 5
-        let g:OmniSharp_proc_debug = 1
-        " see https://github.com/OmniSharp/omnisharp-vim/issues/427
-        " let g:OmniSharp_server_path = '/media/data/home/omnisharp-roslyn/bin/Debug/OmniSharp.Http.Driver/net461/OmniSharp.exe'
-        " let g:OmniSharp_server_path = '/media/data/home/omnisharp-roslyn/artifacts/publish/OmniSharp.Http.Driver/mono/OmniSharp.exe'
-        " let g:OmniSharp_server_path = '/media/data/home/omnisharpBin9b5e3ebb/OmniSharp.exe'
-        " let g:OmniSharp_server_use_mono = 1
-        let g:OmniSharp_loglevel = 'debug'
-
-"        let g:omnicomplete_fetch_full_documentation = 1
-
-        " Emmet {{{2
-        "  emmet for vim: http://emmet.io/
-        "  http://mattn.github.io/emmet-vim
-        let g:user_emmet_settings = {
-        \    'html': {
-        \        'empty_element_suffix': ' />',
-        \    },
-        \}
-
-        " Vim Pager {{{2
-        " Use Vim as PAGER http://www.vim.org/scripts/script.php…
-        " https://github.com/rkitover/vimpager
-        let g:vimpager = {}
-        let g:less     = {}
-        let g:vimpager.passthrough = 0
-        let g:less.enabled = 0
-
-        " Vim magit {{{2
-        " https://github.com/jreybert/vimagit
-        " Ease your git workflow within Vim
-        " let g:magit_default_show_all_files = 0
-        let g:magit_default_fold_level = 2
-        let g:magit_discard_untracked_do_delete=1
-        let g:magit_auto_foldopen = 1
-        let g:magit_warning_max_lines=500
-
-
-        " Vim-Airline {{{2
-        if &term=~'linux'
-            let g:airline#extensions#tabline#enabled = 1
-        elseif &term=~'screen'
-            let g:airline#extensions#tabline#enabled = 1
-            let g:airline_powerline_fonts = 1
-        endif
-        " See https://github.com/ryanoasis/vim-devicons
-        let g:airline_powerline_fonts = 1
-        let g:airline#extensions#tabline#fnametruncate = 0
-
-        " Mardwown {{{2
-        " https://github.com/plasticboy/vim-markdown
-        " Markdown Vim Mode http://plasticboy.com/markdown-vim-mode/
-        " Plug 'plasticboy/vim-markdown', { 'for': ['markdown']}
-        " COMPLELTY BUGGY ON LONG DOCUMENT!!
-        " USE IT IN CONTEXT ON VIM POLYGLOT
-        let g:vim_markdown_folding_disabled=1
-        let g:vim_markdown_follow_anchor = 1
-        let g:vim_markdown_frontmatter = 1
-        let g:vim_markdown_conceal = 0
-        function! MarkdownHookInner(timer)
-            normal h
-        endfunction
-        function! MarkdownHook(timer)
-            " Delay otherwise `conceallevel' is setted by the plugin
-            set conceallevel=0
-            " Delay otherwise Tagbar is not loaded correctly
-            Tagbar
-            " call feedkeys("<C-w>h")
-            call timer_start(200, 'MarkdownHookInner',
-                        \ {'repeat': 1})
-
-        endfunc
-        autocmd BufAdd *.md call timer_start(1000, 'MarkdownHook',
-                    \ {'repeat': 1})
+filetype plugin indent on
 
   " Vim core {{{1
   " Syntax {{{2
@@ -1188,11 +1122,6 @@ call plug#end()
       highlight NbSp ctermbg=015
       match NbSp /\%xa0/
   augroup END
-      let g:rainbow#pairs = [['(', ')'], ['[', ']'], ['{', '}']]
-      au BufEnter * RainbowParentheses
-      " au Syntax * RainbowParenthesesLoadRound
-      " au Syntax * RainbowParenthesesLoadSquare
-      " au Syntax * RainbowParenthesesLoadBraces
 
   " AutoCmd {{{1
   " Fix filetype detection {{{2
@@ -1322,17 +1251,6 @@ call plug#end()
   " Reselect visual block after indentation
   vnoremap > >gv
   vnoremap < <gv
-
-  " EasyMotion {{{2
-  " Vim motions on speed!
-  " https://github.com/Lokaltog/vim-easymotion
-   nmap ,s <Plug>(easymotion-F)
-   nmap ,f <Plug>(easymotion-f)
-   nmap ,g <Plug>(easymotion-overwin-f2)
-   let g:EasyMotion_keys = 'asdfghjklqwertyuiopzxcvbnm'
-   let g:Easymotion_do_mapping=0
-
-
 
   "" Disable Arrow in insert mode {{{2
   "ino <down>  <Nop>
@@ -1599,9 +1517,6 @@ nnoremap I :noh<CR>I
 nnoremap a :noh<CR>a
 nnoremap A :noh<CR>A
 
-" Si on rement le remapage plus haut de TCOmment, à plante. Pourquoi ? @FIXME. J'ai essayé d'autres combinaisons, notamment de mettre des remapages vers <c-_>2<c-_>b, mais ça ne ça marche pas.
-vnoremap <leader>c :call tcomment#SetOption("count", 2)<CR>gv:TCommentBlock<CR>
-nnoremap <leader>c :TComment<CR>
 
 " let g:neomake_c_gcc_maker = {
 "     \ 'args': ['-o', '%<', '-Wall'],
@@ -1621,28 +1536,6 @@ noremap <NUL> <C-u>zz
 " nnoremap <C-@> <C-Space>
 
 set virtualedit=block
-
-" Vim buffergator
-" Vim plugin to list, select and switch between buffers.
-" https://github.com/jeetsukumaran/vim-buffergator
-" noremap <Leader>b :BuffergatorToggle<Cr>
-
-" php.vim
-" old::
-" NeoBundle 'php.vim'
-" 20141028: Change to new StanAngeloff
-" https://github.com/StanAngeloff/php.vim
-" PUT AT THE VERY END OF YOUR .VIMRC FILE.
-function! PhpSyntaxOverride()
-  hi! def link phpDocTags  phpDefine
-  hi! def link phpDocParam phpType
-endfunction
-
-augroup phpSyntaxOverride
-  autocmd!
-  autocmd FileType php call PhpSyntaxOverride()
-augroup END
-
 
 " http://stackoverflow.com/questions/6453595/prevent-vim-from-clearing-the-clipboard-on-exit
 autocmd VimLeave * call system("xsel -ib", getreg('+'))
@@ -1698,8 +1591,6 @@ set hidden
 let g:terminal_scrollback_buffer_size = 100000
 
 set scrolloff=5
-
-noremap <leader>z :FZF<CR>
 
 "/\%81v.\+/
 
