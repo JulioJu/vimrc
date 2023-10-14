@@ -59,6 +59,7 @@ zplug "lib/completion",   from:oh-my-zsh # completion settings
 zplug "lib/grep",   from:oh-my-zsh
 zplug "lib/nvm",   from:oh-my-zsh # get node version
 zplug "lib/spectrum",   from:oh-my-zsh # A script to make using 256 colors in zsh less painful.
+zplug "lib/functions", from:oh-my-zsh
 zplug "lib/termsupport", from:oh-my-zsh # Set terminal window and tab/icon title
 zplug "lib/theme-and-appearance", from:oh-my-zsh
 
@@ -79,10 +80,10 @@ zplug "~/.vim/dotFilesOtherSoftwareVimCompliant/zsh-themes/", from:local, use:"t
 # Then, source plugins and add commands to $PATH
 zplug load
 
-## Gnome terminal {{{1
-# *****************
-# gnome-terminal: keep track of directory in new tab http://unix.stackexchange.com/questions/93476/gnome-terminal-keep-track-of-directory-in-new-tab
-. /etc/profile.d/vte.sh
+    ## Gnome terminal {{{1
+## *****************
+## gnome-terminal: keep track of directory in new tab http://unix.stackexchange.com/questions/93476/gnome-terminal-keep-track-of-directory-in-new-tab
+#. /etc/profile.d/vte.sh
 
 # Vi mode {{{1
 # ************************************
