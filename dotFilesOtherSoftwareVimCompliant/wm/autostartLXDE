@@ -1,12 +1,4 @@
-@lxpanel --profile LXDE
 @pcmanfm --desktop --profile LXDE
-@xscreensaver -no-splash
-@synclient TapButton1=0 TapButton2=0 TapButton3=0
-@synclient VertTwoFingerScroll=0
-@urxvt -e nvim +term
-@redshift-gtk
-@xfce4-volumed
-# « Shuffle » key on TypeMatrix
-xmodmap -e "keycode 102 = Shift_L"
-# « Dsktp » key on TypeMatrix
-xmodmap -e "keycode 100 = Shift_L"
+@lxpanel --profile LXDE
+@redshift-gtk -l 45.12:5.43
+setxkbmap fr -variant lafayette42
