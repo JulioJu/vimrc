@@ -13,7 +13,8 @@
 }
 
 /* https://github.com/mozilla/gecko-dev/blob/f60cf6bfa8bd096efd9bb3a445364f5a0f32897a/browser/base/content/navigator-toolbox.inc.xhtml */
-#navigator-toolbox-background {
+/* https://www.reddit.com/r/FirefoxCSS/comments/17hupsn/userchromecss_naigatortoolbar_background_broken/ */
+#navigator-toolbox {
     /* `order: 1` was `-moz-box-ordinal-group` (see also https://www.reddit.com/r/FirefoxCSS/comments/13ckx1r/firefox_113_tabs_under_address_bar_how_to_do_this/) */
     order: 1 !important;
 }
