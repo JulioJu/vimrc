@@ -1,52 +1,15 @@
 " My VIMRC File :
 " ---------------
-" @Author   : Juanes Espinel (juanes0890@gmail.com)
+" @Author   : JulioJu
 " @Forked version from https://github.com/GuillaumeSeren/vimrc on the 16/10/2015 (Lot of modifications).
 " @AUTHOR       : Guillaume Seren ( http://guillaumeseren.com)
 " @LICENSE      : www.opensource.org/licenses/bsd-license.php
     " @Link         : https://github.com/juanes10/vimrc
     " ---------------
 
-    " Summary
-    " ===========
-        " Let's try to split this file into several clear part
-        " - Startup config
-        " - Plugins List
-        " - Tweaking Plugins
-        " - Vim core
-        " - Vim Display
-        " - AutoCmd
-        " - Functions
-        " - Input
 
-        " Startup config {{{1
-        " ===========
-        " We can export some config in modular files like :
-        " Change the default mode of vim.
-        if has('vim_starting')
-            " Be iMproved
-            set nocompatible
-        endif
-
-        " Auto load / install plugin manager
-        if !1 | finish | endif
-
-        " auto-install vim-plug
-        if empty(glob('~/.vim/autoload/plug.vim'))
-            echo "Installing VimPlug..."
-            silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-            autocmd VimEnter * PlugInstall
-        endif
-
-        " " Load Python for
-        " if has('nvim')
-        " runtime! plugin/python_setup.vim
-        " endif
-
-        " VimPlug
+        " Plugins {{{1
         call plug#begin('~/.vim/plugged')
-
-        " Default plugins {{{1
 
 
         " DelimitMate {{{2
@@ -55,22 +18,6 @@
         " if has('nvim')
             Plug ('Raimondi/delimitMate')
             autocmd BufReadPost markdown DelimtMateOff
-
-            " let delimitMate_expand_cr = 1
-            " augroup delimitMateGroup
-            "     " TODO
-            "     " Follow https://github.com/w0rp/ale/pull/2121
-            "     " Fix 1996 - Add eclipse LSP support.
-            "     autocmd FileType *
-            "                 \ if (
-            "                 \ expand('<amatch>') != 'markdown'
-            "                 \ )
-            "                 \ | call plug#load('delimitMate')
-            "                 \ | execute 'autocmd! delimitMateGroup'
-            "                 \ | endif
-            " augroup END
-        " endif
-
 
         " IndentLine {{{2
         " A vim plugin to display the indention levels with thin vertical lines A vim plugin to display the indention levels with thin vertical lines u
@@ -86,16 +33,6 @@
         Plug 'junegunn/rainbow_parentheses.vim'
         let g:rainbow#pairs = [['(', ')'], ['[', ']'], ['{', '}']]
         au BufEnter * RainbowParentheses
-        " au Syntax * RainbowParenthesesLoadRound
-        " au Syntax * RainbowParenthesesLoadSquare
-        " au Syntax * RainbowParenthesesLoadBraces
-
-
-        "" Vim Autotag {{{2
-        "" https://github.com/craigemery/vim-autotag
-        "" Automatically discover and "properly" update ctags files on save
-        "Plug 'craigemery/vim-autotag', {'for': ['sh', 'c', 'zsh', 'bash']}
-
 
         " Coc.nvim {{{2
         " Intellisense engine for vim8 & neovim, full language server protocol support as VSCode
@@ -119,18 +56,6 @@
                     \ ]
                     \ }
 
-        " function! CocNvimHighlight()
-        "     highlight CocErrorHighlight ctermfg=Red  guifg=#ff0000
-        "     highlight CocWarningHighlight ctermfg=Red  guifg=#ff0000
-        "     highlight CocInfoHighlight ctermfg=Red  guifg=#ff0000
-        "     highlight CocHintHighlight ctermfg=Red  guifg=#ff0000
-        "     highlight CocErrorLine ctermbg=lightblue  guibg=lightblue
-        "     highlight CocWarningLine ctermbg=lightblue  guibg=lightblue
-        "     highlight CocInfoLine ctermbg=lightblue  guibg=lightblue
-        "     highlight CocHintLine ctermbg=lightblue  guibg=lightblue
-        "     highlight CocHighlightText  guibg=#111111 ctermbg=223
-        " endfunction
-
         function! CocNvimCustomization()
             command! -nargs=0 CocDetail :call CocAction('diagnosticInfo')
             let g:airline_section_error = '%{airline#util#wrap(airline#extensions#coc#get_error(),0)}'
@@ -138,9 +63,6 @@
 
             " https://github.com/neoclide/coc.nvim/issues/236
             nmap <silent> ]c <Plug>(coc-diagnostic-next)
-
-            " " https://github.com/neoclide/coc-highlight/issues/8
-            " call CocNvimHighlight()
 
             nmap <leader>qf  <Plug>(coc-fix-current)
             nmap <leader>rn <Plug>(coc-rename)
@@ -162,17 +84,10 @@
         Plug 'fannheyward/telescope-coc.nvim'
 
 
-        ""  Indent object {{{2
-        "" https://github.com/michaeljsmith/vim-indent-object
-        "" Vim plugin that defines a new text object representing lines of code at the same indent level. Useful for python/vim scripts, etc. (better method for Python, it's for txt) !
-        "Plug 'michaeljsmith/vim-indent-object'
-        " Note: usefule for Python
-
         " TComment {{{2
         " An extensible & universal comment vim-plugin that also handles embedded filetypes http://www.vim.org/scripts/script.php?script_id=1173
         " https://github.com/tomtom/tcomment_vim
         Plug 'tomtom/tcomment_vim'
-            " Si on rement le remapage plus haut de TCOmment, à plante. Pourquoi ? @FIXME. J'ai essayé d'autres combinaisons, notamment de mettre des remapages vers <c-_>2<c-_>b, mais ça ne ça marche pas.
         vnoremap <leader>c :call tcomment#SetOption("count", 2)<CR>gv:TCommentBlock<CR>
         nnoremap <leader>c :TComment<CR>
 
@@ -195,43 +110,6 @@
 
         let $FZF_DEFAULT_COMMAND="fd --hidden --follow --exclude '.git' --exclude 'node_modules'"
 
-        " Problems with Ctrl-{R,T} in Neovim terminal
-        " https://github.com/junegunn/fzf/issues/809
-        " Fixed
-        " let $FZF_DEFAULT_OPTS .= ' --no-height'
-
-        " Floating Windows Support From Neovim
-        " Use nvim 0.4 +
-        " https://github.com/junegunn/fzf.vim/issues/664
-        " https://github.com/neoclide/coc.nvim/wiki/F.A.Q#how-to-make-preview-window-shown-aside-with-pum
-        " `:echo exists('##CompleteChanged')` ==> 0 in nvim of april
-        if has('nvim') && exists('##CompleteChanged')
-            let $FZF_DEFAULT_OPTS='--layout=reverse'
-            let g:fzf_layout = { 'window': 'call FloatingFZF()' }
-
-            function! FloatingFZF()
-            let buf = nvim_create_buf(v:false, v:true)
-            call setbufvar(buf, '&signcolumn', 'no')
-
-            let height = &lines - 3
-            let width = float2nr(&columns - (&columns * 2 / 10))
-            let col = float2nr((&columns - width) / 2)
-
-            let opts = {
-                    \ 'relative': 'editor',
-                    \ 'row': 1,
-                    \ 'col': col,
-                    \ 'width': width,
-                    \ 'height': height
-                    \ }
-
-            call nvim_open_win(buf, v:true, opts)
-            endfunction
-        endif
-
-        noremap <leader>z :FZF<CR>
-
-
         " Ripgrep {{{2
         " Use RipGrep in Vim and display results in a quickfix list
         " https://github.com/jremmen/vim-ripgrep
@@ -243,155 +121,20 @@
         Plug 'francoiscabrol/ranger.vim'
         let g:ranger_map_keys = 0
 
-        "" Vim bclose (dependancy for ranger) {{{2
-        "" https://github.com/rbgrouleff/bclose.vim
-        "" The BClose Vim plugin for deleting a buffer without closing the window http://vim.wikia.com/wiki/Deleting_a_…
-        "Plug 'rbgrouleff/bclose.vim'
-
-
-        "" NERDTree {{{2
-        "" A tree explorer plugin for vim.
-        "" https://github.com/scrooloose/nerdtree
-        "Plug 'scrooloose/nerdtree'
-
-        " nerdtree-git-plugin {{{2
-        " A plugin of NERDTree showing git status
-        " https://github.com/Xuyuanp/nerdtree-git-plugin
-        Plug 'Xuyuanp/nerdtree-git-plugin'
-
-        " " Vim buffergator {{2
-        " " Vim plugin to list, select and switch between buffers.
-        " " https://github.com/jeetsukumaran/vim-buffergator
-        " Plug 'jeetsukumaran/vim-buffergator'
-        " let g:buffergator_suppress_keymaps = 1
-
-        " Vim tabber {{{2
-        " A Vim plugin for labeling tabs, styled after Powerline, with additional tab management utilities.
-        " https://github.com/fweep/vim-tabber
-        Plug 'fweep/vim-tabber'
-        set tabline=%!tabber#TabLine()
-
         " Undotree
         " The undo history visualizer for VIM
         " https://github.com/mbbill/undotree
         Plug 'mbbill/undotree'
-
-        " " Coloresque {{{2
-        " " css/less/sass/html color preview for vim
-        " " https://github.com/gorodinskiy/vim-coloresque
-        Plug 'gorodinskiy/vim-coloresque'
-
-        " Not maintained
 
         " Vim-autoread {{{2
         " https://github.com/djoshea/vim-autoread
         " Have Vim automatically reload a file that has changed externally
         Plug 'djoshea/vim-autoread'
 
-        "" REST VIM {{{2
-
-        "" See my comments at https://github.com/JulioJu/scholarProjectWebSemantic
-
-        "" Roast (on Python)
-        "" https://github.com/sharat87/roast.vim
-        "" An HTTP client for ViM, that can also be used as a REST client.
-        "Plug 'sharat87/roast.vim'
-
-        "" vim-rest-console (on CURL)
-        "" https://github.com/diepm/vim-rest-console
-        "" A REST console for Vim.
-        "Plug 'diepm/vim-rest-console'
-        "let g:vrc_include_response_header = 1
-
         " MatchTagAlways {{{2
         " https://github.com/Valloric/MatchTagAlways
         " A Vim plugin that always highlights the enclosing html/xml tags
         Plug 'Valloric/MatchTagAlways', {'for ' : ['html', 'php', 'jsp', 'xml', 'xsd', 'dtd', 'xsl']}
-
-        "" Emmet {{{2
-        ""  emmet for vim: http://emmet.io/
-        ""  http://mattn.github.io/emmet-vim
-        "Plug 'mattn/emmet-vim', { 'for' : ['html', 'php', 'jsp', 'xml', 'dtd', 'xsd', 'xsl', 'xhtml', 'vue']}
-        "let g:user_emmet_settings = {
-        "\    'html': {
-        "\        'empty_element_suffix': ' />',
-        "\    },
-        "\}
-
-        " " Neomake {{{2
-        " " A plugin for asynchronous :make using Neovim's job-control functionality
-        " " https://github.com/benekastah/neomake
-        " Plug 'benekastah/neomake', { 'for' : ['c']}
-
-        "" Vim Javacomplete 2 {{{2
-        "" Updated javacomplete plugin for vim.
-        "" https://github.com/artur-shaik/vim-javacomplete2
-        "" So cool to generate getter / setter, etc.
-        "Plug 'artur-shaik/vim-javacomplete2' , { 'for': ['java'] }
-
-        " " Vim refactor {{{2
-        " " Generic Refactoring Plugin for Vim
-        " " https://github.com/luchermitte/vim-refactor
-        " " So cool plugin: TODO, test it
-
-        " Java LSP COC {{{2
-        " Language Server Protocol (LSP) support for vim & neovim, featured as VSCode
-        " See https://github.com/neoclide/coc.nvim
-        " Note: don't work well with Android Projects
-        " https://github.com/redhat-developer/vscode-java/issues/10#issuecomment-268834749
-
-        "" OmniSharp {{{2
-        "" https://github.com/OmniSharp/omnisharp-vim
-        "" Vim omnicompletion (intellisense) and more for c# http://www.omnisharp.net
-
-        "Plug 'OmniSharp/omnisharp-vim', { 'for': ['cs', 'cshtml.html'] }
-        "" let g:ale_linters = {
-        ""             \ 'cs': ['OmniSharp']
-        ""             \}
-
-        "let g:OmniSharp_timeout = 5
-        "let g:OmniSharp_proc_debug = 1
-        "" see https://github.com/OmniSharp/omnisharp-vim/issues/427
-        "" let g:OmniSharp_server_path = '/media/data/home/omnisharp-roslyn/bin/Debug/OmniSharp.Http.Driver/net461/OmniSharp.exe'
-        "" let g:OmniSharp_server_path = '/media/data/home/omnisharp-roslyn/artifacts/publish/OmniSharp.Http.Driver/mono/OmniSharp.exe'
-        "" let g:OmniSharp_server_path = '/media/data/home/omnisharpBin9b5e3ebb/OmniSharp.exe'
-        "" let g:OmniSharp_server_use_mono = 1
-        "let g:OmniSharp_loglevel = 'debug'
-
-"       " let g:omnicomplete_fetch_full_documentation = 1
-
-        "" CSComment {{{2
-        "" https://github.com/vim-scripts/cscomment.vim
-        "" Automates creation of /// comments for C# methods
-        "" CAUSE CONFLICTS WITH DELIMITEMATE
-        " Plug 'vim-scripts/cscomment.vim', { 'for': ['cs'] }
-
-        " " Vim csharp {{{2
-        " " https://github.com/oranget/vim-csharp
-        " " Enhancement's to Vim's C-Sharp Functionality
-        " Plug 'oranget/vim-csharp', { 'for': ['cs'] }
-
-        "" Vim-perl {{{2
-        "" Support for Perl 5 and Perl 6 in Vim
-        "" https://github.com/vim-perl/vim-perl
-        "Plug 'vim-perl/vim-perl', { 'for': 'perl', 'do': 'make clean carp dancer highlight-all-pragmas moose test-more try-tiny' }
-
-
-        "" Neoman {{{2
-        "" A modern man page plugin for vim
-        "" https://github.com/nhooyr/neoman.vim
-        "Plug 'nhooyr/neoman.vim'
-
-        " " Zeal Vim {{{ 2
-        " " Zeal for Vim
-        " " https://github.com/KabbAmine/zeavim.vim
-        " Plug 'KabbAmine/zeavim.vim', {'on': [
-        "             \   'Zeavim', 'Docset',
-        "             \   '<Plug>Zeavim',
-        "             \   '<Plug>ZVVisSelection',
-        "             \   '<Plug>ZVKeyDocset',
-        "             \   '<Plug>ZVMotion'
-        "             \ ]}
 
         " vim-ipmotion {{{2
         " Improved paragraph motion http://www.vim.org/scripts/script.php?script_id=3952
@@ -403,30 +146,6 @@
         " https://github.com/tpope/vim-abolish
         Plug 'tpope/vim-abolish'
 
-        "" Vim Pager {{{2
-        "" Use Vim as PAGER http://www.vim.org/scripts/script.php…
-        "" https://github.com/rkitover/vimpager
-        "Plug 'rkitover/vimpager'
-
-        "" Vim ipmotion {{{2
-        "" https://github.com/terryma/vim-expand-region
-        "" Vim plugin that allows you to visually select increasingly larger regions of text using the same key combination.
-        " Plug 'justinmk/vim-ipmotion'
-
-        "" Vim Grammalecte {{{2
-        "" https://github.com/dpelle/vim-Grammalecte
-        "" A vim plugin for the Grammalecte French grammar checker
-        "Plug 'dpelle/vim-Grammalecte'
-
-        "" spaceneovim (distro) {{{2
-        "" https://github.com/Tehnix/spaceneovim
-        "" Spacemacs for Neovim
-
-        " " Vim Peekaboo {{{2
-        " " 👀 " / @ / CTRL-R
-        " " https://github.com/occupytheweb/vim-peekaboo
-        " Plug 'junegunn/vim-peekaboo'
-
         " Vim magit {{{2
         " https://github.com/jreybert/vimagit
         " Ease your git workflow within Vim
@@ -436,20 +155,10 @@
         let g:magit_auto_foldopen = 1
         let g:magit_warning_max_lines=500
 
-        " " Vim Gutter {{{2
-        " " https://github.com/airblade/vim-gitgutter
-        " " A Vim plugin which shows a git diff in the gutter (sign column) and stages/undoes hunks.
-        " Plug 'airblade/vim-gitgutter'
-
         " plenary.nvim {{{2
         " https://github.com/nvim-lua/plenary.nvim
         " plenary: full; complete; entire; absolute; unqualified. All the lua functions I don't want to write twice.
         Plug 'nvim-lua/plenary.nvim'
-
-        " " Trouble {{{2
-        " https://github.com/folke/trouble.nvim/
-        " " A pretty diagnostics, references, telescope results, quickfix and location list to help you solve all the trouble your code is causing.
-        " Plug 'folke/trouble.nvim'
 
         " Neogit {{{2
         " https://github.com/TimUntersberger/neogit
@@ -460,12 +169,6 @@
         " https://github.com/nvim-telescope/telescope.nvim
         " Find, Filter, Preview, Pick. All lua, all the time.
         Plug 'nvim-telescope/telescope.nvim'
-
-        " " Find files using Telescope command-line sugar.
-        " nnoremap <leader>ff <cmd>Telescope find_files<cr>
-        " nnoremap <leader>fg <cmd>Telescope live_grep<cr>
-        " nnoremap <leader>fb <cmd>Telescope buffers<cr>
-        " nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 
         " diffchar.vim {{{2
         " https://github.com/rickhowe/diffchar.vim
@@ -488,35 +191,10 @@
         " Plugin that creates missing LSP diagnostics highlight groups for color schemes that don't yet support the Neovim 0.5 builtin LSP client.
         Plug 'folke/lsp-colors.nvim'
 
-        " " Vim sparql {{{2
-        " " Vim syntax file for SPARQL http://www.vim.org/scripts/script.php…
-        " Plug 'rvesse/vim-sparql'
-
-        "" Vim startify {{{2
-        "" The fancy start screen for Vim.
-        "" https://github.com/mhinz/vim-startify
-        "let g:startify_change_to_dir = 0
-        "" let g:startify_change_to_vcs_root = 1
-
-        "Plug 'mhinz/vim-startify'
-
-        "" PowerShell syntax {{{2
-        "" A Vim plugin for Windows PowerShell support
-        "" https://github.com/PProvost/vim-ps1
-        "Plug 'PProvost/vim-ps1'
-
         " kotlin-vim {{{2
         " Kotlin plugin for Vim. Featuring: syntax highlighting, basic indentation, Syntastic support
         " https://github.com/udalov/kotlin-vim
         Plug 'udalov/kotlin-vim'
-
-
-        "" vim-plugin-AnsiEs {{{2
-        "" https://github.com/powerman/vim-plugin-AnsiEsc
-        "" ansi escape sequences concealed, but highlighted as specified (conceal) http://www.vim.org/scripts/script.php…
-        "Plug 'powerman/vim-plugin-AnsiEsc'
-
-
 
         " Sensible {{{2
         " sensible.vim: Defaults everyone can agree on
@@ -527,23 +205,11 @@
         " fugitive.vim: a Git wrapper so awesome, it should be illegal
         " https://github.com/tpope/vim-fugitive
         Plug 'tpope/vim-fugitive'
-        nnoremap <silent> <Leader><Leader>cm :call magit#jump_to()<ENTER><C-w>T:Gdiffsplit! ++novertical<ENTER>
-        nnoremap <silent> <Leader><Leader>c12 "ayiW:tabnew <C-R>a<ENTER>:Gedit :1<ENTER>:vs<ENTER>:Gedit :2<ENTER>:windo diffthis<ENTER>
-        nnoremap <silent> <Leader><Leader>c13 "ayiW:tabnew <C-R>a<ENTER>:Gedit :1<ENTER>:vs<ENTER>:Gedit :3<ENTER>:windo diffthis<ENTER>
-        nnoremap <silent> <Leader><Leader>c23 "ayiW:tabnew <C-R>a<ENTER>:Gedit :2<ENTER>:vs<ENTER>:Gedit :3<ENTER>:windo diffthis<ENTER>
-        nnoremap <silent> <Leader><Leader>c203 "ayiW:tabnew <C-R>a<ENTER>:Gdiffsplit! ++novertical<ENTER>
-        cmap dtt diffthis<ENTER>
-        cmap doo diffoff<ENTER>
 
         " Fugitive gitlinker {{{2
         " A lua neovim plugin to generate shareable file permalinks (with line ranges) for several git web frontend hosts. Inspired by tpope/vim-fugitive's :GBrowse
         " https://github.com/ruifm/gitlinker.nvim
         Plug 'ruifm/gitlinker.nvim'
-
-        "" Fugitive GBrowse {{{2
-        "" rhubarb.vim: GitHub extension for fugitive.vim
-        "" https://github.com/tpope/vim-rhubarb
-        "Plug 'tpope/vim-rhubarb'
 
         " Repeat {{{2
         " repeat.vim: enable repeating supported plugin maps with "."
@@ -551,16 +217,6 @@
         " https://github.com/tpope/vim-repeat
         Plug 'tpope/vim-repeat'
 
-
-        "" EditorConfig {{{2
-        "" EditorConfig plugin for Vim http://editorconfig.org
-        " https://neovim.io/doc/user/editorconfig.html
-        "Plug 'editorconfig/editorconfig-vim'
-
-        "" Vinegar {{{2
-        "" vinegar.vim: combine with netrw to create a delicious salad dressing
-        "" https://github.com/tpope/vim-vinegar
-        "Plug 'tpope/vim-vinegar.git'
 
         " vim-eunuch {{{2
         " tpope/vim-eunuch
@@ -575,25 +231,14 @@
         " http://www.vim.org/scripts/script.php?script_id=3068
         Plug 'chrisbra/Recover.vim'
 
-        "" Surround {{{2
-        "" surround.vim: quoting/parenthesizing made simple
-        "" https://github.com/tpope/vim-surround
-        "Plug 'tpope/vim-surround'
-
         " VimAirline {{{2
         " lean & mean status/tabline for vim that's light as air
         " https://github.com/bling/vim-airline
         Plug 'bling/vim-airline'
-        if &term=~'linux'
-            let g:airline#extensions#tabline#enabled = 1
-        elseif &term=~'screen'
-            let g:airline#extensions#tabline#enabled = 1
-            let g:airline_powerline_fonts = 1
-        endif
+        let g:airline#extensions#tabline#enabled = 1
         " See https://github.com/ryanoasis/vim-devicons
         let g:airline_powerline_fonts = 1
         let g:airline#extensions#tabline#fnametruncate = 0
-
 
         " Vim Quickscokp {{{2
         " Lightning fast left-right movement in Vim
@@ -611,23 +256,9 @@
         let g:EasyMotion_keys = 'asdfghjklqwertyuiopzxcvbnm'
         let g:Easymotion_do_mapping=0
 
-        " " Incsearch {{{2
-        " " Improved incremental searching for Vim
-        " " https://github.com/haya14busa/incsearch.vim
-        " " Deprecated
-        " Plug 'haya14busa/incsearch.vim'
-
-        " " vim-slash {{{2
-        " " Enhancing in-buffer search experience
-        " " https://github.com/junegunn/vim-slash
-        " Plug 'junegunn/vim-slash'
-
         " Tabularize ! {{{2
         " https://github.com/godlygeek/tabular
         " Vim script for text filtering and alignment
-        " one  : 1
-        " two  : 2
-        " tree : 3
         " select text in visual mode, then hit : Tabularize /:
         " change the : with the needed char to align
         Plug 'godlygeek/tabular'
@@ -656,200 +287,30 @@
         autocmd BufAdd *.md call timer_start(1000, 'MarkdownHook',
                     \ {'repeat': 1})
 
-        " " Mardown {{{2
-        " " https://github.com/gabrielelana/vim-markdown
-        " "  Markdown for Vim: a complete environment to create Markdown files
-        " "  with a syntax highlight that doesn't suck!
-        " " https://github.com/gabrielelana/vim-markdown/issues/60
-        " TOO SLOW, USE VIM POLYGLOT INSTEAD
-        " " https://github.com/gabrielelana/vim-markdown/issues/60
-        " Plug 'gabrielelana/vim-markdown', { 'for': ['markdown'] }
-        " let g:markdown_enable_conceal = 0
-        " let g:markdown_mapping_switch_status = ''
-
         " Vim Markdown TOC {{{2
         " A vim 7.4+ plugin to generate table of contents for Markdown files.
         " https://github.com/mzlogin/vim-markdown-toc
         Plug 'mzlogin/vim-markdown-toc', { 'for': ['markdown']}
-
-        "" Markdown 2 Ctags {{{2
-        "" Generate ctags-compatible tags files for Markdown documents.
-        "" https://github.com/jszakmeister/markdown2ctags
-        "" Note: not a Vim Plugin
-        "Plug 'jszakmeister/markdown2ctags', { 'for': ['markdown']}
-
-        " " Pandoc {{{2
-        " " No updated, I use markdown-vim-mode
-        " " Plug 'vim-pandoc/vim-pandoc', { 'for': ['md']}
-
-        " " Not very usefull
-        " " Plug 'vim-pandoc/vim-pandoc-syntax', { 'for': ['md']}
-
-        "" Vim instant markdown {{{2
-        "" https://github.com/suan/vim-instant-markdown
-        "" Instant Markdown previews from VIm!
-        "Plug 'suan/vim-instant-markdown', { 'for': ['markdown']}
-        "let g:instant_markdown_slow = 1
-        "let g:instant_markdown_autostart = 0
-
-        "" Characterize {{{2
-        "" tpope/vim-characterize
-        "" characterize.vim:
-        "" Unicode character metadata
-        "" http://www.vim.org/scripts/script.php?script_id=4410
-        "Plug 'tpope/vim-characterize'
-        "
-        " Vim-DevIcons {{{2
-        " https://github.com/ryanoasis/vim-devicons#installation
-        " adds font icons (glyphs ★♨☢) to programming languages, libraries, and web
-        " developer filetypes for: NERDTree, powerline, vim-airline, ctrlp, unite,
-        " lightline.vim, vimfiler, and flagship
-        " Plug 'ryanoasis/vim-devicons'
 
         " https://github.com/kyazdani42/nvim-web-devicons
         " https://github.com/kyazdani42/nvim-web-devicons
         " lua `fork` of vim-web-devicons for neovim
         Plug 'kyazdani42/nvim-web-devicons'
 
-        " " vim-colors-solarized {{{2
-        " " precision colorscheme for the vim text editor
-        " " http://ethanschoonover.com/solarized
-        " " https://github.com/altercation/vim-colors-solarized
-        " Plug 'altercation/vim-colors-solarized'
-
-        "" tokyonight.nvim {{{2
-        "" A clean, dark Neovim theme written in Lua, with support for lsp, treesitter and lots of plugins. Includes additional themes for Kitty, Alacritty, iTerm and Fish.
-        "" https://github.com/folke/tokyonight.nvim
-        "Plug 'folke/tokyonight.nvim'
-
         " kanagawa.nvim {{{2
         " NeoVim dark colorscheme inspired by the colors of the famous painting by Katsushika Hokusai.
         " https://github.com/rebelot/kanagawa.nvim
         Plug 'rebelot/kanagawa.nvim'
 
-        "" iceberg.vim {{{2
-        "" antarctica Bluish color scheme for Vim and Neovim
-        "" https://github.com/cocopon/iceberg.vim
-        "Plug 'cocopon/iceberg.vim'
-
-        "" catppuccin {{{2
-        "" Soothing pastel theme for (Neo)vim
-        "" https://github.com/catppuccin/nvim
-        "Plug 'catppuccin/nvim'
-
-        " " neovim-colors-solarized-truecolor-only {{{2
-        " " https://github.com/frankier/neovim-colors-solarized-truecolor-only
-        " " precision colorscheme for the vim text editor http://ethanschoonover.com/solarized
-        " Plug 'frankier/neovim-colors-solarized-truecolor-only'
-
-        " " neovim-colors-solarized-truecolor-only {{{2
-        " " https://github.com/JulioJu/neovim-qt-colors-solarized-truecolor-only
-        " " precision colorscheme for the vim text editor http://ethanschoonover.com/solarized
-        " " precision colorscheme for the neovim qt text editor http://ethanschoonover.com/solarized
-        " Plug 'JulioJu/neovim-qt-colors-solarized-truecolor-only'
-
-        " " kalahari.vim {{{2
-        " " https://github.com/fabi1cazenave/kalahari.vim
-        " " A color scheme for Vim and Neovim. High-contrast yet easy in the eye.
-        " Plug 'fabi1cazenave/kalahari.vim'
-
         " Treesitter {{{2
-        if has('nvim')
-            " nvim-treesitter {{{3
-            " Nvim Treesitter configurations and abstraction layer
-            " https://github.com/nvim-treesitter/nvim-treesitter
-                Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-        endif
-
-        "" TagBar {{{2
-        "" Vim plugin that displays tags in a window, ordered by class etc.
-        "" https://github.com/majutsushi/tagbar
-        "Plug 'majutsushi/tagbar'
-        "" Default definition are at
-        "" https://github.com/majutsushi/tagbar/blob/master/autoload/tagbar/types/uctags.vim
-        "" Below overwrite default definition.
-        "let g:tagbar_type_sh = {
-        "            \ 'ctagstype' : 'sh',
-        "            \ 'kinds' : [
-        "                \ 'f:functions',
-        "                \ 'e:exportvars',
-        "                \ 'V:varglobal',
-        "                \ 'a:alisases' ,
-        "                \ 's:script files'
-        "            \ ],
-        "            \ }
-
-        "let g:tagbar_show_linenumbers=2
-        "let g:tagbar_autofocus = 1
-
-        "" Add support for markdown files in tagbar.
-        "let g:tagbar_type_markdown = {
-        "    \ 'ctagstype': 'markdown',
-        "    \ 'ctagsbin' : '~/.vim/plugged/markdown2ctags/markdown2ctags.py',
-        "    \ 'ctagsargs' : '-f - --sort=yes',
-        "    \ 'kinds' : [
-        "        \ 's:sections',
-        "        \ 'i:images'
-        "    \ ],
-        "    \ 'sro' : '|',
-        "    \ 'kind2scope' : {
-        "        \ 's' : 'section',
-        "    \ },
-        "    \ 'sort': 0,
-        "\ }
-
-        " Lazy specific plugins and others bundles {{{1
-
-        "" vim syntax yaml {{{2
-        "" https://github.com/avakhov/vim-yaml
-        "Plug 'avakhov/vim-yaml', { 'for': ['python', 'yaml'] }
+        " Nvim Treesitter configurations and abstraction layer
+        " https://github.com/nvim-treesitter/nvim-treesitter
+        Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
         " vim-systemd-syntax {{{2
         " https://codeberg.org/Dokana/vim-systemd-syntax
         Plug 'Matt-Deacalion/vim-systemd-syntax', { 'for': 'systemd' }
 
-
-        "" BashSupport {{{2
-        "" BASH IDE -- Write and run BASH-scripts using menus and hotkeys.
-        "" https://github.com/vim-scripts/bash-support.vim
-        "Plug 'vim-scripts/bash-support.vim', { 'for': ['sh', 'bash', 'zsh'] }
-
-        "" nvim - typescript {{{2
-        "" Typescript tooling for Neovim
-        "" https://github.com/mhartington/nvim-typescript
-        "" Depracted
-        "Plug 'liuchengxu/vista.vim', {'for': ['typescript', 'vue', 'php']}
-
-        "" PHP Getter Setter {{{2
-        "" Typescript tooling for Neovim
-        "" a vim plugin to generate php getters and setters from class properties
-        "" https://github.com/docteurklein/php-getter-setter.vim
-        "Plug 'docteurklein/php-getter-setter.vim', {'for': ['php']}
-
-        " Vim Typscript support  {{{2
-        " Typescript syntax files for Vim
-        " https://github.com/Microsoft/TypeScript/wiki/TypeScript-Editor-Support#vim
-        " Notes: With YouCompleteMe, as in an IDE, Tsuquyomi is lauching every time
-        " one word is writing, and not only on « :wq » as with Syntastic. Doesn't
-        " work with Deoplete.
-
-        "" Syntax
-        "" Both are useful
-        "" https://github.com/leafgarland/typescript-vim
-        "" https://github.com/HerringtonDarkholme/yats.vim
-        "Plug 'leafgarland/typescript-vim', { 'for': ['typescript', 'vue']}
-        "Plug 'HerringtonDarkholme/yats.vim', { 'for': ['typescript', 'vue']}
-
-        "" vim-vue-plugin {{{2
-        "" Vim syntax and indent plugin for .vue files. Mainly inspired by mxw/vim-jsx.
-        "" https://github.com/leafoftree/vim-vue-plugin
-        " Does not work very well with TypeScript and with `lang="ts"`
-        " Plug 'leafOfTree/vim-vue-plugin', {'for': 'vue'
-
-        "" 'posva/vim-vue' {{{2
-        "" https://github.com/darthmall/vim-vue
-        "" Vim syntax highlighting for Vue components.
-        "Plug 'posva/vim-vue'
 
 " Plug LSP and nvim-cmp {{{1
 " https://github.com/hrsh7th/nvim-cmp
@@ -860,70 +321,9 @@ Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/nvim-cmp'
 
-"" cmp-cmdline-history {{{1
-"" https://github.com/dmitmel/cmp-cmdline-history
-"" Source for nvim-cmp which reads results from command-line or search histories
-"Plug 'dmitmel/cmp-cmdline-history'
-
 call plug#end()
 
 filetype plugin indent on
-
-  " Vim core {{{1
-  " Syntax {{{2
-  " Automatically indent when adding a curly bracket, etc.
-  set smartindent
-  " Indispensable pour ne pas tout casser avec ce qui va suivre
-  set preserveindent
-  " Largeur de l'autoindentation
-  set shiftwidth=4
-  " Arrondit la valeur de l'indentation
-  set shiftround
-  " Largeur du caractère tab
-  set tabstop=4
-  " Largeur de l'indentation de la touche tab
-  set softtabstop=4
-  " Remplace les tab par des expaces
-  set expandtab ts=4 sw=4 ai
-  " Do not tab expand on Makefile
-  autocmd FileType make set noexpandtab shiftwidth=2 softtabstop=0
-  " 20140901: Add for test.
-  " redraw only when we need to.
-  set lazyredraw
-  " Detection de l'indentation
-  set cindent
-  set smartindent
-  " https://georgebrock.github.io/talks/vim-completion/
-  " Autocomplete with dictionary words when spell check is on
-  set complete+=kspell
-
-  " Modeline {{{2
-  set modeline modelines=5
-
-  "let g:git_modelines_allowed_items = [
-  "    \ "textwidth",   "tw",
-  "    \ "softtabstop", "sts",
-  "    \ "tabstop",     "ts",
-  "    \ "shiftwidth",  "sw",
-  "    \ "expandtab",   "et",   "noexpandtab", "noet",
-  "    \ "filetype",    "ft",
-  "    \ "foldmethod",  "fdm",
-  "    \ "readonly",    "ro",   "noreadonly", "noro",
-  "    \ "rightleft",   "rl",   "norightleft", "norl",
-  "    \ "cindent",     "cin",  "nocindent", "nocin",
-  "    \ "smartindent", "si",   "nosmartindent", "nosi",
-  "    \ "autoindent",  "ai",   "noautoindent", "noai",
-  "    \ "spell",
-  "    \ "spelllang"
-  "    \ ]
-
-  " TERM TYPE {{{2
-  " Let's use screen-256
-  " From: http://reyhan.org/2013/12/colours-on-vim-and-tmux.html
-  "set term=screen-256color
-  "set term=rxvt-unicode-256color
-  " Just for vimShell
-  "let g:vimshell_environment_term='rxvt-unicode-256color'
 
   " SEARCH {{{2
   " Recherche en minuscule -> indépendante de la casse,
@@ -938,12 +338,6 @@ filetype plugin indent on
   " Déplacer le curseur quand on écrit un (){}[]
   " (attention il ne s'agit pas du highlight
   set showmatch
-
-  " PASTE / NOPASTE {{{2
-  "@TODO: Not certain if really needed
-  " A utiliser en live, paste désactive l'indentation automatique
-  " (entre autre) et nopaste le contraire
-  set nopaste
 
   " COMPLETION MENU {{{2
   " Afficher une liste lors de complétion de commandes/fichiers :
@@ -976,45 +370,7 @@ filetype plugin indent on
      exec "set undodir=" . g:dotvim_backups
   endif
 
-  " " LINE WRAPPING {{{2
-  " " Laisse les lignes déborder de l'écran si besoin
-  " "set nowrap
-  " " Ne laisse pas les ligne deborder de l'écran
-  " " set si "Smart indent
-  " if (&ft!='text' && &ft!='')
-  "    set wrap "Wrap lines
-  "    set linebreak
-  "    set nolist
-  "    " set formatoptions=a2wtqcj
-  "    " Size of the linewrapping
-  "    set textwidth=80
-  "
-  "
-  "    " https://github.com/fabi1cazenave/dotFiles/blob/master/vim/vimrc
-  "    " 80-character lines (= Mozilla guidelines)
-  "    set textwidth=80         " line length above which to break a line
-  "    set colorcolumn=+0       " highlight the textwidth limit
-  "    " set nowrap
-  "    " set nowrapscan
-  "    " set linebreak
-  "    " set formatoptions=wtcqj
-  " endif
-
-  " SPELL CHECKER {{{2
-  " @TODO: Remap the mapping of the spell checker
-  " @TOOD: Support auto detection of the sentence language,
-  "        so it can support multi language fr / us / en / etc (jpn)
-  " En live pour quand vous écrivez anglais (le fr est à trouver dans les méandres du net)
-  " Chiant pour programmer, mais améliorable avec des dico
-      " perso et par languages
-  " set spell
-  " [s / ]s : saute au prochain / précédant mot avec faute.
-      " z= : affiche la liste de suggestion pour corriger.
-  " set spelllang=fr,en
-  "http://www.vim-fr.org/index.php/Correction_orthographique
   " MOVE CURSOR {{{2
-  " Envoyer le curseur sur la ligne suivante/précédente après usage des flèches droite/gauche en bout de ligne :
-  set whichwrap=<,>,[,]
 
   " Stay on the same column if possible {{{2
   " Tenter de rester toujours sur la même colonne lors de changements de lignes :
@@ -1057,6 +413,9 @@ filetype plugin indent on
   " Split {{{2
   " Set the split below the active region.
   set splitbelow
+  " https://robots.thoughtbot.com/vim-splits-move-faster-and-more-naturally
+  set splitright
+
 
   " Display cmd mod {{{2
   " Indiquer le nombre de modification lorsqu'il y en a plus de 0
@@ -1079,75 +438,9 @@ filetype plugin indent on
 
   set list
 
-  " Cursor {{{2
-  " SHOW CURRENT LINE :
-  set cursorline
-  "SHOW CURRENT COLUMN :
-  set cursorcolumn
-  " SHOW CURSOR
-  " highlight Cursor  guifg=white guibg=black
-  " highlight iCursor guifg=white guibg=steelblue
-  set guicursor=n-v-c:block-Cursor
-  set guicursor+=i:ver100-iCursor
-  set guicursor+=n-v-c:blinkon0
-  set guicursor+=i:blinkwait10
-
   " LINE NUMBER {{{2
-  " Show line number
-  set number
   " Show number relative from the cursor
   set relativenumber
-
-  " HighLighting {{{2
-  augroup highlight
-      " From «More Instantly Better Vim» - OSCON 2013
-      " http://youtu.be/aHm36-na4-4
-      " Highlight long lines
-      autocmd ColorScheme * highlight OverLength ctermbg=darkblue ctermfg=white guibg=darkblue guibg=white
-      autocmd ColorScheme * call matchadd('OverLength', '\%81v', 100)
-      " Highlight TODO:
-      autocmd ColorScheme * highlight todo ctermbg=darkcyan ctermfg=white guibg=darkcyan guibg=white
-      autocmd ColorScheme * call matchadd('todo', 'TODO\|@TODO', 100)
-      " Highlight MAIL:
-      autocmd ColorScheme * call matchadd('todo', 'MAIL\|mail', 100)
-      " Highlight WARNING:
-      autocmd ColorScheme * call matchadd('todo', 'WARNING\|warning', 100)
-      " Highlight misspelled word: errreur
-      " autocmd ColorScheme * highlight SpellBad ctermfg=red guifg=red
-      " Highlight BUGFIX / FIXME
-      autocmd ColorScheme * highlight fix ctermbg=darkred ctermfg=white guibg=darkred guibg=white
-      autocmd ColorScheme * call matchadd('fix', 'BUGFIX\|@BUGFIX\|bugfix\|FIXME\|@FIXME\|fixme', 100)
-      " Highlight author
-      autocmd ColorScheme * highlight author ctermfg=brown guibg=brown
-      autocmd ColorScheme * call matchadd('author', 'author\|@author', 100)
-      highlight NbSp ctermbg=015
-      match NbSp /\%xa0/
-  augroup END
-
-  " AutoCmd {{{1
-  " Fix filetype detection {{{2
-  if has("autocmd")
-      au BufRead            /var/log/kern.log set  ft=messages
-      au BufRead            /var/log/syslog   setl ft=messages
-      au BufNewFile,BufRead /etc/apache/*     setl ft=apache
-      au BufNewFile,BufRead /etc/apache2/*    setl ft=apache
-      au BufNewFile,BufRead /etc/nginx/*      setl ft=nginx
-      au BufNewFile,BufRead /etc/exim4/*      setl ft=exim
-      au BufNewFile,BufRead *.txt             setl ft=text
-      " .tac files are used in twisted
-      au BufNewFile,BufRead *.tac             setl ft=python
-      " pygobject overrides
-      au BufNewFile,BufRead *.override        setl ft=c
-      " pygobject definitions
-      au BufNewFile,BufRead *.defs            setl syntax=scheme et
-      au BufNewFile,BufRead *.vala            setl ft=vala
-      au BufNewFile,BufRead *.vapi            setl ft=vala
-      au BufNewFile,BufRead *.qml             setl ft=javascript
-      au BufNewFile,BufRead *.otl             setl ft=votl
-      au BufNewFile,BufRead *.jeco            setl ft=eco
-      au BufNewFile,BufRead *.glsl            setl ft=c
-      au BufNewFile,BufRead *.html            setl ft=html
-  endif
 
   "
   " SESSION {{{2
@@ -1157,86 +450,18 @@ filetype plugin indent on
                   \| exe "normal g'\"" | endif
   endif
 
-  " Functions {{{1
-  " AppendModeline() {{{2
-  " Append modeline after last line in buffer.
-  " Use substitute() instead of printf() to handle '%%s' modeline in LaTeX
-  " files.
-  function! AppendModeline()
-    let l:modeline = printf(" vim: set ft=%s ts=%d sw=%d tw=%d %set :",
-          \ &filetype, &tabstop, &shiftwidth, &textwidth, &expandtab ? '' : 'no')
-    let l:modeline = substitute(&commentstring, "%s", l:modeline, "")
-    call append(line("$"), l:modeline)
-  endfunction
-  nnoremap <silent> <Leader>ml :call AppendModeline()<CR>
-
-  "" CLOSING {{{2
-  "" ZZ now saves all files, creates a session and exits
-  "function! AutocloseSession()
-  "    wqall
-  "endfunction
-  "noremap <silent> ZZ :call AutocloseSession()<CR>
-
-
-  " OpenTab and lcd to the file {{{2
-  " Change local working dir upon tab creation
-  function! TabNewWithCwD(newpath)
-      :execute "tabnew " . a:newpath
-      if isdirectory(a:newpath)
-          :execute "lcd " . a:newpath
-      else
-          let dirname = fnamemodify(a:newpath, ":h")
-          :execute "lcd " . dirname
-      endif
-  endfunction
-  command! -nargs=1 -complete=file TabNew :call TabNewWithCwD("<args>")
-
-  " Remove trailing whitespace {{{2
-  function! CleanWhiteSpace()
-      let l = line(".")
-      let c = col(".")
-      :%s/\s\+$//e
-      let last_search_removed_from_history = histdel('s', -1)
-      call cursor(l, c)
-  endfunction()
-  command! -nargs=0 CleanWhiteSpace :call CleanWhiteSpace()
-
-  " Convert DOS line endings to UNIX line endings {{{2
-  function! FromDos()
-      %s/\r//e
-  endfunction
-  command! FromDos call FromDos()
-
-  " Auto Chmod {{{2
-  " Automatically give executable permissions if file begins with #! and
-  " contains '/bin/' in the path
-  function! MakeScriptExecuteable()
-      if getline(1) =~ "^#!.*/bin/"
-          silent !chmod +x <afile>
-      endif
-  endfunction
-
-  " Mkdir Create missing directory {{{2
-  " Used to create missing directories before writing a
-  " buffer
-  function! MkdirP()
-      :!mkdir -p %:h
-  endfunction
-  command! MkdirP call MkdirP()
-
   " SHEBANG {{{2
   " shebang automatique lors de l'ouverture nouveau
   " d'un fichier *.py, *.sh (bash), modifier l'entête selon les besoins :
   " shell
-  :autocmd BufNewFile *.sh,*.bash 0put =\"#!/bin/bash\<nl># -*- coding: UTF8 -*-\<nl>\<nl>\"|$
+  :autocmd BufNewFile *.sh,*.bash 0put =\"#!/bin/bash\<nl>\<nl>\"|$
   " python
-  :autocmd BufNewFile *.py 0put=\"#!/usr/bin/env python\"|1put=\"# -*- coding: UTF8 -*-\<nl>\<nl>\"|$
+  :autocmd BufNewFile *.py 0put=\"#!/usr/bin/env python\<nl>\\"|1put=\"\<nl>\"|$
   " php
-  :autocmd BufNewFile *.php 0put=\"<?php\<nl>// -*- coding: UTF8 -*-\<nl>\<nl>\"|$
+  :autocmd BufNewFile *.php 0put=\"<?php\<nl>\<nl>\"|$
   " perl
   :autocmd BufNewFile *.pl 0put=\"#!/usr/bin/env perl -w\"|1put=\"use strict;\"|2put=\"use feature qw(say switch evalbytes);\<nl>\<nl>\"|$
 
-  nnoremap <space-a> :echom 'This is a Test !'<CR>
 
   " Input bindings {{{1
   " Searching {{{2
@@ -1253,87 +478,8 @@ filetype plugin indent on
   vnoremap > >gv
   vnoremap < <gv
 
-  "" Disable Arrow in insert mode {{{2
-  "ino <down>  <Nop>
-  "ino <left>  <Nop>
-  "ino <right> <Nop>
-  "ino <up>    <Nop>
-  "
-  "" Disable Arrow in visual mode {{{2
-  "vno <down>  <Nop>
-  "vno <left>  <Nop>
-  "vno <right> <Nop>
-  "vno <up>    <Nop>
-  "
-  "" Remap Arrow Up/Down to move line {{{2
-  "" Real Vimmer forget the cross
-  "no <down>   ddp
-  "no <up>     ddkP
-  "
-  "" Remap Arrow Right / Left to switch tab {{{2
-  "no <left>   :tabprevious<CR>
-  "no <right>  :tabnext<CR>
-  "
-  " " Remap netrw arrow {{{2
-  " " From:
-  " " http://unix.stackexchange.com/questions/31575/remapping-keys-in-vims-directory-view
-  " augroup netrw_dvorak_fix
-  "     autocmd!
-  "     autocmd filetype netrw call Fix_netrw_maps_for_dvorak()
-  " augroup END
-  "
-  " function! Fix_netrw_maps_for_dvorak()
-  "     " {cr} = « gauche / droite »
-  "     " @TODO: Remap to more vinegar related feature, like:
-  "     " - c : Go back
-  "     " - t : Preview (ranger inspired)
-  "     noremap <buffer> c h
-  "     noremap <buffer> r l
-  "     " {ts} = « haut / bas »
-  "     noremap <buffer> t j
-  "     noremap <buffer> s k
-  "     " noremap <buffer> d h
-  "     " noremap <buffer> h gj
-  "     " noremap <buffer> t gk
-  "     " noremap <buffer> n l
-  "     " noremap <buffer> e d
-  "     " noremap <buffer> l n
-  "     " and any others...
-  " endfunction
-
   " Change default leader key {{{2
   let mapleader = ","
-
-  "" Permet de sauvegarder par ctrl + s {{{2
-  ":nmap <c-s> :w<CR>
-  "" Fonctionne aussi en mode edition
-  ":imap <c-s> <Esc>:w<CR>a
-  ":imap <c-s> <Esc><c-s>
-
-  " Completion avec ctrl + space {{{2
-  inoremap <expr> <C-Space> pumvisible() \|\| &omnifunc == '' ?
-      \ "\<lt>C-n>" :
-      \ "\<lt>C-x>\<lt>C-o><c-r>=pumvisible() ?" .
-      \ "\"\\<lt>c-n>\\<lt>c-p>\\<lt>c-n>\" :" .
-      \ "\" \\<lt>bs>\\<lt>C-n>\"\<CR>"
-  imap <C-@> <C-Space>
-
-  " " Est fait pour être utiliser seulement sur tout le document ;-). Du coup on serait obligé de faire forcément systématiquement « gg=G »
-  " Tidy seems does not work with Vim in ArchLinux.
-  augroup linterConfiguration
-  "     autocmd FileType xml   setlocal  makeprg=xmllint\ -
-  "     autocmd FileType xml   setlocal  equalprg=xmllint\ --format\ -
-  "     " autocmd FileType html  setlocal  equalprg=tidy\ -q\ -i\ -w\ 80\ -utf8\ --quote-nbsp\ no\ --output-xhtml\ yes\ --show-warnings\ no\ --show-body-only\ auto\ --tidy-mark\ no\ -
-  "     " For HTML5
-  "     autocmd FileType html  setlocal  equalprg=tidy\ -q\ --show-errors\ 0\ --show-warnings\ 0\ --force-output\ --indent\ auto\ --indent-spaces
-  " From https://stackoverflow.com/questions/815548/how-do-i-tidy-up-an-html-files-indentation-in-vi (but doesn't work, beacause html-beauty does not take into account of context. It considers first as the first line of the file!)
-  " autocmd FileType html setlocal equalprg=tidy -config ~/.vim/tidyrc_html.txt
-  " From https://github.com/wongyouth/vimfiles/blob/master/vimrc:
-  " autocmd filetype html setlocal equalprg=html-beautify\ -f\ -\ -s\ 4 -l -1
-  "     autocmd FileType xhtml setlocal  equalprg=tidy\ -q\ -i\ -w\ 80\ -utf8\ --quote-nbsp\ no\ --output-xhtml\ yes\ --show-warnings\ no\ --show-body-only\ auto\ --tidy-mark\ no\ -
-  "     autocmd FileType json  setlocal  equalprg=python\ -mjson.tool
-        autocmd FileType perl setlocal equalprg=perltidy\ -st
-  augroup END
 
   " MOUSE {{{2
   " =======
@@ -1342,65 +488,22 @@ filetype plugin indent on
   " attention fonctionnement inhabituel
   set mouse=a
 
-  "
-  " REMAP KEYBOARD for bépo {{{2
-  " @FIXME: Detect keyboard layout (qwerty / bépo)
-  " @TODO: Move it at the end, the config must not be layout dependant.
-  " I use kind dvorak-fr the «bépo» layout on my keyboard.
-  "source ~/.vim/vimrc.bepo
-  "" remap number for direct access
-  "" source ~/.vim/vimrc.num
-  "
-  "
-  "noremap ' `
-  "noremap ` '
-  ""See http://vim.wikia.com/wiki/Using_marks
-  "
-  ""j -> ; et réciproquement
-  "noremap j ;
-  "noremap ; j
-
-
-  " Remapage Kazé {{{2
-  " https://github.com/fabi1cazenave/dotFiles/blob/master/config/nvim/mappings.vim#L32-L36
-  " https://github.com/fabi1cazenave/dotFiles/blob/master/config/nvim/mappings.vim#L111-L120
-  " https://github.com/fabi1cazenave/dotFiles/blob/master/config/nvim/init.vim#L131-L134
-
-  source ~/.vim/mappings.vim
 
   "" Remapage perso {{{2
-  "Ici, je défini la valeur de mapleader à , car la valeur par défaut, \ est loin d’être pratique.
-  " let mapleader = ','
-  noremap \ ,
 
-  " Put in ~/.vim/ftplugin/java_mine.vim :   « noremap <Leader>w :wa<CR>:Java<CR><CR>G<C-w>w »
 
-  noremap <Leader>w :w<CR>
-  noremap <Leader>W :w !sudo tee % > /dev/null
+  cnoremap sv vert belowright sb<Space>
 
   noremap <Leader>o o<Esc>k
   noremap <Leader>O O<Esc>
-
-  augroup filetype_c
-    autocmd!
-    autocmd filetype c nnoremap <buffer> <Leader>à i#include <stdlib.h><CR>#include <stdio.h><CR><CR><ESC>
-    autocmd filetype c nnoremap <buffer> <Leader>mai iint main (int argc, char *argv[]) {<CR><CR><CR>printf ("\n\n*********************************\n\n");<CR><CR><CR>printf ("\n\n*********************************\n\n");<CR>return 0;<CR>}<ESC>kkkkkki    <ESC>
-    autocmd filetype p* nnoremap <buffer> <Leader>à i#!/usr/sbin/python3.4<CR># -*-coding:Utf-8 -*<CR><CR><ESC>
-  augroup end
 
   nnoremap <leader><leader>t :tabnew<SPACE><CR>:
   nnoremap <leader><leader>v :vs<SPACE>
   nnoremap <leader><leader>e :e<SPACE>
   nnoremap <leader><leader>b :b<SPACE>
-  nnoremap \t q:itabnew<SPACE>
-  nnoremap \v q:ivs<SPACE>
-  nnoremap \e q:ie<SPACE>
-  nnoremap \\e :enew<CR>:bw#<CR>q:ie<SPACE>./
 
-"http://asktherelic.com/2011/04/02/on-easily-replacing-text-in-vim/
+ "http://asktherelic.com/2011/04/02/on-easily-replacing-text-in-vim/
 " vmap <Leader>r "sy:%s/<C-R>=substitute(@s,"\n",'\\n','g')<CR>/
-highlight NbSp ctermbg=015
-match NbSp /\%xa0/
 
 nnoremap <leader><leader>q :bd<CR>
 nnoremap <leader><leader>d :bd#<CR>
@@ -1408,7 +511,6 @@ nnoremap <leader><leader>d :bd#<CR>
   nnoremap <leader><leader><leader>v :vs!<CR>:Terminal<CR><C-w><<C-w>>a
   nnoremap <leader><leader><leader>p :sp!<CR>:Terminal<CR><C-w>-<C-w>+a
   tnoremap <F5> <C-\><C-n>
-  tnoremap <F4> <C-\><C-n><C-w>-<C-w>+<C-w><<C-w>>a
 if has('nvim')
   tnoremap <A-h> <C-\><C-n><C-w>h
   tnoremap <A-j> <C-\><C-n><C-w>j
@@ -1439,49 +541,7 @@ if has('nvim')
   tnoremap <leader><leader><leader>t <C-\><C-n>:tabnew<CR>:Terminal<CR>a
   tnoremap <leader><leader><leader>v <C-\><C-n>:vs<CR><C-\><C-n><C-w><<C-w>>:Terminal<CR><C-w><<C-w>>a
   tnoremap <leader><leader><leader>p <C-\><C-n>:sp<CR><C-\><C-n><C-w>-<C-w>+:Terminal<CR><C-w>-<C-w>+a
-  tnoremap \t <C-\><C-n>q:itabnew<SPACE>
-  tnoremap \v <C-\><C-n>q:ivs<SPACE>
-  tnoremap \e <C-\><C-n>:enew!<CR>:bw!#<CR>q:ie<SPACE>
-  set inccommand=split
-else
-  tnoremap <A-h> <C-w>h
-  tnoremap <A-j> <C-w>j
-  tnoremap <A-k> <C-w>k
-  tnoremap <A-l> <C-w>l
-  tnoremap <Leader>q <C-w>:bw!<CR>
-  tnoremap <Leader>gt <C-w>gt<CR>
-  tnoremap <Leader>gT <C-w>gT<CR>
-  tnoremap <Leader>1gt <C-w>1gt<CR>
-  tnoremap <Leader>2gt <C-w>2gt<CR>
-  tnoremap <Leader>3gt <C-w>3gt<CR>
-  tnoremap <Leader>4gt <C-w>4gt<CR>
-  tnoremap <Leader>5gt <C-w>5gt<CR>
-  tnoremap <Leader>6gt <C-w>6gt<CR>
-  tnoremap <Leader>7gt <C-w>7gt<CR>
-  tnoremap <Leader>8gt <C-w>8gt<CR>
-  tnoremap <Leader>9gt <C-w>9gt<CR>
-  tnoremap <leader><leader>t <C-w>:tabnew<SPACE>
-  tnoremap <leader><leader>v <C-w>:vs<SPACE><CR><C-w><<C-w>>:enew<CR>:
-  tnoremap <leader><leader>s <C-w>:sp<SPACE><CR><C-w>-<C-w>+:enew<CR>:
-  tnoremap <leader><leader>b <C-w>:enew!<CR>:bw!#<CR>:b<SPACE>
-  tnoremap <leader><leader>e <C-w>:enew!<CR>:bw!#<CR>:e<SPACE>
-  tnoremap <leader><leader><leader>t <C-w>:tabnew<CR>:Terminal<CR>a
-  tnoremap <leader><leader><leader>v <C-w>:vs<CR><C-w><<C-w>>:Terminal<CR>a
-  tnoremap <leader><leader><leader>s <C-w>:sp<CR><C-w>-<C-w>+:Terminal<CR>a
-  tnoremap \t <C-w>q:itabnew<SPACE>
-  tnoremap \v <C-w>q:ivs<SPACE>
-  tnoremap \e <C-w>:enew!<CR>:bw!#<CR>q:ie<SPACE>
 endif
-  nnoremap <leader>wwww :w<CR>:b#<CR><C-\><C-n>:bw#<CR>i
-  " With Neovim 0.2.1 and 0.2.2 there is a bug with Terminal:
-  " See https://github.com/neovim/neovim/issues/7677#issuecomment-348876942
-" endif
-" nnoremap <leader>lll :mksession! /tmp/session.vim<CR>:!sed -i -e 's/urxvt-colours-solarized-dark/urxvt-colours-solarized-light/' ~/.vim/dotFilesOtherSoftwareVimCompliant/Xressources<CR>:!xrdb ~/.vim/dotFilesOtherSoftwareVimCompliant/Xressources<CR>:!sed -i -e 's/urxvt-colours-solarized-light/urxvt-colours-solarized-dark/' ~/.Xressources<CR>:qa<CR>
-nnoremap <leader>uuu :source /tmp/session.vim<CR>:set highlight bg=light<CR><CR>
-nnoremap <A-h> <C-w>h
-nnoremap <A-j> <C-w>j
-nnoremap <A-k> <C-w>k
-nnoremap <A-l> <C-w>l
 
 " Ajouts persos {{{1
 
@@ -1489,40 +549,15 @@ nnoremap <A-l> <C-w>l
 "http://vim.wikia.com/wiki/Disable_automatic_comment_insertion This sets up an auto command that fires after any filetype-specific plugin; the command removes the three flags from the 'formatoptions' option that control the automatic insertion of comments. With this in your vimrc, a comment character will not be automatically inserted in the next line under any situation.
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 
-" ColorScheme Julio
-doautoall highlight ColorScheme
-" "hi clear
-" if has("gui_running")
-"   set background=dark
-"   colorscheme literal_tango "Supprimer le « hi clear » dans le colorshceme par défaut afin que ça n'écrase pas mes highlight persos. @TODO ou voir « help syntax-reset »
-" else
-"   set background=light "or put dark
-" endif
-" if has("unix")
-"   hi SpellBad ctermbg=202
-" endif
-" " Pour les couleurs voir https://upload.wikimedia.org/wikipedia/en/1/15/Xterm_256color_chart.svg
-" highlight Pmenu ctermbg=005 guibg=Purple
-" highlight Search ctermbg=178
-" highlight IncSearch ctermbg=118
-" highlight visual ctermbg=249
-hi CursorColumn ctermbg=239
 
-map <silent> <F7> "<Esc>:silent setlocal spell! spelllang=fr,en<CR>"
 autocmd BufNew,BufRead,BufEnter *.txt,*.md setlocal spell spelllang=fr,en
-" let g:neosnippet#snippets_directory='~/.vim/neosnippet-snippets_customs/'
-" Step the highlighting.
+
 " ATTENTION, IL FAUT BIEN METTRE NNOREMAP, SINON, QUAND ON ENTRE EN VISUAL BLOCK, ÇA PLANTE QUAND ON VEUT REPASSER directement EN MODE INSERTION ^^
 nnoremap i :noh<CR>i
 nnoremap I :noh<CR>I
 nnoremap a :noh<CR>a
 nnoremap A :noh<CR>A
 
-
-" let g:neomake_c_gcc_maker = {
-"     \ 'args': ['-o', '%<', '-Wall'],
-"     \ }
-" let g:neomake_c_enabled_makers = ['gcc']
 
 noremap <leader>3 *N
 " Planck Keyboard
@@ -1533,45 +568,22 @@ nmap cp :let @" = expand("%<")<CR>p
 noremap <Space> <C-d>zz
 " http://stackoverflow.com/questions/23189568/control-space-vim-key-binding-in-normal-mode-does-not-work
 noremap <NUL> <C-u>zz
-" nnoremap <C-Space> <C-u>zz
-" nnoremap <C-@> <C-Space>
 
 set virtualedit=block
 
 " http://stackoverflow.com/questions/6453595/prevent-vim-from-clearing-the-clipboard-on-exit
 autocmd VimLeave * call system("xsel -ib", getreg('+'))
 
-" Define word as word separator
-" For it works in html, comment « "set isk+=. » in .vim/plugged/vim-colorsesque/after/syntax/css/vim-coloresque.vim:125.
-" Or rather add
-" if (&ft!='html')
-"     :set isk+=.
-" endif
-" Doesn't work if we add « set isk-=. » at te end of .vim/plugged/vim-colorsesque/after/syntax/html.vim. Likewise if we add  it ~/.vim/syntax, not resolves it.
-" Change ~/.vim/plugged/vim-coloresque/after/syntax/css/vim-coloresque.vim
-autocmd FileType html,javascript,jsp set iskeyword-=.
-
-set isk+=-
-
 " http://vim.wikia.com/wiki/Remove_unwanted_spaces
 " However, this is a very dangerous autocmd to have as it will always strip trailing whitespace from every file a user saves. Sometimes, trailing whitespace is desired, or even essential in a file so be careful when implementing this autocmd.
 autocmd BufWritePre * %s/\s\+$//e
-" autocmd FileType c,cpp,java,php autocmd BufWritePre <buffer> %s/\s\+$//e
-
-au BufRead,BufNewFile *.jsp set filetype=jsp.html
 
 " http://vi.stackexchange.com/questions/5511/showing-a-different-background-color-or-layout-beyond-80-column-using-spf13
 set textwidth=80
 " fo-=t otherwise break line automatically
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown fo-=t
-let g:markdown_fenced_languages = ['html', 'python', 'bash=sh']
 set fo-=t
 
-" https://robots.thoughtbot.com/vim-splits-move-faster-and-more-naturally
-set splitbelow
-set splitright
-
-cnoremap sv vert belowright sb<Space>
 
 autocmd BufWinEnter,WinEnter set fo-=t
 
@@ -1640,60 +652,6 @@ endif
 autocmd FileType dosbatch e ++enc=cp850
 
 
-" Autoread {{{2
-" https://vi.stackexchange.com/questions/2702/how-can-i-make-vim-autoread-a-file-while-it-doesnt-have-focus
-
-fun! AutoreadPython()
-python << EOF
-import time, vim
-try: import thread
-except ImportError: import _thread as thread # Py3
-
-def autoread():
-    vim.command('checktime')  # Run the 'checktime' command
-    vim.command('redraw')     # Actually update the display
-
-def autoread_loop():
-    while True:
-        time.sleep(1)
-        autoread()
-
-thread.start_new_thread(autoread_loop, ())
-EOF
-endfun
-
-" Hightlight customization {{{2
-let &colorcolumn="81,".join(range(81,999),",")
-highlight ColorColumn ctermbg=235 guibg=#2c2d27
-" highlight ColorColumn term=reverse ctermbg=1
-
-
-" Headers {{{2
-
-" https://www.tecmint.com/create-custom-header-template-for-shell-scripts-in-vim/
-" https://www.thegeekstuff.com/2008/12/vi-and-vim-autocommand-3-steps-to-add-custom-header-to-your-file/
-
-function! HeaderTypescript()
-    0r ~/.vim/headers/typescript_headers.ts
-    " so ~/.vim/headers/typescript_headers.ts
-    " exe "1," . 6 . "g/File Name :.*/s//File Name : " .expand("%")
-    exe "1," . 6 . "g/AUTHOR.*/s//AUTHOR: JulioJu/"
-    exe "1," . 6 . "g#GITHUB.*#s##GITHUB: https://github.com/JulioJu"
-    " exe "1," . 6 . "g/CREATED:.*/s//CREATED: " .strftime("%d-%m-%Y")
-    exe "1," . 6 . "g/CREATED:.*/s//CREATED: " .strftime("%c")
-endfunction
-autocmd bufnewfile *.ts silent call HeaderTypescript()
-
-function! UpdateModfiedDate()
-    " let total_lines =  getfsize(expand(@%))
-    let second_line = system("head -n 2 " . bufname("%") . " | tail -n 1")
-    echom second_line
-    if second_line =~ "AUTHOR: JulioJu"
-        " See `:help keepjumps' for better examples
-        keepjumps execute "1," . 6 . "g/MODIFIED:.*/s/MODIFIED:.*/MODIFIED: " .strftime("%c") | keepjumps execute "normal \<C-O>"
-    endif
-endfunction
-autocmd Bufwritepre,filewritepre *.ts silent call UpdateModfiedDate()
 
 " Vim correct alt input and Terminal behaviour {{{2
 " https://stackoverflow.com/questions/6778961/alt-key-shortcuts-not-working-on-gnome-terminal-with-vim
@@ -1707,20 +665,6 @@ if ! has('nvim')
     endw
 
     set timeout ttimeoutlen=50
-endif
-
-
-if has('nvim')
-    command! -nargs=0 Terminal :terminal
-else
-    " https://unix.stackexchange.com/questions/444682/opening-a-vertical-terminal-in-vim-8-1
-    command! -nargs=0 Terminal :terminal ++curwin
-
-
-    " https://vimrcfu.com/snippet/223
-    " Use :ww instead of :WriteWithSudo
-    cnoreabbrev terminal Terminal
-    cnoreabbrev term Terminal
 endif
 
 
