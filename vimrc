@@ -552,9 +552,10 @@
         Plug 'tpope/vim-repeat'
 
 
-        " EditorConfig {{{2
-        " EditorConfig plugin for Vim http://editorconfig.org
-        Plug 'editorconfig/editorconfig-vim'
+        "" EditorConfig {{{2
+        "" EditorConfig plugin for Vim http://editorconfig.org
+        " https://neovim.io/doc/user/editorconfig.html
+        "Plug 'editorconfig/editorconfig-vim'
 
         "" Vinegar {{{2
         "" vinegar.vim: combine with netrw to create a delicious salad dressing
