@@ -1,31 +1,53 @@
-vimrc
-=====
-This is my vim configuration,
-I use it for my daily usage mail / coding / blog.
+## Nvim
 
-Keyboard
-========
-I use the french dvorak «bépo» for my keyboard and I needed to change a lot of
-the shorcut, good read is http://bepo.fr/wiki/Accueil.
-
-Plugins
-=======
-As I use NeoBundle to manage the plugins, I distinct two categories (C):
-* Defaults plugins (always loaded).
-* Specifics plugins (lazy loaded on some case).
-
-Install
-=======
-```
-# Clone this repos
-$ git clone https://github.com/GuillaumeSeren/vimrc ~/.vim
-# Launch vim and install everything
-$ vim
+```sh
+git clone https://github.com/JulioJu/vimrc ~/.vim
+cd .config && ln -s ../.vim nvim
 ```
 
-## Participate !
-If you find it useful, and would like to add your tips and tricks in it,
-feel free to fork this project and fill a __Pull Request__.
+* Install Vim Plug https://github.com/junegunn/vim-plug
+
+* Launch Neovim
+
+## Zplug
+
+```sh
+ln -s ~/.vim/dotFilesOtherSoftwareVimCompliant/zshrc ~/.zshrc
+```
+
+Install zplug
+https://github.com/zplug/zplug
+
+## Installation with `git clone`
+
+If you install zplug with `git clone`
+```sh
+chmod -R 755 .zplug
+```
+
+Into your .zshrc
+```sh
+source ~/.zplug/init.sh
+```
+
+After the end of the installation launch a new instance of `zsh`. If you have
+launched zplug before steps above, remove `.zplug` directory.
+
+## tig
+
+
+```sh
+ln -s ~/.vim/dotFilesOtherSoftwareVimCompliant/tigrc ~/.tigrc
+```
+
+## FZF
+
+For ubuntu, do not install FZF via package manager. It is outdated.
+ https://github.com/junegunn/fzf/issues/2996#issuecomment-1285834257
+
+
+ Install it thanks git. Currently, in our .zshrc file, it's the fzf installed on
+ ~/.fzf that is used.
 
 ## Licence
-The project is GPLv3.
+The project is under MIT License

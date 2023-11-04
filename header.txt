@@ -1,8 +1,0 @@
-#!/bin/bash
-###################################################################
-#Script Name	:
-#Description	:
-#Args           	:
-#Author       	:Aaron Kili Kisinga
-#Email         	:aaronkilik@gmail.com
-###################################################################

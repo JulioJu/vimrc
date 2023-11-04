@@ -1,36 +1,19 @@
 if [[ -n "${NVIM+x}" ]]
 then
 
-    # TODO update when vim will be updated
     # https://github.com/neovim/neovim/issues/9960#issuecomment-488262473
-    export VIMRUNTIME=/usr/share/vim/vim81
+    unset VIMRUNTIME
 
-    alias vim="vim -u '${HOME}/.vim/vimrclight.vim'"
-
-    export EDITOR='nvr --remote-wait-silent'
-elif [[ -n "${VIM_TERMINAL+x}" ]]
-then
-    unalias vim 2> /dev/null || :
-
-    # WARNING could take lot of resources (50 % CPU on i5 7200U
-    # Contrary to `nvr`, it starts a new vim process
-    # Sometimes `nvr` works into vim, sometimes not.
-    # Sometimes, when Vim is opened into neovim, `nvr` works into vim.
-    # Behaviour is not consistant
-    # If there are several vim opened in different terminal emulator
-    # VIM_SERVERNAME will have value VIM1, then VIM2, etc.
-    export EDITOR="vim --servername '${VIM_SERVERNAME}' --remote-wait"
+    if command nvr 2> /dev/null
+    then
+        export EDITOR='nvr --remote-wait-silent'
+    else
+        export EDITOR='nvim --clean'
+    fi
 else
-    # https://vim-jp.org/vimdoc-en/remote.html
-    # On Archlinux, `gvim` package not compiled with `--autoservername`
-    alias vim='vim --servername vim'
-    export EDITOR='nvim'
+    export EDITOR='vim -u NONE'
 fi
-
-# export TERM=xterm-256color
-# export PAGER="less -M"
-# alias nvim="nvim -u ~/.nvimrc"
-# Le 4/11/2015, suite à une mise à jour de neovim, nvim ne veut plus charger ~/.nvimrc par défaut. Bug du au faite qu'on est sur une version alpha d'un logiciel ?
+alias vim="vim -u NONE"
 
 # Enhancd {{{1
 export ENHANCD_FILTER="fzf"
@@ -44,7 +27,13 @@ export ENHANCD_FILTER="fzf"
 
 #zplug {{{1
 #**************************
-source /usr/share/zsh/scripts/zplug/init.zsh
+if [[ -f "/usr/share/zsh/scripts/zplug/init.zsh" ]]
+then
+    source /usr/share/zsh/scripts/zplug/init.zsh
+elif [[ -f "$HOME/.zplug/init.zsh" ]]
+then
+    source "$HOME/.zplug/init.zsh"
+fi
 
 # Make sure to use double quotes
 # zplug "zsh-users/zsh-history-substring-search"
@@ -214,49 +203,40 @@ export LESSOPEN='|~/.lessfilter %s'
 
 # cat {{{1
 alias cat="/bin/ccat"
-alias catt="/bin/cat"
+alias ccat="/bin/cat"
 
 
 # cmatrix {{{1
 cmatrix -bs
 # b (autoriser caractères gras, s mode screensaver (appuie touche, on débloque,, C c'est la couleur.
 
-# FZF
+# FZF {{{1
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-# https://medium.com/@crashybang/supercharge-vim-with-fzf-and-ripgrep-d4661fc853d2
-# export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*"'
-# Add folders for JHipster project
-export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*" --glob "!*/target/* --glob "!*/node_modules/*'
-# export FZF_DEFAULT_COMMAND='fd --hidden --follow --exclude node_modules'
+# https://github.com/junegunn/fzf
+# Setting fd as the default source for fzf
+export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix'
+
 # To apply the command to CTRL-T as well
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+
+# Options to fzf command
+export FZF_COMPLETION_OPTS='--border --info=inline'
 
 # Use fd (https://github.com/sharkdp/fd) instead of the default find
 # command for listing path candidates.
 # - The first argument to the function ($1) is the base path to start traversal
 # - See the source code (completion.{bash,zsh}) for the details.
 _fzf_compgen_path() {
-    fd --hidden --follow --exclude ".git" --exclude "node_modules" . "$1"
-}
-# Use fd to generate the list for directory completion
-_fzf_compgen_dir() {
-    fd --type d --hidden --follow --exclude ".git" --exclude "node_modules" . "$1"
+  fd --hidden --follow --exclude ".git" . "$1"
 }
 
-## Vim-superman {{{1
-## https://github.com/jez/vim-superman
-#
-#vman() {
-#  nvim -c "SuperMan $*"
-#
-#  if [ "$?" != "0" ]; then
-#    echo "No manual entry for $*"
-#  fi
-#}
-#
-#compdef vman="man"
+# Use fd to generate the list for directory completion
+_fzf_compgen_dir() {
+  fd --type d --hidden --follow --exclude ".git" . "$1"
+}
+
 
 # Man page {{{1
 export MANPAGER='nvim +Man!'
@@ -275,10 +255,6 @@ xstat() {
   done
 }
 
-# JHipster {{{1
-# tabtab source for jhipster package
-# uninstall by removing these lines or running `tabtab uninstall jhipster`
-# [[ -f "$HOME/.config/yarn/global/node_modules/tabtab/.completions/jhipster.zsh" ]] && . "$HOME/.config/yarn/global/node_modules/tabtab/.completions/jhipster.zsh"
 
 # Alias {{{1
 alias nvrd="nvr --remote-send ':bw!#<CR>'"
@@ -293,18 +269,22 @@ unalias grv
  # LS_COLOR {{{1
 eval $( dircolors -b $ZPLUG_REPOS/trapd00r/LS_COLORS/LS_COLORS )
 
-# Other {{{1
-# https://stackoverflow.com/questions/32232655/go-get-results-in-terminal-prompts-disabled-error-for-github-private-repo
-export GIT_TERMINAL_PROMPT=1
 
 
- # vim: ft=zsh
 
 # added by travis gem
 [ -f "$HOME/.travis/travis.sh" ] && source "$HOME/.travis/travis.sh"
 
 
-# Fix backspace problem with vim {{{ 1
+# Fix backspace problem with vim{{{ 1
 # https://vim.fandom.com/wiki/Backspace_and_delete_problems
 # Just for vim, not neovim
 stty erase '^?'
+
+# nvm {{{1
+export NVM_DIR="$HOME/.nvm"
+if [[ -d "$NVM_DIR" ]]
+then
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+fi

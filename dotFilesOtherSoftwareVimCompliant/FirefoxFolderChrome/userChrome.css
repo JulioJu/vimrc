@@ -22,6 +22,6 @@
 
 /* Open the popup on top of tabar */
 #urlbar-container .urlbarView {
-  bottom: 497px;
+  bottom: 600px;
   background-color: black;
 }

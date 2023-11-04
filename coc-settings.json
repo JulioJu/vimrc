@@ -30,5 +30,8 @@
   "java.import.maven.enabled": true,
   "java.maven.downloadSources": true,
   "intelephense.environment.shortOpenTag": true,
+
+  // https://github.com/neoclide/coc.nvim/issues/1617
+  "coc.source.file.ignoreHidden": false
 }
 

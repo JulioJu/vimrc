@@ -367,15 +367,20 @@
             <action name="UnmaximizeFull"/>
             <action name="MoveResizeTo"><x>0</x><y>-0</y><width>100%</width><height>50%</height></action>
         </keybind>
+    <keybind key="W-l">
+      <action name="Execute">
+        <command>lxsession-logout</command>
+        <!-- <command>lxsession-default launcher_manager</command> -->
+      </action>
+    </keybind>
     <!-- Keybindings for running applications on Home + E -->
     <keybind key="W-e">
       <action name="Execute">
         <startupnotify>
           <enabled>true</enabled>
-          <name>File manager</name>
+          <name>PCManFM</name>
         </startupnotify>
-        <!-- <command>lxsession&#45;default file_manager</command> -->
-        <command>Thunar</command>
+        <command>lxsession-default file_manager</command>
       </action>
     </keybind>
     <!-- Keybindings for running Run menu from Lxpanel on Home + R-->
@@ -415,7 +420,7 @@
     <!-- Launch a terminal on Ctrl + Alt + T-->
     <keybind key="C-A-T">
       <action name="Execute">
-        <command>urxvt -e nvim +term
+        <command>alacritty -e nvim +term
                     <!-- geometry=111x27+0+20 for gnome-terminal SP3 NC10-->
                 </command>
       </action>
@@ -1007,11 +1012,11 @@
     <application class="jetbrains-studio" type="normal">
       <decor>no</decor>
     </application>
-    <application class="Gnome-terminal" type="normal">
+    <application class="Alacritty" type="normal">
       <decor>no</decor>
       <maximized>true</maximized>
     </application>
-    <application class="URxvt" type="normal">
+    <application class="alacritty" type="normal">
       <decor>no</decor>
       <maximized>true</maximized>
     </application>

@@ -3,14 +3,6 @@
 	name = JulioJu
 [core]
 	autocrlf = false
-	pager = less -i
-[color]
-	ui = auto
-[cola]
-	spellcheck = false
-[mergetool "gitblade"]
-	cmd = \"/usr/lib/gitblade/gitblade\" -c \"\"
-	trustExitCode = true
 [init]
 	defaultBranch = main
 [filter "lfs"]
@@ -28,9 +20,6 @@
 # [difftool]
 #     prompt = false
 #
-# [difftool "meld"]
-#     cmd = meld "$LOCAL" "$REMOTE"
-#
 # [difftool "difft"]
 #     cmd = difft "$LOCAL" "$REMOTE"
 #
@@ -43,10 +32,6 @@
 #
 # [mergetool]
 #     prompt = false
-#
-# [core]
-#     pager = delta
-#     #pager = less -R
 #
 # [pager]
 #     difftool = true

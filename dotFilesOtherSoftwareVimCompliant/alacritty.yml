@@ -1,0 +1,5 @@
+window:
+  decorations: none
+  startup_mode: maximized
+font:
+  size: 11.0

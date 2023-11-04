@@ -1,4 +1,5 @@
 @pcmanfm --desktop --profile LXDE
 @lxpanel --profile LXDE
 @redshift-gtk -l 45.12:5.43
-setxkbmap fr -variant lafayette42
+@alacritty -e nvim +term
+@setxkbmap fr -variant lafayette42
