@@ -1,0 +1,6 @@
+[font]
+size = 8.0
+
+[window]
+decorations = "none"
+startup_mode = "maximized"

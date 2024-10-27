@@ -3,3 +3,4 @@
 @redshift-gtk -l 45.12:5.43
 @alacritty -e nvim +term
 @setxkbmap fr -variant lafayette42
+@xfce4-power-manager
