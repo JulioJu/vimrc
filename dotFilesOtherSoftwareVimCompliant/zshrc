@@ -15,16 +15,6 @@ else
 fi
 alias vim="vim -u NONE"
 
-# Enhancd {{{1
-export ENHANCD_FILTER="fzf"
-# export ENHANCD_COMMAND=cdd
-# export ENHANCD_HYPHEN_ARG=="--"
-#
-# # zsh-autosuggestions {{{1
-# source '/usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh'
-# ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#ff00ff,bg=cyan,bold,underline"
-# ZSH_AUTOSUGGEST_STRATEGY=(history completion)
-
 #zplug {{{1
 #**************************
 if [[ -f "/usr/share/zsh/scripts/zplug/init.zsh" ]]
@@ -35,25 +25,17 @@ then
     source "$HOME/.zplug/init.zsh"
 fi
 
-# Make sure to use double quotes
-# zplug "zsh-users/zsh-history-substring-search"
-
 # Supports oh-my-zsh plugins and the like
-zplug "plugins/sudo",   from:oh-my-zsh
-zplug "plugins/git",   from:oh-my-zsh
 zplug "lib/history",   from:oh-my-zsh
 zplug "lib/directories",   from:oh-my-zsh
 zplug "lib/compfix",   from:oh-my-zsh # handle completions insecurities
 zplug "lib/completion",   from:oh-my-zsh # completion settings
 zplug "lib/grep",   from:oh-my-zsh
-zplug "lib/nvm",   from:oh-my-zsh # get node version
-zplug "lib/spectrum",   from:oh-my-zsh # A script to make using 256 colors in zsh less painful.
+# zplug "lib/spectrum",   from:oh-my-zsh # A script to make using 256 colors in zsh less painful.
 zplug "lib/functions", from:oh-my-zsh
 zplug "lib/termsupport", from:oh-my-zsh # Set terminal window and tab/icon title
-zplug "lib/theme-and-appearance", from:oh-my-zsh
+zplug "lib/theme-and-appearance", from:oh-my-zsh # useful to have `ls` with color
 
-
-# zplug "b4b4r07/enhancd", use:init.sh
 zplug "trapd00r/LS_COLORS", use:''
 
 # Set the priority when loading
@@ -61,6 +43,10 @@ zplug "trapd00r/LS_COLORS", use:''
 # after executing compinit command and sourcing other plugins
 # (If the defer tag is given 2 or above, run after compinit command)
 zplug "zsh-users/zsh-syntax-highlighting", defer:2
+typeset -A ZSH_HIGHLIGHT_PATTERNS
+ZSH_HIGHLIGHT_HIGHLIGHTERS=(pattern)
+ZSH_HIGHLIGHT_PATTERNS+=(' ' 'fg=white,bold,bg=red')
+ZSH_HIGHLIGHT_PATTERNS+=('rm -rf *' 'fg=white,bold,bg=red')
 
 # Can manage local plugins
 # Load theme file
@@ -68,11 +54,6 @@ zplug "~/.vim/dotFilesOtherSoftwareVimCompliant/zsh-themes/", from:local, use:"t
 
 # Then, source plugins and add commands to $PATH
 zplug load
-
-    ## Gnome terminal {{{1
-## *****************
-## gnome-terminal: keep track of directory in new tab http://unix.stackexchange.com/questions/93476/gnome-terminal-keep-track-of-directory-in-new-tab
-#. /etc/profile.d/vte.sh
 
 # Vi mode {{{1
 # ************************************
@@ -102,10 +83,6 @@ zle-line-init() {
 zle -N zle-keymap-select
 zle -N zle-line-init
 
-#Why isn't Control-R working (anymore)?
-bindkey -M viins '^r' history-incremental-search-backward
-bindkey -M vicmd '^r' history-incremental-search-backward
-
 #http://zshwiki.org/home/zle/vi-mode
 bindkey -a u undo
 bindkey -a '^R' redo
@@ -113,47 +90,9 @@ bindkey '^?' backward-delete-char
 bindkey '^H' backward-delete-char
 bindkey '^G' what-cursor-position
 
-
-##Bidouillage by Julio, optimisé pour bépo.
-##Voir aussi https://github.com/vjousse/dotfiles/blob/master/zsh/vim.zsh (merci Benji)
-##http://zsh.sourceforge.net/Doc/Release/Zsh-Line-Editor.html
-#bindkey -a c backward-char
-#bindkey -a r forward-char
-#bindkey -a b backward-word
-#bindkey -a é forward-word
-#bindkey -M vicmd "H" vi-replace
-#bindkey -M vicmd "h" vi-replace-chars
-#bindkey -M vicmd "l" vi-change
-#bindkey -M vicmd "L" vi-change-eol
-#bindkey -M vicmd "k" vi-substitute
-#bindkey -M vicmd "K" vi-change-whole-line
-## bindkey -M vicmd 't' history-substring-search-up # sous l'index, on remonte plus l'historique qu'on ne le descend :-).
-
-# Enable function edit-command-line when we don't use oh-my-zsh
+# Enable function edit-command-line when we don't use oh-my-zsh {{{1
 zle -N edit-command-line
 autoload -z edit-command-line
-
-# history {{{1
-##https://github.com/zsh-users/zsh-history-substring-search
-bindkey -M viins '^[[B' history-substring-search-down
-bindkey -M viins '^[[A' history-substring-search-up
-bindkey -a j vi-down-line-or-history
-bindkey -a k vi-up-line-or-history
-
-# history for emac mapping {{{2
-bindkey '^[[B' history-substring-search-down
-bindkey '^[[A' history-substring-search-up
-
-# Configuration du plugin zsh-syntax-highlighting {{{1
-ZSH_HIGHLIGHT_HIGHLIGHTERS=(pattern)
-# ZSH_HIGHLIGHT_PATTERNS+=('\u00A0' 'fg=white,bold,bg=red')
-ZSH_HIGHLIGHT_PATTERNS+=(' ' 'fg=white,bold,bg=red')
-
-# Plugin sudo custom for vi mapping {{{1
-
-# Defined shortcut keys: F5 (voir plugin sudo.zsh dans oh-my-zsh).
-bindkey '^[[15~' sudo-command-line # touche F5
-
 
 # Completion shift-tabl with vi mapping {{{1
 
@@ -162,11 +101,6 @@ bindkey '^[[15~' sudo-command-line # touche F5
 zmodload zsh/complist
 bindkey -M menuselect '^[[Z' reverse-menu-complete
 
-
-# zce easymotion {{{1
-# https://github.com/hchbaw/zce.zsh
-# source ~/.oh-my-zsh/custom/plugins/zce.zsh/zce.zsh
-bindkey "^B" zce
 
 # File manager key binds {{{1
 # https://wiki.archlinux.org/index.php/Zsh#Key_Binding
@@ -188,8 +122,6 @@ cdParentKey() {
 
 zle -N                 cdParentKey
 zle -N                 cdUndoKey
-# bindkey '^[[1;3A'      cdParentKey
-# bindkey '^[[1;3D'      cdUndoKey
 bindkey '^[[5;3~'        cdParentKey # alt + pageUp on laptop Samsung NC10 Terminator software
 bindkey '^[[6;3~'        cdUndoKey # alt + pageDown on laptop Samsung NC10 with Terminator software
 
@@ -208,11 +140,13 @@ alias ccat="/bin/cat"
 
 # cmatrix {{{1
 cmatrix -bs
-# b (autoriser caractères gras, s mode screensaver (appuie touche, on débloque,, C c'est la couleur.
 
 # FZF {{{1
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+source <(fzf --zsh)
+
+bindkey -M vicmd '^[[A' fzf-history-widget
+bindkey -M viins '^[[A' fzf-history-widget
 
 # https://github.com/junegunn/fzf
 # Setting fd as the default source for fzf
@@ -257,34 +191,12 @@ xstat() {
 
 
 # Alias {{{1
-alias nvrd="nvr --remote-send ':bw!#<CR>'"
 alias nvrm="nvr --remote-tab jejioejijie --remote-send ':MagitOnly<CR>:bw jejioejijie<CR>'"
 alias nvrt="nvr --remote-tab"
-alias nvrv="nvr --remote-send ':vert belowright sb#<CR><C-\><C-n><C-w><<C-w>><C-w>h'"
-alias nvrs="nvr --remote-send ':aboveleft sb#<CR><C-\><C-n><C-w>-<C-w>+<C-w>j'"
 alias rgg="rg --follow --hidden --files -g"
 alias ncd='nvr -c ":cd $(pwd)"'
-unalias grv
-
- # LS_COLOR {{{1
-eval $( dircolors -b $ZPLUG_REPOS/trapd00r/LS_COLORS/LS_COLORS )
-
-
-
-
-# added by travis gem
-[ -f "$HOME/.travis/travis.sh" ] && source "$HOME/.travis/travis.sh"
-
 
 # Fix backspace problem with vim{{{ 1
 # https://vim.fandom.com/wiki/Backspace_and_delete_problems
 # Just for vim, not neovim
 stty erase '^?'
-
-# nvm {{{1
-export NVM_DIR="$HOME/.nvm"
-if [[ -d "$NVM_DIR" ]]
-then
-    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-fi
